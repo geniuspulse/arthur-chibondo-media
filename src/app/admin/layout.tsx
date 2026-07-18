@@ -1,0 +1,108 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import {
+  LayoutDashboard, FileText, Briefcase, Mail, MessageSquare,
+  Tv, LogOut, Menu, X, ChevronRight
+} from "lucide-react";
+
+const navItems = [
+  { href: "/admin", label: "Dashboard", icon: <LayoutDashboard size={18} />, exact: true },
+  { href: "/admin/articles", label: "Articles", icon: <FileText size={18} /> },
+  { href: "/admin/projects", label: "Projects", icon: <Briefcase size={18} /> },
+  { href: "/admin/subscribers", label: "Subscribers", icon: <Mail size={18} /> },
+  { href: "/admin/messages", label: "Messages", icon: <MessageSquare size={18} /> },
+  { href: "/admin/media", label: "Media", icon: <Tv size={18} /> },
+];
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [checking, setChecking] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) router.replace("/admin/login");
+      else setChecking(false);
+    });
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.replace("/admin/login");
+  };
+
+  if (checking) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+
+  const isActive = (item: { href: string; exact?: boolean }) =>
+    item.exact ? pathname === item.href : pathname.startsWith(item.href);
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex">
+      {/* Sidebar */}
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col transform transition-transform duration-200 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
+        <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200 dark:border-gray-800">
+          <div>
+            <p className="font-bold font-serif text-gray-900 dark:text-white text-sm">Arthur Chibondo</p>
+            <p className="text-xs text-green-600 font-medium">Admin Dashboard</p>
+          </div>
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-500"><X size={18} /></button>
+        </div>
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group ${
+                isActive(item)
+                  ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400"
+                  : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
+              }`}
+            >
+              {item.icon}
+              {item.label}
+              {isActive(item) && <ChevronRight size={14} className="ml-auto" />}
+            </Link>
+          ))}
+        </nav>
+        <div className="p-3 border-t border-gray-200 dark:border-gray-800">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-600 transition-all"
+          >
+            <LogOut size={18} /> Sign Out
+          </button>
+        </div>
+      </aside>
+
+      {/* Overlay */}
+      {sidebarOpen && <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+
+      {/* Main */}
+      <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
+        <header className="sticky top-0 z-30 h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-6">
+          <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-gray-500 hover:text-gray-900">
+            <Menu size={22} />
+          </button>
+          <div className="hidden lg:block" />
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white text-sm font-bold">A</div>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">Arthur Chibondo</span>
+          </div>
+        </header>
+        <main className="flex-1 p-6 max-w-7xl w-full mx-auto">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
