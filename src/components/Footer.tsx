@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="grid sm:grid-cols-3 gap-8 mb-10">
           <div>
             <p className="font-bold font-serif text-xl text-gray-900 dark:text-white mb-2">
-              Arthur <span className="text-green-600">Chibondo</span>
+              Arthur <span className="text-blue-600">Chibondo</span>
             </p>
             <p className="text-sm text-gray-500 dark:text-gray-400">Building, Learning, and Sharing Ideas from Malawi.</p>
           </div>
@@ -25,7 +25,7 @@ export default function Footer() {
             <p className="font-semibold text-gray-900 dark:text-white mb-3 text-sm uppercase tracking-wide">Navigation</p>
             <div className="flex flex-col gap-2">
               {links.map((l) => (
-                <Link key={l.href} href={l.href} className="text-sm text-gray-500 dark:text-gray-400 hover:text-green-600 transition-colors">{l.label}</Link>
+                <Link key={l.href} href={l.href} className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-colors">{l.label}</Link>
               ))}
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function Footer() {
                 { icon: <Instagram size={16} />, href: "#", label: "Instagram" },
                 { icon: <Youtube size={16} />, href: "#", label: "YouTube" },
               ].map((s) => (
-                <a key={s.label} href={s.href} aria-label={s.label} className="w-9 h-9 rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 transition-colors">
+                <a key={s.label} href={s.href} aria-label={s.label} className="w-9 h-9 rounded-lg bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 transition-colors">
                   {s.icon}
                 </a>
               ))}

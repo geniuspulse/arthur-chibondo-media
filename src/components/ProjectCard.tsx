@@ -15,7 +15,7 @@ interface Project {
 }
 
 const statusStyles: Record<string, string> = {
-  active: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+  active: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
   in_development: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
   completed: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300",
   coming_soon: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
@@ -47,14 +47,14 @@ export default function ProjectCard({ project }: { project: Project }) {
           </span>
         </div>
         <h3 className="font-bold text-gray-900 dark:text-white text-lg mb-1">{project.name}</h3>
-        <p className="text-sm text-green-600 font-medium mb-3">{project.tagline}</p>
+        <p className="text-sm text-blue-600 font-medium mb-3">{project.tagline}</p>
         <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-3 flex-1">{project.description}</p>
         <div className="mt-4 flex gap-3">
-          <Link href={`/projects/${project.slug}`} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-600 transition-colors">
+          <Link href={`/projects/${project.slug}`} className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">
             Learn more →
           </Link>
           {project.website_url && (
-            <a href={project.website_url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-green-600 flex items-center gap-1 hover:text-green-500 transition-colors">
+            <a href={project.website_url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 flex items-center gap-1 hover:text-blue-500 transition-colors">
               Visit <ExternalLink size={12} />
             </a>
           )}

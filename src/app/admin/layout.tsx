@@ -24,21 +24,49 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [checking, setChecking] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Skip auth check on login page to avoid redirect loops
+  const isLoginPage = pathname === "/admin/login";
+
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) router.replace("/admin/login");
-      else setChecking(false);
+    if (isLoginPage) {
+      setChecking(false);
+      return;
+    }
+
+    // Add a 5-second timeout so it never hangs forever
+    const timeout = setTimeout(() => {
+      router.replace("/admin/login");
+    }, 5000);
+
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      clearTimeout(timeout);
+      if (error || !session) {
+        router.replace("/admin/login");
+      } else {
+        setChecking(false);
+      }
+    }).catch(() => {
+      clearTimeout(timeout);
+      router.replace("/admin/login");
     });
-  }, []);
+
+    return () => clearTimeout(timeout);
+  }, [isLoginPage]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.replace("/admin/login");
   };
 
+  // Login page renders immediately without auth gate
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
   if (checking) return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-gray-50 dark:bg-gray-950">
+      <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      <p className="text-sm text-gray-400">Loading dashboard...</p>
     </div>
   );
 

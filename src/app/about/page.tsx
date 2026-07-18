@@ -8,7 +8,7 @@ export default function AboutPage() {
       <section className="py-20 px-6 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="text-green-600 text-sm font-semibold uppercase tracking-widest block mb-4">About</span>
+            <span className="text-blue-600 text-sm font-semibold uppercase tracking-widest block mb-4">About</span>
             <h1 className="text-4xl sm:text-6xl font-bold font-serif text-gray-900 dark:text-white mb-6">Arthur Chibondo</h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">Entrepreneur. Digital Creator. Builder. Malawian.</p>
           </div>
@@ -30,7 +30,7 @@ export default function AboutPage() {
 
         <div>
           <h2 className="text-2xl font-bold font-serif text-gray-900 dark:text-white mb-5">Vision</h2>
-          <blockquote className="border-l-4 border-green-600 pl-6 py-2">
+          <blockquote className="border-l-4 border-blue-600 pl-6 py-2">
             <p className="text-xl text-gray-700 dark:text-gray-300 font-serif italic leading-relaxed">
               "I believe Malawi's best entrepreneurs, engineers, and creators have not been born yet. My job is to build the infrastructure — in knowledge, in tools, in confidence — that makes them possible."
             </p>
@@ -55,7 +55,7 @@ export default function AboutPage() {
               "Writing and sharing ideas about entrepreneurship, technology, and Africa",
             ].map((item) => (
               <li key={item} className="flex items-start gap-3 text-gray-600 dark:text-gray-400">
-                <span className="mt-1.5 w-2 h-2 rounded-full bg-green-600 flex-shrink-0" />
+                <span className="mt-1.5 w-2 h-2 rounded-full bg-blue-600 flex-shrink-0" />
                 {item}
               </li>
             ))}
