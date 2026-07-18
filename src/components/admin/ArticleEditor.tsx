@@ -79,7 +79,7 @@ export default function ArticleEditor({ article }: Props) {
         </div>
         <div className="flex items-center gap-2">
           {form.slug && (
-            <a href={`/articles/${form.slug}`} target="_blank" className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-xl text-gray-600 dark:text-gray-300 hover:border-green-500 transition-colors">
+            <a href={`/articles/${form.slug}`} target="_blank" className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-xl text-gray-600 dark:text-gray-300 hover:border-blue-500 transition-colors">
               <Eye size={14} /> Preview
             </a>
           )}
@@ -87,7 +87,7 @@ export default function ArticleEditor({ article }: Props) {
             <button
               onClick={() => handleSave("published")}
               disabled={saving}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors disabled:opacity-60"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors disabled:opacity-60"
             >
               {saving ? <Loader size={14} className="animate-spin" /> : null}
               Publish
@@ -116,7 +116,7 @@ export default function ArticleEditor({ article }: Props) {
                 value={form.title}
                 onChange={e => handleTitleChange(e.target.value)}
                 placeholder="Article title"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-lg font-medium placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-lg font-medium placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
             <div>
@@ -125,7 +125,7 @@ export default function ArticleEditor({ article }: Props) {
                 value={form.slug}
                 onChange={e => setForm(f => ({ ...f, slug: e.target.value }))}
                 placeholder="url-slug"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm font-mono placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm font-mono placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
             </div>
             <div>
@@ -135,7 +135,7 @@ export default function ArticleEditor({ article }: Props) {
                 onChange={e => setForm(f => ({ ...f, excerpt: e.target.value }))}
                 rows={2}
                 placeholder="Short summary shown in article cards"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
               />
             </div>
             <div>
@@ -145,7 +145,7 @@ export default function ArticleEditor({ article }: Props) {
                 onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
                 rows={20}
                 placeholder="Write your article content here... Use double line breaks to separate paragraphs."
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm leading-relaxed placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 resize-y font-mono"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm leading-relaxed placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-y font-mono"
               />
               <p className="text-xs text-gray-400 mt-1">{form.content.length} chars · ~{Math.ceil(form.content.split(/\s+/).length / 200)} min read</p>
             </div>
@@ -159,7 +159,7 @@ export default function ArticleEditor({ article }: Props) {
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Status</label>
               <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
-                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-600">
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
                 <option value="archived">Archived</option>
@@ -168,18 +168,18 @@ export default function ArticleEditor({ article }: Props) {
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Category</label>
               <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
-                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-600">
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Reading Time (mins)</label>
               <input type="number" min={1} value={form.reading_time} onChange={e => setForm(f => ({ ...f, reading_time: Number(e.target.value) }))}
-                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-600" />
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
             </div>
             <div className="flex items-center gap-3">
               <input type="checkbox" id="featured" checked={form.is_featured} onChange={e => setForm(f => ({ ...f, is_featured: e.target.checked }))}
-                className="w-4 h-4 accent-green-600 rounded" />
+                className="w-4 h-4 accent-blue-600 rounded" />
               <label htmlFor="featured" className="text-sm text-gray-700 dark:text-gray-300">Featured article</label>
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function ArticleEditor({ article }: Props) {
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Cover Image URL</label>
               <input value={form.cover_image} onChange={e => setForm(f => ({ ...f, cover_image: e.target.value }))}
                 placeholder="https://..."
-                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600" />
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600" />
               {form.cover_image && <img src={form.cover_image} alt="" className="mt-3 w-full h-32 object-cover rounded-lg" onError={e => (e.currentTarget.style.display = "none")} />}
             </div>
           </div>
@@ -199,7 +199,7 @@ export default function ArticleEditor({ article }: Props) {
             <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Tags (comma separated)</label>
             <input value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
               placeholder="entrepreneurship, malawi, tech"
-              className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600" />
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600" />
           </div>
         </div>
       </div>

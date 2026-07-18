@@ -7,7 +7,7 @@ import { Plus, Search, Eye, Edit, Trash2, Star } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 const STATUS_STYLES: Record<string, string> = {
-  published: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+  published: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
   draft: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
   archived: "bg-gray-100 text-gray-500 dark:bg-gray-800",
 };
@@ -53,7 +53,7 @@ export default function AdminArticles() {
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">Articles</h1>
           <p className="text-sm text-gray-500 mt-1">{articles.length} total</p>
         </div>
-        <Link href="/admin/articles/new" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+        <Link href="/admin/articles/new" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
           <Plus size={16} /> New Article
         </Link>
       </div>
@@ -66,12 +66,12 @@ export default function AdminArticles() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search articles..."
-            className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600"
+            className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
         </div>
         {["all", "published", "draft", "archived"].map(s => (
           <button key={s} onClick={() => setStatusFilter(s)}
-            className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all capitalize ${statusFilter === s ? "bg-green-600 text-white" : "bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-green-500"}`}>
+            className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all capitalize ${statusFilter === s ? "bg-blue-600 text-white" : "bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-blue-500"}`}>
             {s}
           </button>
         ))}
@@ -80,7 +80,7 @@ export default function AdminArticles() {
       {/* Table */}
       <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         {loading ? (
-          <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-green-600 border-t-transparent rounded-full animate-spin" /></div>
+          <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
             <FileIcon />
@@ -120,7 +120,7 @@ export default function AdminArticles() {
                         <button onClick={() => handleToggleFeatured(a.id, a.is_featured)} title="Toggle featured" className={`p-1.5 rounded-lg transition-colors ${a.is_featured ? "text-amber-500 hover:bg-amber-50" : "text-gray-300 hover:text-amber-400 hover:bg-amber-50"}`}>
                           <Star size={15} />
                         </button>
-                        <Link href={`/admin/articles/${a.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-green-600 hover:bg-green-50 transition-colors">
+                        <Link href={`/admin/articles/${a.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
                           <Edit size={15} />
                         </Link>
                         <button onClick={() => handleDelete(a.id, a.title)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors">

@@ -55,7 +55,7 @@ export default function ProjectEditor({ project }: Props) {
           <button onClick={() => router.back()} className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"><ArrowLeft size={18} /></button>
           <h1 className="text-xl font-bold font-serif text-gray-900 dark:text-white">{isEdit ? "Edit Project" : "New Project"}</h1>
         </div>
-        <button onClick={handleSave} disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-xl disabled:opacity-60 transition-colors">
+        <button onClick={handleSave} disabled={saving} className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl disabled:opacity-60 transition-colors">
           {saving ? <Loader size={14} className="animate-spin" /> : <Save size={14} />} Save Project
         </button>
       </div>
@@ -80,13 +80,13 @@ export default function ProjectEditor({ project }: Props) {
                     setForm(f => ({ ...f, [field.key]: v, ...(field.key === "name" && !isEdit ? { slug: slugify(v) } : {}) }));
                   }}
                   placeholder={field.placeholder}
-                  className={`w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 ${field.mono ? "font-mono" : ""}`}
+                  className={`w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 ${field.mono ? "font-mono" : ""}`}
                 />
               </div>
             ))}
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Description</label>
-              <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={4} placeholder="Full description of the project" className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 resize-none" />
+              <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={4} placeholder="Full description of the project" className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none" />
             </div>
           </div>
 
@@ -94,15 +94,15 @@ export default function ProjectEditor({ project }: Props) {
             <h3 className="font-semibold text-gray-900 dark:text-white text-sm border-b border-gray-100 dark:border-gray-800 pb-3">Problem & Solution</h3>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">The Problem</label>
-              <textarea value={form.problem} onChange={e => setForm(f => ({ ...f, problem: e.target.value }))} rows={3} className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 resize-none" />
+              <textarea value={form.problem} onChange={e => setForm(f => ({ ...f, problem: e.target.value }))} rows={3} className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none" />
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">The Solution</label>
-              <textarea value={form.solution} onChange={e => setForm(f => ({ ...f, solution: e.target.value }))} rows={3} className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 resize-none" />
+              <textarea value={form.solution} onChange={e => setForm(f => ({ ...f, solution: e.target.value }))} rows={3} className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none" />
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Tech Stack</label>
-              <input value={form.tech_stack} onChange={e => setForm(f => ({ ...f, tech_stack: e.target.value }))} placeholder="Next.js, Supabase, Vercel..." className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600" />
+              <input value={form.tech_stack} onChange={e => setForm(f => ({ ...f, tech_stack: e.target.value }))} placeholder="Next.js, Supabase, Vercel..." className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600" />
             </div>
           </div>
         </div>
@@ -112,16 +112,16 @@ export default function ProjectEditor({ project }: Props) {
             <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Settings</h3>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Status</label>
-              <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-600">
+              <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600">
                 {STATUSES.map(s => <option key={s} value={s}>{s.replace("_", " ")}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Display Order</label>
-              <input type="number" min={0} value={form.display_order} onChange={e => setForm(f => ({ ...f, display_order: Number(e.target.value) }))} className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-green-600" />
+              <input type="number" min={0} value={form.display_order} onChange={e => setForm(f => ({ ...f, display_order: Number(e.target.value) }))} className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" />
             </div>
             <div className="flex items-center gap-3">
-              <input type="checkbox" id="proj_featured" checked={form.is_featured} onChange={e => setForm(f => ({ ...f, is_featured: e.target.checked }))} className="w-4 h-4 accent-green-600 rounded" />
+              <input type="checkbox" id="proj_featured" checked={form.is_featured} onChange={e => setForm(f => ({ ...f, is_featured: e.target.checked }))} className="w-4 h-4 accent-blue-600 rounded" />
               <label htmlFor="proj_featured" className="text-sm text-gray-700 dark:text-gray-300">Featured project</label>
             </div>
           </div>
@@ -130,12 +130,12 @@ export default function ProjectEditor({ project }: Props) {
             <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Media</h3>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Cover Image URL</label>
-              <input value={form.cover_image} onChange={e => setForm(f => ({ ...f, cover_image: e.target.value }))} placeholder="https://..." className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600" />
+              <input value={form.cover_image} onChange={e => setForm(f => ({ ...f, cover_image: e.target.value }))} placeholder="https://..." className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600" />
               {form.cover_image && <img src={form.cover_image} alt="" className="mt-3 w-full h-28 object-cover rounded-lg" onError={e => (e.currentTarget.style.display = "none")} />}
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Logo Image URL</label>
-              <input value={form.logo_image} onChange={e => setForm(f => ({ ...f, logo_image: e.target.value }))} placeholder="https://..." className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600" />
+              <input value={form.logo_image} onChange={e => setForm(f => ({ ...f, logo_image: e.target.value }))} placeholder="https://..." className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600" />
             </div>
           </div>
         </div>
