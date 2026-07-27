@@ -29,29 +29,23 @@ export default function AdRenderer({ placement, className = "" }: AdRendererProp
         .from("ads")
         .select("*")
         .eq("placement", placement)
-        .eq("is_active", true)
-        .or(`start_date.is.null,start_date.lte.${today}`)
-        .or(`end_date.is.null,end_date.gte.${today}`);
-      setAds(data || []);
+        .eq("is_active", true);
+      // Filter by date client-side for compatibility
+      const filtered = (data || []).filter((ad: Ad) => {
+        if (ad.start_date && ad.start_date > today) return false;
+        if (ad.end_date && ad.end_date < today) return false;
+        return true;
+      });
+      setAds(filtered);
     };
     load();
   }, [placement]);
 
   if (ads.length === 0) return null;
 
-  const recordImpression = async (id: string) => {
-    await supabase.rpc("increment_ad_impression", { ad_id: id }).catch(() => {});
-  };
-
-  const recordClick = async (id: string) => {
-    await supabase.rpc("increment_ad_click", { ad_id: id }).catch(() => {});
-  };
-
   return (
     <div className={`ad-slot ad-${placement} ${className}`}>
       {ads.map((ad) => {
-        setTimeout(() => recordImpression(ad.id), 100);
-
         if (ad.type === "script" || ad.type === "html") {
           return (
             <div
@@ -69,7 +63,6 @@ export default function AdRenderer({ placement, className = "" }: AdRendererProp
               href={ad.destination_url || "#"}
               target="_blank"
               rel="noopener noreferrer sponsored"
-              onClick={() => recordClick(ad.id)}
               className="block w-full"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -85,7 +78,6 @@ export default function AdRenderer({ placement, className = "" }: AdRendererProp
               href={ad.content}
               target="_blank"
               rel="noopener noreferrer sponsored"
-              onClick={() => recordClick(ad.id)}
               className="block text-sm text-blue-600 hover:underline py-2"
             >
               {ad.name}
