@@ -6,8 +6,8 @@ import Link from "next/link";
 import { Plus, Edit, Trash2, ExternalLink, Star } from "lucide-react";
 
 const STATUS_STYLES: Record<string, string> = {
-  active: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-  in_development: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+  active: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+  in_development: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   completed: "bg-gray-100 text-gray-500",
   coming_soon: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
 };
@@ -41,13 +41,13 @@ export default function AdminProjects() {
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">Projects</h1>
           <p className="text-sm text-gray-500 mt-1">{projects.length} projects</p>
         </div>
-        <Link href="/admin/projects/new" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+        <Link href="/admin/projects/new" className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
           <Plus size={16} /> New Project
         </Link>
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
+        <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-amber-600 border-t-transparent rounded-full animate-spin" /></div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map(p => (
@@ -67,16 +67,16 @@ export default function AdminProjects() {
                   {p.is_featured && <Star size={13} className="text-amber-500 fill-amber-500" />}
                 </div>
                 <h3 className="font-bold text-gray-900 dark:text-white mb-1">{p.name}</h3>
-                <p className="text-xs text-blue-600 mb-3">{p.tagline}</p>
+                <p className="text-xs text-amber-600 mb-3">{p.tagline}</p>
                 <div className="flex items-center gap-2">
                   <button onClick={() => handleToggleFeatured(p.id, p.is_featured)} className={`p-1.5 rounded-lg transition-colors ${p.is_featured ? "text-amber-500 bg-amber-50" : "text-gray-300 hover:text-amber-400 hover:bg-amber-50"}`}>
                     <Star size={14} />
                   </button>
-                  <Link href={`/admin/projects/${p.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                  <Link href={`/admin/projects/${p.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-amber-600 hover:bg-amber-50 transition-colors">
                     <Edit size={14} />
                   </Link>
                   {p.website_url && (
-                    <a href={p.website_url} target="_blank" className="p-1.5 rounded-lg text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors">
+                    <a href={p.website_url} target="_blank" className="p-1.5 rounded-lg text-gray-400 hover:text-amber-500 hover:bg-amber-50 transition-colors">
                       <ExternalLink size={14} />
                     </a>
                   )}
