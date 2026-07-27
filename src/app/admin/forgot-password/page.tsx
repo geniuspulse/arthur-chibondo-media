@@ -28,7 +28,7 @@ export default function ForgotPassword() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">
-            Arthur <span className="text-blue-600">Chibondo</span>
+            Arthur <span className="text-amber-600">Chibondo</span>
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Admin Dashboard</p>
         </div>
@@ -44,7 +44,7 @@ export default function ForgotPassword() {
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Reset link sent to <span className="font-medium text-gray-700 dark:text-gray-300">{email}</span>
               </p>
-              <Link href="/admin/login" className="block text-sm text-blue-600 hover:underline mt-2">
+              <Link href="/admin/login" className="block text-sm text-amber-600 hover:underline mt-2">
                 Back to sign in
               </Link>
             </div>
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm"
                 />
                 {error && (
                   <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm px-3 py-2.5 rounded-xl">
@@ -68,14 +68,14 @@ export default function ForgotPassword() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold rounded-xl transition-colors text-sm flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-amber-600 hover:bg-amber-700 disabled:opacity-60 text-white font-semibold rounded-xl transition-colors text-sm flex items-center justify-center gap-2"
                 >
                   {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                   {loading ? "Sending..." : "Send Reset Link"}
                 </button>
               </form>
               <div className="text-center mt-5">
-                <Link href="/admin/login" className="text-sm text-gray-400 hover:text-blue-600 transition-colors">
+                <Link href="/admin/login" className="text-sm text-gray-400 hover:text-amber-600 transition-colors">
                   ← Back to sign in
                 </Link>
               </div>
