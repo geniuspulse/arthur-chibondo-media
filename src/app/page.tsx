@@ -5,6 +5,7 @@ import ProjectCard from "@/components/ProjectCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import AdRenderer from "@/components/AdRenderer";
 
 const topics = [
   "Entrepreneurship", "Technology & AI", "Education",
@@ -59,6 +60,8 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <AdRenderer placement="in-article" className="max-w-6xl mx-auto px-6 py-4" />
+
       {/* About Snippet */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-6 py-20 grid sm:grid-cols-2 gap-12 items-center">
@@ -100,6 +103,7 @@ export default async function HomePage() {
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
+        <AdRenderer placement="footer" className="max-w-6xl mx-auto px-6 pt-4" />
       </section>
 
       {/* Topics */}

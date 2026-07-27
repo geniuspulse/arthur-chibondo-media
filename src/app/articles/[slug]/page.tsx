@@ -2,6 +2,8 @@ import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
+import AdRenderer from "@/components/AdRenderer";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
 
 export const revalidate = 60;
 
@@ -30,11 +32,19 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           <span className="flex items-center gap-1"><Clock size={14} />{article.reading_time} min read</span>
           <span className="font-medium text-gray-700 dark:text-gray-300">By {article.author}</span>
         </div>
+
+        {article.youtube_video_id && (
+          <div className="mb-10">
+            <YouTubeEmbed videoId={article.youtube_video_id} title={article.title} />
+          </div>
+        )}
         <div className="space-y-6">
           {article.content?.split("\n\n").map((para: string, i: number) => (
             <p key={i} className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">{para}</p>
           ))}
         </div>
+
+        <AdRenderer placement="in-article" className="my-8" />
         <div className="mt-12 p-6 rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex gap-5 items-start">
           <img src="https://media.base44.com/images/public/6a5b92f95ccce4d8e8c5bbe5/811a4bdd1_1768857984230.jpg" alt="Arthur Chibondo" className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
           <div>
@@ -42,6 +52,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Malawian entrepreneur, digital creator, and builder. Founder of Chibondo Academy, Brandfletch Media, and NyasaDesk.</p>
           </div>
         </div>
+        <AdRenderer placement="sidebar" className="my-8" />
+
         {related && related.length > 0 && (
           <div className="mt-16">
             <h2 className="text-2xl font-bold font-serif text-gray-900 dark:text-white mb-8">Related Articles</h2>

@@ -26,6 +26,7 @@ export default function ArticleEditor({ article }: Props) {
     status: article?.status || "draft",
     is_featured: article?.is_featured || false,
     tags: article?.tags?.join(", ") || "",
+    youtube_video_id: article?.youtube_video_id || "",
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -192,6 +193,18 @@ export default function ArticleEditor({ article }: Props) {
                 placeholder="https://..."
                 className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600" />
               {form.cover_image && <img src={form.cover_image} alt="" className="mt-3 w-full h-32 object-cover rounded-lg" onError={e => (e.currentTarget.style.display = "none")} />}
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">YouTube Video ID (optional)</label>
+              <input value={form.youtube_video_id} onChange={e => setForm(f => ({ ...f, youtube_video_id: e.target.value }))}
+                placeholder="e.g. dQw4w9WgXcQ"
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              <p className="text-xs text-gray-400 mt-1">Just the ID — e.g. <code className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">dQw4w9WgXcQ</code> from youtube.com/watch?v=dQw4w9WgXcQ</p>
+              {form.youtube_video_id && (
+                <div className="mt-3">
+                  <img src={`https://img.youtube.com/vi/${form.youtube_video_id}/hqdefault.jpg`} alt="YouTube Video Thumbnail Preview" className="w-full h-auto rounded-lg object-cover border border-gray-200 dark:border-gray-700" onError={e => (e.currentTarget.style.display = "none")} />
+                </div>
+              )}
             </div>
           </div>
 
