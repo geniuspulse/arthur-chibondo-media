@@ -81,7 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (checking) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-gray-50 dark:bg-gray-950">
-      <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      <div className="w-10 h-10 border-4 border-amber-600 border-t-transparent rounded-full animate-spin" />
       <p className="text-sm text-gray-400 font-medium">Loading dashboard...</p>
     </div>
   );
@@ -96,7 +96,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200 dark:border-gray-800">
           <div>
             <p className="font-bold font-serif text-gray-900 dark:text-white text-sm">Arthur Chibondo</p>
-            <p className="text-xs text-blue-600 font-medium">Admin Dashboard</p>
+            <p className="text-xs text-amber-600 font-medium">Admin Dashboard</p>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-500"><X size={18} /></button>
         </div>
@@ -108,7 +108,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               onClick={() => setSidebarOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group ${
                 isActive(item)
-                  ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400"
+                  ? "bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400"
                   : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
@@ -139,7 +139,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </button>
           <div className="hidden lg:block" />
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold">A</div>
+            <div className="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-white text-sm font-bold">A</div>
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">Arthur Chibondo</span>
           </div>
         </header>
