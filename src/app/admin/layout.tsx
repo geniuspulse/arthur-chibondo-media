@@ -5,9 +5,24 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import {
-  LayoutDashboard, FileText, Briefcase, Mail, MessageSquare,
-  Tv, LogOut, Menu, X, ChevronRight
+  LayoutDashboard,
+  FileText,
+  Briefcase,
+  Mail,
+  MessageSquare,
+  Tv,
+  Megaphone,
+  LogOut,
+  Menu,
+  X,
+  ChevronRight
 } from "lucide-react";
+
+const PUBLIC_ADMIN_PATHS = [
+  "/admin/login",
+  "/admin/forgot-password",
+  "/admin/reset-password"
+];
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: <LayoutDashboard size={18} />, exact: true },
@@ -16,10 +31,8 @@ const navItems = [
   { href: "/admin/subscribers", label: "Subscribers", icon: <Mail size={18} /> },
   { href: "/admin/messages", label: "Messages", icon: <MessageSquare size={18} /> },
   { href: "/admin/media", label: "Media", icon: <Tv size={18} /> },
+  { href: "/admin/ads", label: "Ads", icon: <Megaphone size={18} /> },
 ];
-
-// Pages that don't require auth check
-const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/forgot-password", "/admin/reset-password"];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -27,7 +40,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [checking, setChecking] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const isPublicPage = PUBLIC_ADMIN_PATHS.includes(pathname);
+  // Skip auth check on public paths to avoid redirect loops
+  const isPublicPage = PUBLIC_ADMIN_PATHS.includes(pathname || "");
 
   useEffect(() => {
     if (isPublicPage) {
@@ -60,7 +74,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.replace("/admin/login");
   };
 
-  // Public pages render immediately without auth gate
+  // Public admin paths render immediately without auth gate or sidebar layout
   if (isPublicPage) {
     return <>{children}</>;
   }
@@ -68,7 +82,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (checking) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-gray-50 dark:bg-gray-950">
       <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-      <p className="text-sm text-gray-400">Loading dashboard...</p>
+      <p className="text-sm text-gray-400 font-medium">Loading dashboard...</p>
     </div>
   );
 
@@ -86,7 +100,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-gray-500"><X size={18} /></button>
         </div>
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto font-sans">
           {navItems.map((item) => (
             <Link
               key={item.href}
