@@ -16,7 +16,7 @@ export default function HeroSection() {
     <section className="max-w-6xl mx-auto px-6 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 items-center">
       {/* Text */}
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-        <span className="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-sm font-semibold px-3 py-1 rounded-full mb-6">
+        <span className="inline-block bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3 py-1 rounded-full mb-6">
           🇲🇼 Building from Malawi
         </span>
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-serif text-gray-900 dark:text-white leading-tight mb-6">
@@ -28,13 +28,13 @@ export default function HeroSection() {
         <div className="flex flex-wrap gap-3 mb-8">
           <Link
             href="/articles"
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
           >
             Read My Blog <ArrowRight size={16} />
           </Link>
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-600 hover:text-blue-600 font-semibold px-6 py-3 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-amber-600 hover:text-amber-600 font-semibold px-6 py-3 rounded-xl transition-colors"
           >
             Explore Projects
           </Link>
@@ -45,7 +45,7 @@ export default function HeroSection() {
               key={s.label}
               href={s.href}
               aria-label={s.label}
-              className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 transition-colors"
+              className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:text-amber-600 transition-colors"
             >
               {s.icon}
             </a>
@@ -61,7 +61,7 @@ export default function HeroSection() {
         className="flex justify-center lg:justify-end"
       >
         <div className="relative">
-          <div className="absolute inset-0 bg-blue-600 rounded-2xl translate-x-3 translate-y-3 opacity-20" />
+          <div className="absolute inset-0 bg-amber-600 rounded-2xl translate-x-3 translate-y-3 opacity-20" />
           <img
             src="https://media.base44.com/images/public/6a5b92f95ccce4d8e8c5bbe5/811a4bdd1_1768857984230.jpg"
             alt="Arthur Chibondo"
