@@ -18,7 +18,6 @@ import TableCell from '@tiptap/extension-table-cell'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import { useState, useCallback } from 'react'
-import { supabase } from '@/lib/supabase'
 import {
   Bold, Italic, Underline, Strikethrough,
   Heading1, Heading2, Heading3,
@@ -303,16 +302,12 @@ export default function RichEditor({ value, onChange, placeholder = 'Start writi
                         if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return }
                         setUploading(true)
                         try {
-                          const ext = file.name.split('.').pop()
-                          const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-                          const { data, error } = await supabase.storage
-                            .from('article-images')
-                            .upload(fileName, file, { cacheControl: '3600', upsert: false })
-                          if (error) throw error
-                          const { data: { publicUrl } } = supabase.storage
-                            .from('article-images')
-                            .getPublicUrl(data.path)
-                          setModal(m => ({ ...m, url: publicUrl }))
+                          const fd = new FormData()
+                          fd.append('file', file)
+                          const res = await fetch('/api/upload', { method: 'POST', body: fd })
+                          const json = await res.json()
+                          if (!res.ok) throw new Error(json.error || 'Upload failed')
+                          setModal(m => ({ ...m, url: json.url }))
                         } catch (err: any) {
                           alert('Upload failed: ' + (err.message || 'Unknown error'))
                         } finally {

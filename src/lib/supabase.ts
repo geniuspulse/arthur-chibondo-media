@@ -16,8 +16,13 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
   global: {
     fetch: (url, options) => {
+      // Only apply timeout for non-storage requests (uploads need more time on slow connections)
+      const isStorageUpload = typeof url === 'string' && url.includes('/storage/v1/object')
+      if (isStorageUpload) {
+        return fetch(url, options)
+      }
       const controller = new AbortController()
-      const timeout = setTimeout(() => controller.abort(), 8000) // 8s timeout
+      const timeout = setTimeout(() => controller.abort(), 15000) // 15s timeout for API calls
       return fetch(url, { ...options, signal: controller.signal })
         .finally(() => clearTimeout(timeout))
     }
