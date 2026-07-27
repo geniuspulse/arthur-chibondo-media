@@ -10,17 +10,17 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 
 export const metadata: Metadata = {
   title: {
-    default: "Arthur Chibondo | Entrepreneur & Digital Creator from Malawi",
-    template: "%s | Arthur Chibondo",
+    default: "APM Chibondo | Entrepreneur & Digital Creator from Malawi",
+    template: "%s | APM Chibondo",
   },
-  description: "Arthur Chibondo is a Malawian entrepreneur, digital creator, and builder exploring technology, education, business, and the future of Malawi.",
-  keywords: ["Arthur Chibondo", "Malawian entrepreneur", "Malawi technology", "Chibondo Academy", "Brandfletch", "NyasaDesk", "Arthur Chibondo Media"],
+  description: "APM Chibondo — Arthur Chibondo is a Malawian entrepreneur, digital creator, and builder exploring technology, education, business, and the future of Malawi.",
+  keywords: ["APM Chibondo", "Arthur Chibondo", "Malawian entrepreneur", "Malawi technology", "Chibondo Academy", "Brandfletch", "NyasaDesk", "APM Chibondo"],
   authors: [{ name: "Arthur Chibondo" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Arthur Chibondo",
-    title: "Arthur Chibondo | Entrepreneur & Digital Creator from Malawi",
+    siteName: "APM Chibondo",
+    title: "APM Chibondo | Entrepreneur & Digital Creator from Malawi",
     description: "Building, Learning, and Sharing Ideas from Malawi.",
     images: [
       {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Arthur Chibondo",
+    title: "APM Chibondo",
     description: "Entrepreneur, Digital Creator, and Builder from Malawi.",
   },
 };
