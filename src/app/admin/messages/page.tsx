@@ -7,9 +7,9 @@ import { formatDistanceToNow } from "date-fns";
 
 const TYPE_LABELS: Record<string, string> = { general: "General", business: "Business", media: "Media", speaking: "Speaking", collaboration: "Collaboration" };
 const STATUS_STYLES: Record<string, string> = {
-  new: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+  new: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   read: "bg-gray-100 text-gray-500 dark:bg-gray-800",
-  replied: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+  replied: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
 };
 
 export default function AdminMessages() {
@@ -71,11 +71,11 @@ export default function AdminMessages() {
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-48">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search messages..." className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search messages..." className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600" />
         </div>
         {["all", "new", "read", "replied"].map(s => (
           <button key={s} onClick={() => setStatusFilter(s)}
-            className={`px-4 py-2.5 rounded-xl text-sm font-medium capitalize transition-all ${statusFilter === s ? "bg-blue-600 text-white" : "bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-blue-500"}`}>
+            className={`px-4 py-2.5 rounded-xl text-sm font-medium capitalize transition-all ${statusFilter === s ? "bg-amber-600 text-white" : "bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-amber-500"}`}>
             {s}
           </button>
         ))}
@@ -85,16 +85,16 @@ export default function AdminMessages() {
         {/* List */}
         <div className="lg:col-span-2 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           {loading ? (
-            <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
+            <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-amber-600 border-t-transparent rounded-full animate-spin" /></div>
           ) : filtered.length === 0 ? (
             <p className="text-center text-gray-400 py-16 text-sm">No messages</p>
           ) : (
             <div className="divide-y divide-gray-100 dark:divide-gray-800 max-h-[600px] overflow-y-auto">
               {filtered.map(m => (
                 <button key={m.id} onClick={() => openMessage(m)}
-                  className={`w-full text-left px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${selected?.id === m.id ? "bg-blue-50 dark:bg-blue-900/10 border-l-2 border-l-blue-500" : ""}`}>
+                  className={`w-full text-left px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${selected?.id === m.id ? "bg-amber-50 dark:bg-amber-900/10 border-l-2 border-l-amber-500" : ""}`}>
                   <div className="flex items-center gap-2 mb-1">
-                    {m.status === "new" ? <Mail size={13} className="text-blue-600 flex-shrink-0" /> : <MailOpen size={13} className="text-gray-400 flex-shrink-0" />}
+                    {m.status === "new" ? <Mail size={13} className="text-amber-600 flex-shrink-0" /> : <MailOpen size={13} className="text-gray-400 flex-shrink-0" />}
                     <span className={`text-sm font-medium truncate ${m.status === "new" ? "text-gray-900 dark:text-white" : "text-gray-600 dark:text-gray-400"}`}>{m.name}</span>
                     <span className={`ml-auto text-xs font-medium px-2 py-0.5 rounded-full flex-shrink-0 ${STATUS_STYLES[m.status]}`}>{m.status}</span>
                   </div>
@@ -118,7 +118,7 @@ export default function AdminMessages() {
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="font-bold text-gray-900 dark:text-white">{selected.subject || "No subject"}</h2>
-                  <p className="text-sm text-gray-500 mt-1">{selected.name} · <a href={`mailto:${selected.email}`} className="text-blue-600 hover:underline">{selected.email}</a></p>
+                  <p className="text-sm text-gray-500 mt-1">{selected.name} · <a href={`mailto:${selected.email}`} className="text-amber-600 hover:underline">{selected.email}</a></p>
                   <div className="flex items-center gap-2 mt-2">
                     <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_STYLES[selected.status]}`}>{selected.status}</span>
                     <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-full">{TYPE_LABELS[selected.inquiry_type] || selected.inquiry_type}</span>
@@ -127,7 +127,7 @@ export default function AdminMessages() {
                 </div>
                 <div className="flex gap-2 flex-shrink-0">
                   {selected.status !== "replied" && (
-                    <button onClick={() => markReplied(selected.id)} className="p-2 rounded-lg text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors" title="Mark as replied">
+                    <button onClick={() => markReplied(selected.id)} className="p-2 rounded-lg text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors" title="Mark as replied">
                       <Reply size={16} />
                     </button>
                   )}
@@ -142,7 +142,7 @@ export default function AdminMessages() {
               <a
                 href={`mailto:${selected.email}?subject=Re: ${encodeURIComponent(selected.subject || "")}`}
                 onClick={() => markReplied(selected.id)}
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors w-fit"
+                className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors w-fit"
               >
                 <Reply size={15} /> Reply via Email
               </a>
