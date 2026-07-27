@@ -18,17 +18,19 @@ const navItems = [
   { href: "/admin/media", label: "Media", icon: <Tv size={18} /> },
 ];
 
+// Pages that don't require auth check
+const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/forgot-password", "/admin/reset-password"];
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [checking, setChecking] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Skip auth check on login page to avoid redirect loops
-  const isLoginPage = pathname === "/admin/login";
+  const isPublicPage = PUBLIC_ADMIN_PATHS.includes(pathname);
 
   useEffect(() => {
-    if (isLoginPage) {
+    if (isPublicPage) {
       setChecking(false);
       return;
     }
@@ -51,15 +53,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     });
 
     return () => clearTimeout(timeout);
-  }, [isLoginPage]);
+  }, [isPublicPage]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.replace("/admin/login");
   };
 
-  // Login page renders immediately without auth gate
-  if (isLoginPage) {
+  // Public pages render immediately without auth gate
+  if (isPublicPage) {
     return <>{children}</>;
   }
 
