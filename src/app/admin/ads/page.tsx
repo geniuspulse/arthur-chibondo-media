@@ -226,7 +226,7 @@ export default function AdsManager() {
   const getPlacementBadge = (p: Ad["placement"]) => {
     switch (p) {
       case "header":
-        return "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900/30";
+        return "bg-amber-50 text-amber-700 border-blue-200 dark:bg-blue-950/40 dark:text-amber-400 dark:border-amber-900/30";
       case "sidebar":
         return "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/40 dark:text-purple-400 dark:border-purple-900/30";
       case "in-article":
@@ -274,7 +274,7 @@ export default function AdsManager() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white flex items-center gap-2">
-            <Megaphone size={24} className="text-blue-600" />
+            <Megaphone size={24} className="text-amber-600" />
             Ads Manager
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -283,7 +283,7 @@ export default function AdsManager() {
         </div>
         <button
           onClick={handleOpenNew}
-          className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm w-fit"
+          className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm w-fit"
         >
           <Plus size={16} /> New Ad Banner
         </button>
@@ -292,7 +292,7 @@ export default function AdsManager() {
       {/* Main Content Area */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-32 space-y-4">
-          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-amber-600 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm text-gray-500 dark:text-gray-400">Loading ads database...</p>
         </div>
       ) : error ? (
@@ -320,7 +320,7 @@ export default function AdsManager() {
           </p>
           <button
             onClick={handleOpenNew}
-            className="mt-6 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-sm"
+            className="mt-6 inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-sm"
           >
             <Plus size={16} /> Create Ad Unit
           </button>
@@ -371,7 +371,7 @@ export default function AdsManager() {
                             href={ad.destination_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-0.5 text-xs text-blue-600 dark:text-blue-400 hover:underline mt-0.5"
+                            className="inline-flex items-center gap-0.5 text-xs text-amber-600 dark:text-amber-400 hover:underline mt-0.5"
                           >
                             <ExternalLink size={10} /> Link Destination
                           </a>
@@ -427,7 +427,7 @@ export default function AdsManager() {
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => handleOpenEdit(ad)}
-                          className="p-1.5 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                          className="p-1.5 text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                           title="Edit Ad"
                         >
                           <Edit2 size={15} />
@@ -463,7 +463,7 @@ export default function AdsManager() {
             {/* Header */}
             <div className="h-16 border-b border-gray-150 dark:border-gray-800 px-6 flex items-center justify-between">
               <h3 className="text-base font-bold text-gray-950 dark:text-white flex items-center gap-2">
-                <Megaphone size={18} className="text-blue-600" />
+                <Megaphone size={18} className="text-amber-600" />
                 {editingAd ? "Modify Ad Unit" : "Deploy New Ad Unit"}
               </h3>
               <button
@@ -487,7 +487,7 @@ export default function AdsManager() {
                   placeholder="e.g. Hostinger Sidebar Banner Jul 2026"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm transition-all"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                 />
               </div>
 
@@ -500,7 +500,7 @@ export default function AdsManager() {
                   <select
                     value={placement}
                     onChange={(e) => setPlacement(e.target.value as Ad["placement"])}
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm transition-all"
+                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                   >
                     <option value="header">Header</option>
                     <option value="sidebar">Sidebar</option>
@@ -517,7 +517,7 @@ export default function AdsManager() {
                   <select
                     value={type}
                     onChange={(e) => setType(e.target.value as Ad["type"])}
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm transition-all"
+                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                   >
                     <option value="image">Image Banner</option>
                     <option value="script">JS Script Tag</option>
@@ -552,7 +552,7 @@ export default function AdsManager() {
                   }
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm font-mono transition-all"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm font-mono transition-all"
                 />
               </div>
 
@@ -567,7 +567,7 @@ export default function AdsManager() {
                   placeholder="https://affiliate-target.com/landing"
                   value={destinationUrl}
                   onChange={(e) => setDestinationUrl(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm transition-all"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                 />
               </div>
 
@@ -581,7 +581,7 @@ export default function AdsManager() {
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm transition-all"
+                    className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                   />
                 </div>
 
@@ -593,7 +593,7 @@ export default function AdsManager() {
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm transition-all"
+                    className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                   />
                 </div>
               </div>
@@ -608,7 +608,7 @@ export default function AdsManager() {
                   placeholder="Sponsorship point of contact: contact@sponsor.com, $150 CPC cap."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm transition-all"
+                  className="w-full px-3.5 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                 />
               </div>
 
@@ -622,7 +622,7 @@ export default function AdsManager() {
                   type="button"
                   onClick={() => setIsActive(!isActive)}
                   className={`w-11 h-6 rounded-full transition-colors relative ${
-                    isActive ? "bg-blue-600" : "bg-gray-200 dark:bg-gray-700"
+                    isActive ? "bg-amber-600" : "bg-gray-200 dark:bg-gray-700"
                   }`}
                 >
                   <span
@@ -645,7 +645,7 @@ export default function AdsManager() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm disabled:bg-blue-400"
+                  className="flex-1 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 shadow-sm disabled:bg-amber-400"
                 >
                   {saving ? (
                     <>
