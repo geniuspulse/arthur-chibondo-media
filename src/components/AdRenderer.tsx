@@ -78,7 +78,7 @@ export default function AdRenderer({ placement, className = "" }: AdRendererProp
               href={ad.content}
               target="_blank"
               rel="noopener noreferrer sponsored"
-              className="block text-sm text-blue-600 hover:underline py-2"
+              className="block text-sm text-amber-600 hover:underline py-2"
             >
               {ad.name}
             </a>
