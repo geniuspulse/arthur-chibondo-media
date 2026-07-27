@@ -11,8 +11,8 @@ export default async function ProjectPage({ params }: { params: { slug: string }
 
   const statusLabel: Record<string, string> = { active: "Active", in_development: "In Development", completed: "Completed", coming_soon: "Coming Soon" };
   const statusStyles: Record<string, string> = {
-    active: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-    in_development: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+    active: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+    in_development: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
     completed: "bg-gray-100 text-gray-600",
     coming_soon: "bg-amber-100 text-amber-700",
   };
@@ -31,15 +31,15 @@ export default async function ProjectPage({ params }: { params: { slug: string }
         </div>
       </div>
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <Link href="/projects" className="inline-flex items-center gap-2 text-sm text-blue-600 mb-10"><ArrowLeft size={16} /> Back to Projects</Link>
+        <Link href="/projects" className="inline-flex items-center gap-2 text-sm text-amber-600 mb-10"><ArrowLeft size={16} /> Back to Projects</Link>
         <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-10">{project.description}</p>
         <div className="grid sm:grid-cols-2 gap-6 mb-10">
           <div className="p-6 rounded-2xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30">
             <h3 className="font-bold text-red-700 dark:text-red-400 mb-2">The Problem</h3>
             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{project.problem}</p>
           </div>
-          <div className="p-6 rounded-2xl bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30">
-            <h3 className="font-bold text-blue-700 dark:text-blue-400 mb-2">The Solution</h3>
+          <div className="p-6 rounded-2xl bg-amber-50 dark:bg-blue-950/20 border border-amber-100 dark:border-amber-900/30">
+            <h3 className="font-bold text-amber-700 dark:text-amber-400 mb-2">The Solution</h3>
             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{project.solution}</p>
           </div>
         </div>
@@ -49,7 +49,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
         </div>
         {project.website_url && (
           <a href={project.website_url} target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">
+            className="inline-flex items-center gap-2 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl transition-colors">
             Visit Website <ExternalLink size={16} />
           </a>
         )}
