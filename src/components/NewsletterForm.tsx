@@ -27,7 +27,7 @@ export default function NewsletterForm() {
 
   if (success) {
     return (
-      <div className="flex flex-col items-center gap-3 py-4 text-blue-600">
+      <div className="flex flex-col items-center gap-3 py-4 text-amber-600">
         <CheckCircle size={40} />
         <p className="font-semibold text-lg">You're in! Welcome to the newsletter.</p>
       </div>
@@ -49,12 +49,12 @@ export default function NewsletterForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm"
+        className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm"
       />
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm whitespace-nowrap"
+        className="inline-flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 disabled:opacity-60 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm whitespace-nowrap"
       >
         {loading ? "Subscribing..." : (<>Subscribe <ArrowRight size={14} /></>)}
       </button>
