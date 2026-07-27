@@ -23,7 +23,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="font-bold font-serif text-xl text-gray-900 dark:text-white">
-          Arthur <span className="text-blue-600">Chibondo</span>
+          <span className="text-amber-600">APM</span> Chibondo
         </Link>
         <div className="hidden md:flex items-center gap-6">
           {links.map((l) => (
@@ -32,7 +32,7 @@ export default function Navbar() {
               href={l.href}
               className={`text-sm font-medium transition-colors ${
                 pathname === l.href
-                  ? "text-blue-600"
+                  ? "text-amber-600"
                   : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
@@ -55,7 +55,7 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={`text-sm font-medium ${pathname === l.href ? "text-blue-600" : "text-gray-600 dark:text-gray-400"}`}
+              className={`text-sm font-medium ${pathname === l.href ? "text-amber-600" : "text-gray-600 dark:text-gray-400"}`}
             >
               {l.label}
             </Link>
