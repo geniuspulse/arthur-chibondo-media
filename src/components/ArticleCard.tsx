@@ -29,15 +29,15 @@ export default function ArticleCard({ article }: { article: Article }) {
             />
           </div>
         ) : (
-          <div className="h-48 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/30 dark:to-blue-900/20 flex items-center justify-center">
-            <span className="text-4xl font-bold font-serif text-blue-600/20">{article.title[0]}</span>
+          <div className="h-48 bg-gradient-to-br from-amber-50 to-amber-100 dark:from-blue-950/30 dark:to-amber-900/20 flex items-center justify-center">
+            <span className="text-4xl font-bold font-serif text-amber-600/20">{article.title[0]}</span>
           </div>
         )}
         <div className="p-5 flex flex-col flex-1">
-          <span className="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-semibold px-2.5 py-1 rounded-full mb-3 w-fit">
+          <span className="inline-block bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-semibold px-2.5 py-1 rounded-full mb-3 w-fit">
             {article.category}
           </span>
-          <h3 className="font-bold text-gray-900 dark:text-white text-lg leading-snug mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 flex-1">
+          <h3 className="font-bold text-gray-900 dark:text-white text-lg leading-snug mb-2 group-hover:text-amber-600 transition-colors line-clamp-2 flex-1">
             {article.title}
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">{article.excerpt}</p>
