@@ -15,7 +15,7 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
     });
   }, [params.id]);
 
-  if (loading) return <div className="flex justify-center py-32"><div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="flex justify-center py-32"><div className="w-8 h-8 border-4 border-amber-600 border-t-transparent rounded-full animate-spin" /></div>;
   if (!article) return <p className="text-center py-16 text-gray-400">Article not found.</p>;
 
   return <ArticleEditor article={article} />;
