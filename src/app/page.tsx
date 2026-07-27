@@ -38,10 +38,10 @@ export default async function HomePage() {
       <section className="max-w-6xl mx-auto px-6 py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <span className="text-blue-600 text-sm font-semibold uppercase tracking-widest block mb-2">From the Blog</span>
+            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">From the Blog</span>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white">Latest Articles</h2>
           </div>
-          <Link href="/articles" className="hidden sm:flex items-center gap-2 text-blue-600 font-medium hover:gap-3 transition-all">
+          <Link href="/articles" className="hidden sm:flex items-center gap-2 text-amber-600 font-medium hover:gap-3 transition-all">
             View All <ArrowRight size={16} />
           </Link>
         </div>
@@ -54,7 +54,7 @@ export default async function HomePage() {
           )}
         </div>
         <div className="mt-8 text-center sm:hidden">
-          <Link href="/articles" className="inline-flex items-center gap-2 text-blue-600 font-medium">
+          <Link href="/articles" className="inline-flex items-center gap-2 text-amber-600 font-medium">
             View All Articles <ArrowRight size={16} />
           </Link>
         </div>
@@ -66,14 +66,14 @@ export default async function HomePage() {
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-6 py-20 grid sm:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="text-blue-600 text-sm font-semibold uppercase tracking-widest block mb-3">About Arthur</span>
+            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">About Arthur</span>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-5 leading-tight">
               Building for Malawi. Thinking for Africa.
             </h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
               Arthur Chibondo is a Malawian entrepreneur and digital creator building technology solutions in education, marketing, and media. Founder of Chibondo Academy, Brandfletch Media, and NyasaDesk.
             </p>
-            <Link href="/about" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors">
+            <Link href="/about" className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors">
               Learn More <ArrowRight size={16} />
             </Link>
           </div>
@@ -91,10 +91,10 @@ export default async function HomePage() {
       <section className="max-w-6xl mx-auto px-6 py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <span className="text-blue-600 text-sm font-semibold uppercase tracking-widest block mb-2">Portfolio</span>
+            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">Portfolio</span>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white">Featured Projects</h2>
           </div>
-          <Link href="/projects" className="hidden sm:flex items-center gap-2 text-blue-600 font-medium hover:gap-3 transition-all">
+          <Link href="/projects" className="hidden sm:flex items-center gap-2 text-amber-600 font-medium hover:gap-3 transition-all">
             All Projects <ArrowRight size={16} />
           </Link>
         </div>
@@ -109,14 +109,14 @@ export default async function HomePage() {
       {/* Topics */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
         <div className="max-w-4xl mx-auto px-6 py-16 text-center">
-          <span className="text-blue-600 text-sm font-semibold uppercase tracking-widest block mb-3">Interests</span>
+          <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">Interests</span>
           <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white mb-8">Topics I Write About</h2>
           <div className="flex flex-wrap justify-center gap-3">
             {topics.map((topic) => (
               <Link
                 key={topic}
                 href={`/articles?category=${encodeURIComponent(topic)}`}
-                className="px-5 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-600 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className="px-5 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-amber-600 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
               >
                 {topic}
               </Link>
@@ -127,7 +127,7 @@ export default async function HomePage() {
 
       {/* Newsletter */}
       <section className="max-w-2xl mx-auto px-6 py-24 text-center">
-        <span className="text-blue-600 text-sm font-semibold uppercase tracking-widest block mb-3">Newsletter</span>
+        <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">Newsletter</span>
         <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-4">
           Ideas to Your Inbox
         </h2>
