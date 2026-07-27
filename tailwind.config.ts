@@ -10,7 +10,7 @@ const config: Config = {
         serif: ["var(--font-playfair)", "Georgia", "serif"],
       },
       colors: {
-        accent: "#16a34a",
+        accent: "#d97706",
       },
     },
   },
