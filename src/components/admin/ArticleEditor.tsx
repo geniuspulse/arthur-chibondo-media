@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { Save, Eye, ArrowLeft, Loader } from "lucide-react";
+import RichEditor from "./RichEditor";
 
 const CATEGORIES = ["Entrepreneurship", "Technology & AI", "Education", "Business", "Malawi Development", "Personal Growth", "Politics & Society", "Media"];
 
@@ -141,13 +142,7 @@ export default function ArticleEditor({ article }: Props) {
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">Content</label>
-              <textarea
-                value={form.content}
-                onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
-                rows={20}
-                placeholder="Write your article content here... Use double line breaks to separate paragraphs."
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-transparent text-gray-900 dark:text-white text-sm leading-relaxed placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-y font-mono"
-              />
+              <RichEditor value={form.content} onChange={(html) => setForm(f => ({ ...f, content: html }))} />
               <p className="text-xs text-gray-400 mt-1">{form.content.length} chars · ~{Math.ceil(form.content.split(/\s+/).length / 200)} min read</p>
             </div>
           </div>
