@@ -9,7 +9,7 @@ export default async function ProjectsPage() {
   return (
     <main className="min-h-screen">
       <section className="py-20 px-6 text-center bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
-        <span className="text-blue-600 text-sm font-semibold uppercase tracking-widest mb-4 block">Portfolio</span>
+        <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4 block">Portfolio</span>
         <h1 className="text-4xl sm:text-6xl font-bold font-serif text-gray-900 dark:text-white mb-4">My Projects</h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Businesses and initiatives I'm building to create opportunity in Malawi and Africa.</p>
       </section>
