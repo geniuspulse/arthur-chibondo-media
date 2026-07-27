@@ -58,7 +58,7 @@ const ToolbarBtn = ({
     title={title}
     className={`p-1.5 rounded-md transition-colors text-sm flex items-center justify-center ${
       active
-        ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400'
+        ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400'
         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700'
     } ${disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}`}
   >
@@ -70,12 +70,13 @@ const Divider = () => <div className="w-px h-5 bg-gray-200 dark:bg-slate-700 mx-
 
 export default function RichEditor({ value, onChange, placeholder = 'Start writing your story...' }: RichEditorProps) {
   const [modal, setModal] = useState<ModalState>({ type: null, url: '', alt: '', newTab: true })
+  const [imageTab, setImageTab] = useState<'url' | 'upload'>('url')
 
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
       UnderlineExt,
-      ImageExt.configure({ inline: false, allowBase64: false }),
+      ImageExt.configure({ inline: false, allowBase64: true }),
       LinkExt.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
       Placeholder.configure({ placeholder }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
@@ -106,6 +107,9 @@ export default function RichEditor({ value, onChange, placeholder = 'Start writi
   const openModal = useCallback((type: 'link' | 'image' | 'youtube') => {
     const existingUrl = type === 'link' ? editor?.getAttributes('link').href || '' : ''
     setModal({ type, url: existingUrl, alt: '', newTab: true })
+    if (type === 'image') {
+      setImageTab('url')
+    }
   }, [editor])
 
   const closeModal = () => setModal({ type: null, url: '', alt: '', newTab: true })
@@ -232,33 +236,67 @@ export default function RichEditor({ value, onChange, placeholder = 'Start writi
             </div>
 
             <div className="space-y-3">
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
-                  {modal.type === 'youtube' ? 'YouTube URL' : 'URL'}
-                </label>
-                <input
-                  autoFocus
-                  type="url"
-                  value={modal.url}
-                  onChange={e => setModal(m => ({ ...m, url: e.target.value }))}
-                  onKeyDown={e => e.key === 'Enter' && applyModal()}
-                  placeholder={
-                    modal.type === 'link' ? 'https://example.com' :
-                    modal.type === 'image' ? 'https://example.com/image.jpg' :
-                    'https://youtube.com/watch?v=...'
-                  }
-                  className="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-slate-700 bg-transparent text-sm dark:text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
-              {modal.type === 'image' && (
+              {modal.type !== 'image' && (
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Alt Text</label>
+                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                    {modal.type === 'youtube' ? 'YouTube URL' : 'URL'}
+                  </label>
                   <input
-                    type="text"
+                    autoFocus
+                    type="url"
+                    value={modal.url}
+                    onChange={e => setModal(m => ({ ...m, url: e.target.value }))}
+                    onKeyDown={e => e.key === 'Enter' && applyModal()}
+                    placeholder={
+                      modal.type === 'link' ? 'https://example.com' :
+                      'https://youtube.com/watch?v=...'
+                    }
+                    className="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-slate-700 bg-transparent text-sm dark:text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  />
+                </div>
+              )}
+
+              {modal.type === 'image' && (
+                <div className="space-y-3">
+                  <div className="flex gap-2 mb-3">
+                    <button type="button"
+                      onClick={() => setImageTab('url')}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                        imageTab === 'url' ? 'bg-amber-600 text-white' : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300'
+                      }`}>URL</button>
+                    <button type="button"
+                      onClick={() => setImageTab('upload')}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                        imageTab === 'upload' ? 'bg-amber-600 text-white' : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300'
+                      }`}>Upload</button>
+                  </div>
+                  {imageTab === 'url' ? (
+                    <input
+                      className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                      placeholder="https://example.com/image.jpg"
+                      value={modal.url}
+                      onChange={e => setModal(m => ({ ...m, url: e.target.value }))}
+                    />
+                  ) : (
+                    <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg cursor-pointer hover:border-amber-500 transition-colors">
+                      <span className="text-sm text-gray-500 dark:text-gray-400">Click to upload image</span>
+                      <span className="text-xs text-gray-400 mt-1">PNG, JPG, GIF, WebP</span>
+                      <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                        const file = e.target.files?.[0]
+                        if (!file) return
+                        const reader = new FileReader()
+                        reader.onload = () => {
+                          setModal(m => ({ ...m, url: reader.result as string }))
+                        }
+                        reader.readAsDataURL(file)
+                      }} />
+                    </label>
+                  )}
+                  <input
+                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder="Describe the image (alt text)..."
                     value={modal.alt}
                     onChange={e => setModal(m => ({ ...m, alt: e.target.value }))}
-                    placeholder="Describe the image..."
-                    className="w-full px-3 py-2.5 rounded-lg border border-gray-200 dark:border-slate-700 bg-transparent text-sm dark:text-white focus:outline-none focus:border-blue-500"
                   />
                 </div>
               )}
@@ -272,7 +310,7 @@ export default function RichEditor({ value, onChange, placeholder = 'Start writi
 
             <div className="flex justify-end gap-2 mt-5">
               <button type="button" onClick={closeModal} className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors">Cancel</button>
-              <button type="button" onClick={applyModal} className="px-4 py-2 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1.5">
+              <button type="button" onClick={applyModal} className="px-4 py-2 text-sm font-semibold bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors flex items-center gap-1.5">
                 <Check size={14} /> Insert
               </button>
             </div>
