@@ -18,6 +18,7 @@ import TableCell from '@tiptap/extension-table-cell'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import { useState, useCallback } from 'react'
+import { supabase } from '@/lib/supabase'
 import {
   Bold, Italic, Underline, Strikethrough,
   Heading1, Heading2, Heading3,
@@ -71,12 +72,13 @@ const Divider = () => <div className="w-px h-5 bg-gray-200 dark:bg-slate-700 mx-
 export default function RichEditor({ value, onChange, placeholder = 'Start writing your story...' }: RichEditorProps) {
   const [modal, setModal] = useState<ModalState>({ type: null, url: '', alt: '', newTab: true })
   const [imageTab, setImageTab] = useState<'url' | 'upload'>('url')
+  const [uploading, setUploading] = useState(false)
 
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
       UnderlineExt,
-      ImageExt.configure({ inline: false, allowBase64: true }),
+      ImageExt.configure({ inline: false, allowBase64: false }),
       LinkExt.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
       Placeholder.configure({ placeholder }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
@@ -278,17 +280,44 @@ export default function RichEditor({ value, onChange, placeholder = 'Start writi
                       onChange={e => setModal(m => ({ ...m, url: e.target.value }))}
                     />
                   ) : (
-                    <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg cursor-pointer hover:border-amber-500 transition-colors">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">Click to upload image</span>
-                      <span className="text-xs text-gray-400 mt-1">PNG, JPG, GIF, WebP</span>
-                      <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                    <label className={`flex flex-col items-center justify-center w-full h-28 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${uploading ? 'opacity-50 cursor-not-allowed border-gray-300 dark:border-slate-600' : 'hover:border-amber-500 border-gray-300 dark:border-slate-600'}`}>
+                      {uploading ? (
+                        <>
+                          <div className="w-6 h-6 border-2 border-amber-600 border-t-transparent rounded-full animate-spin mb-2" />
+                          <span className="text-sm text-gray-500 dark:text-gray-400">Uploading...</span>
+                        </>
+                      ) : modal.url && imageTab === 'upload' ? (
+                        <>
+                          <img src={modal.url} alt="preview" className="h-16 object-contain rounded mb-1" />
+                          <span className="text-xs text-amber-600">Image ready — click Insert</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-sm text-gray-500 dark:text-gray-400">Click to upload image</span>
+                          <span className="text-xs text-gray-400 mt-1">PNG, JPG, GIF, WebP (max 5MB)</span>
+                        </>
+                      )}
+                      <input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={async (e) => {
                         const file = e.target.files?.[0]
                         if (!file) return
-                        const reader = new FileReader()
-                        reader.onload = () => {
-                          setModal(m => ({ ...m, url: reader.result as string }))
+                        if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return }
+                        setUploading(true)
+                        try {
+                          const ext = file.name.split('.').pop()
+                          const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+                          const { data, error } = await supabase.storage
+                            .from('article-images')
+                            .upload(fileName, file, { cacheControl: '3600', upsert: false })
+                          if (error) throw error
+                          const { data: { publicUrl } } = supabase.storage
+                            .from('article-images')
+                            .getPublicUrl(data.path)
+                          setModal(m => ({ ...m, url: publicUrl }))
+                        } catch (err: any) {
+                          alert('Upload failed: ' + (err.message || 'Unknown error'))
+                        } finally {
+                          setUploading(false)
                         }
-                        reader.readAsDataURL(file)
                       }} />
                     </label>
                   )}
