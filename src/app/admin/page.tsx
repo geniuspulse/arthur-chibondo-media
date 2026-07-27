@@ -147,7 +147,7 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-32 space-y-4">
-        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-amber-600 border-t-transparent rounded-full animate-spin" />
         <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Fetching dashboard stats...</p>
       </div>
     );
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
       sub: `${stats?.articlesPublished || 0} published · ${stats?.articlesDraft || 0} drafts`,
       icon: <FileText size={20} />,
       href: "/admin/articles",
-      color: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border-blue-100 dark:border-blue-900/30",
+      color: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border-amber-100 dark:border-amber-900/30",
     },
     {
       label: "Projects",
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
       {/* Dashboard Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">Arthur Chibondo Media</h1>
+          <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">APM ChibondoMedia</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Welcome back, Arthur. Manage your articles, projects, ads, and newsletter subscribers.
           </p>
@@ -229,7 +229,7 @@ export default function AdminDashboard() {
         <div className="flex flex-wrap gap-2">
           <Link 
             href="/admin/articles/new" 
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm"
           >
             <Plus size={16} /> New Article
           </Link>
@@ -248,12 +248,12 @@ export default function AdminDashboard() {
           <Link 
             key={card.label} 
             href={card.href} 
-            className="group bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-850 p-5 hover:shadow-md transition-all duration-200 hover:border-blue-400 dark:hover:border-blue-800"
+            className="group bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-850 p-5 hover:shadow-md transition-all duration-200 hover:border-amber-400 dark:hover:border-amber-800"
           >
             <div className={`w-10 h-10 rounded-xl border ${card.color} flex items-center justify-center mb-3`}>
               {card.icon}
             </div>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-450">
+            <p className="text-2xl font-bold text-gray-900 dark:text-white transition-colors group-hover:text-amber-600 dark:group-hover:text-amber-500">
               {card.value}
             </p>
             <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-wider">{card.label}</p>
@@ -268,10 +268,10 @@ export default function AdminDashboard() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 flex flex-col h-full">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-150 dark:border-gray-800">
             <h2 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-              <FileText size={18} className="text-blue-600" />
+              <FileText size={18} className="text-amber-600" />
               Recent Articles
             </h2>
-            <Link href="/admin/articles" className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center gap-1">
+            <Link href="/admin/articles" className="text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold flex items-center gap-1">
               View all <ArrowRight size={12} />
             </Link>
           </div>
@@ -281,7 +281,7 @@ export default function AdminDashboard() {
                 <FileText size={32} className="text-gray-300 dark:text-gray-700 mb-2" />
                 <p className="text-sm font-medium text-gray-900 dark:text-white">No articles created yet</p>
                 <p className="text-xs text-gray-400 mt-1 max-w-xs">Write your first article to share entrepreneurship and tech insights.</p>
-                <Link href="/admin/articles/new" className="mt-3 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
+                <Link href="/admin/articles/new" className="mt-3 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1">
                   Create article <Plus size={12} />
                 </Link>
               </div>
@@ -308,7 +308,7 @@ export default function AdminDashboard() {
                     </span>
                     <Link 
                       href={`/admin/articles/${art.id}`} 
-                      className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+                      className="text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold"
                     >
                       Edit
                     </Link>
@@ -326,7 +326,7 @@ export default function AdminDashboard() {
               <MessageSquare size={18} className="text-rose-500" />
               Recent Messages
             </h2>
-            <Link href="/admin/messages" className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center gap-1">
+            <Link href="/admin/messages" className="text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold flex items-center gap-1">
               View all <ArrowRight size={12} />
             </Link>
           </div>
@@ -342,7 +342,7 @@ export default function AdminDashboard() {
                 <Link key={msg.id} href="/admin/messages" className="block px-6 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-850/50 transition-colors">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex gap-3 min-w-0">
-                      <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center text-xs font-bold flex-shrink-0">
                         {msg.name?.[0]?.toUpperCase() || "U"}
                       </div>
                       <div className="min-w-0">
@@ -377,7 +377,7 @@ export default function AdminDashboard() {
               href: "/admin/articles/new", 
               label: "New Article", 
               icon: <FileText size={18} />, 
-              color: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-900/40 hover:bg-blue-100 dark:hover:bg-blue-900/30" 
+              color: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900/40 hover:bg-amber-100 dark:hover:bg-amber-900/30" 
             },
             { 
               href: "/admin/projects/new", 
