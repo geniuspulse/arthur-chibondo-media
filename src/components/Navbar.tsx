@@ -49,13 +49,17 @@ export default function Navbar() {
         </div>
       </div>
       {open && (
-        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-2 flex flex-col gap-1">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={`text-sm font-medium ${pathname === l.href ? "text-amber-600" : "text-gray-600 dark:text-gray-400"}`}
+              className={`flex items-center h-11 px-3 text-sm font-medium rounded-lg transition-colors ${
+                pathname === l.href
+                  ? "bg-amber-50 dark:bg-amber-950/20 text-amber-600"
+                  : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/50"
+              }`}
             >
               {l.label}
             </Link>
