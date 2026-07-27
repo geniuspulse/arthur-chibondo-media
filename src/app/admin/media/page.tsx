@@ -9,9 +9,9 @@ import { format } from "date-fns";
 const TYPE_LABELS: Record<string, string> = { interview: "Interview", podcast: "Podcast", video: "Video", article: "Article", press: "Press" };
 const TYPE_COLORS: Record<string, string> = {
   interview: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
-  podcast: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+  podcast: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   video: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
-  article: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+  article: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   press: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
 };
 
@@ -39,18 +39,18 @@ export default function AdminMedia() {
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">Media Appearances</h1>
           <p className="text-sm text-gray-500 mt-1">{items.length} appearances</p>
         </div>
-        <Link href="/admin/media/new" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+        <Link href="/admin/media/new" className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
           <Plus size={16} /> Add Appearance
         </Link>
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
+        <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-amber-600 border-t-transparent rounded-full animate-spin" /></div>
       ) : items.length === 0 ? (
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 py-24 text-center">
           <p className="text-4xl mb-4">📡</p>
           <p className="text-gray-500 dark:text-gray-400 mb-4">No media appearances yet</p>
-          <Link href="/admin/media/new" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
+          <Link href="/admin/media/new" className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
             <Plus size={16} /> Add your first appearance
           </Link>
         </div>
@@ -76,8 +76,8 @@ export default function AdminMedia() {
                     <td className="px-5 py-4 text-gray-400 text-xs whitespace-nowrap">{item.appeared_at ? format(new Date(item.appeared_at), "MMM d, yyyy") : "—"}</td>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">
-                        {item.url && <a href={item.url} target="_blank" className="p-1.5 rounded-lg text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors"><ExternalLink size={14} /></a>}
-                        <Link href={`/admin/media/${item.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"><Edit size={14} /></Link>
+                        {item.url && <a href={item.url} target="_blank" className="p-1.5 rounded-lg text-gray-400 hover:text-amber-500 hover:bg-amber-50 transition-colors"><ExternalLink size={14} /></a>}
+                        <Link href={`/admin/media/${item.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"><Edit size={14} /></Link>
                         <button onClick={() => handleDelete(item.id)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"><Trash2 size={14} /></button>
                       </div>
                     </td>
