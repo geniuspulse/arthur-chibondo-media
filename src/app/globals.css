@@ -43,3 +43,125 @@ iframe[src*="youtu.be"] {
 }
 
 /* Copy link button click handler */
+
+/* ── Prose content rendering fixes ── */
+/* Ensure Tailwind Preflight doesn't strip heading styles inside prose content */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose h1 { font-size: 2em; }
+.prose h2 { font-size: 1.5em; }
+.prose h3 { font-size: 1.25em; }
+
+.prose p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+  line-height: 1.8;
+}
+
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+}
+
+.prose li {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.prose blockquote {
+  border-left: 4px solid #d97706;
+  padding-left: 1em;
+  font-style: italic;
+  color: inherit;
+  opacity: 0.85;
+  margin: 1.5em 0;
+}
+
+.prose img {
+  border-radius: 0.75rem;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5em auto;
+  display: block;
+}
+
+.prose a {
+  color: #d97706;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose strong {
+  font-weight: 700;
+}
+
+.prose code {
+  background: rgba(0,0,0,0.06);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.dark .prose code {
+  background: rgba(255,255,255,0.1);
+}
+
+.prose pre {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 1.25em 1.5em;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+.prose table th,
+.prose table td {
+  border: 1px solid #e5e7eb;
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+
+.dark .prose table th,
+.dark .prose table td {
+  border-color: #374151;
+}
+
+.prose table th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+.dark .prose table th {
+  background: #1f2937;
+}
+
+/* Responsive iframes (YouTube embeds in prose) */
+.prose iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+}
