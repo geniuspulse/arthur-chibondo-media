@@ -41,3 +41,5 @@ iframe[src*="youtu.be"] {
   border-radius: 12px;
   margin: 1.5rem 0;
 }
+
+/* Copy link button click handler */

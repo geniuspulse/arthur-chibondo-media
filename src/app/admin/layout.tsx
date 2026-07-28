@@ -10,6 +10,7 @@ import {
   Briefcase,
   Mail,
   MessageSquare,
+  MessageCircle,
   Tv,
   Megaphone,
   LogOut,
@@ -32,6 +33,7 @@ const navItems = [
   { href: "/admin/messages", label: "Messages", icon: <MessageSquare size={18} /> },
   { href: "/admin/media", label: "Media", icon: <Tv size={18} /> },
   { href: "/admin/ads", label: "Ads", icon: <Megaphone size={18} /> },
+  { href: "/admin/comments", label: "Comments", icon: <MessageCircle size={18} /> },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

@@ -458,8 +458,9 @@ export default function AdsManager() {
             onClick={() => setIsOpen(false)}
           />
 
-          {/* Panel Container */}
-          <div className="fixed inset-y-0 right-0 z-50 w-full md:max-w-md bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 flex flex-col shadow-2xl transition-transform duration-300 transform translate-x-0">
+          {/* Modal Container */}
+          <div className="fixed inset-x-0 bottom-0 sm:inset-0 sm:flex sm:items-center sm:justify-center z-50">
+          <div className="w-full sm:max-w-lg bg-white dark:bg-gray-900 sm:rounded-2xl border-t sm:border border-gray-200 dark:border-gray-800 flex flex-col shadow-2xl max-h-[92vh] sm:max-h-[90vh] overflow-hidden">
             {/* Header */}
             <div className="h-16 border-b border-gray-200 dark:border-gray-800 px-6 flex items-center justify-between">
               <h3 className="text-base font-bold text-gray-950 dark:text-white flex items-center gap-2">
@@ -660,6 +661,7 @@ export default function AdsManager() {
                 </button>
               </div>
             </form>
+          </div>
           </div>
         </>
       )}

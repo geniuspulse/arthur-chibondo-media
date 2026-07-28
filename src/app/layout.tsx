@@ -44,6 +44,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ConditionalNavbar>{children}</ConditionalNavbar>
         </ThemeProvider>
+        <script dangerouslySetInnerHTML={{ __html: `
+          document.addEventListener('click', function(e) {
+            var btn = e.target.closest('.copy-link-btn');
+            if (!btn) return;
+            var url = btn.getAttribute('data-copy-url');
+            if (!url) return;
+            navigator.clipboard.writeText(url).then(function() {
+              var orig = btn.innerHTML;
+              btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+              setTimeout(function() { btn.innerHTML = orig; }, 2000);
+            });
+          });
+        ` }} />
       </body>
     </html>
   );
