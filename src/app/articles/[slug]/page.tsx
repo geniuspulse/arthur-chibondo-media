@@ -6,6 +6,7 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import AdRenderer from "@/components/AdRenderer";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import CommentsSection from "@/components/CommentsSection";
+import ArticleLikes from "@/components/ArticleLikes";
 
 export const revalidate = 30;
 
@@ -113,8 +114,9 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           </span>
           <span className="font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">By {article.author}</span>
 
-          {/* Share buttons - push to right on desktop */}
-          <div className="sm:ml-auto flex items-center gap-2">
+          {/* Likes + Share buttons */}
+          <div className="sm:ml-auto flex items-center gap-2 flex-wrap">
+            <ArticleLikes slug={article.slug} />
             <ShareButtons url={articleUrl} title={article.title} />
           </div>
         </div>

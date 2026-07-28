@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AuthProvider } from "@/lib/auth-context";
 import ConditionalNavbar from "@/components/ConditionalNavbar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -41,9 +42,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden`}>
+        <AuthProvider>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ConditionalNavbar>{children}</ConditionalNavbar>
         </ThemeProvider>
+        </AuthProvider>
         <script dangerouslySetInnerHTML={{ __html: `
           document.addEventListener('click', function(e) {
             var btn = e.target.closest('.copy-link-btn');
