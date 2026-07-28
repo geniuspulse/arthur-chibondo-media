@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/lib/auth-context";
 import ConditionalNavbar from "@/components/ConditionalNavbar";
+import AdRenderer from "@/components/AdRenderer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
@@ -44,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden`}>
         <AuthProvider>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ConditionalNavbar>{children}</ConditionalNavbar>
+          <AdRenderer placement="header" /><ConditionalNavbar>{children}</ConditionalNavbar>
         </ThemeProvider>
         </AuthProvider>
         <script dangerouslySetInnerHTML={{ __html: `
