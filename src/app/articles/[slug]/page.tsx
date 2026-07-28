@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowLeft, Clock, Calendar, Share2, MessageCircle, Check, Copy } from "lucide-react";
+import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import AdRenderer from "@/components/AdRenderer";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import CommentsSection from "@/components/CommentsSection";

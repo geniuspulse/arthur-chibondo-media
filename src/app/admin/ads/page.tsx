@@ -327,118 +327,82 @@ export default function AdsManager() {
         </div>
       ) : (
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
+          {/* ── Mobile card list (< sm) ── */}
+          <div className="sm:hidden divide-y divide-gray-100 dark:divide-gray-800">
+            {ads.map((ad) => (
+              <div key={ad.id} className="p-4 space-y-3">
+                {/* Top row: name + actions */}
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-sm text-gray-900 dark:text-white truncate">{ad.name}</p>
+                    {ad.notes && <p className="text-xs text-gray-400 truncate mt-0.5">{ad.notes}</p>}
+                  </div>
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <button onClick={() => handleOpenEdit(ad)} className="p-1.5 rounded-lg text-gray-400 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"><Edit2 size={14} /></button>
+                    <button onClick={() => handleDelete(ad.id)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"><Trash2 size={14} /></button>
+                  </div>
+                </div>
+                {/* Badges row */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <button onClick={() => toggleActive(ad)}
+                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border transition-all ${ad.is_active ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/50" : "bg-gray-50 text-gray-400 border-gray-200 dark:bg-gray-800 dark:text-gray-500 dark:border-gray-700"}`}>
+                    <Power size={10} className={ad.is_active ? "animate-pulse" : ""} />{ad.is_active ? "Active" : "Paused"}
+                  </button>
+                  <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border capitalize ${getPlacementBadge(ad.placement)}`}>{ad.placement}</span>
+                  <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full border capitalize ${getTypeBadge(ad.type)}`}>{getTypeIcon(ad.type)}{ad.type}</span>
+                </div>
+                {/* Stats row */}
+                <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                  <span className="flex items-center gap-1"><Eye size={11} /><strong>{ad.impressions || 0}</strong> views</span>
+                  <span className="flex items-center gap-1"><MousePointerClick size={11} /><strong>{ad.clicks || 0}</strong> clicks</span>
+                  <span className="text-gray-400">{format(new Date(ad.created_at), "MMM d, yyyy")}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Desktop table (≥ sm) ── */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800">
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ad Detail</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Placement</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Performance</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Created</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Actions</th>
+                  <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                  <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ad Detail</th>
+                  <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Placement</th>
+                  <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
+                  <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Stats</th>
+                  <th className="px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                 {ads.map((ad) => (
                   <tr key={ad.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <button
-                        onClick={() => toggleActive(ad)}
-                        title={ad.is_active ? "Deactivate banner" : "Activate banner"}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
-                          ad.is_active
-                            ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/50"
-                            : "bg-gray-50 text-gray-400 border-gray-200 dark:bg-gray-800/50 dark:text-gray-500 dark:border-gray-700"
-                        }`}
-                      >
-                        <Power size={11} className={ad.is_active ? "animate-pulse" : ""} />
-                        {ad.is_active ? "Active" : "Paused"}
+                    <td className="px-5 py-3 whitespace-nowrap">
+                      <button onClick={() => toggleActive(ad)}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all ${ad.is_active ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/50" : "bg-gray-50 text-gray-400 border-gray-200 dark:bg-gray-800/50 dark:text-gray-500 dark:border-gray-700"}`}>
+                        <Power size={10} className={ad.is_active ? "animate-pulse" : ""} />{ad.is_active ? "Active" : "Paused"}
                       </button>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="max-w-[240px]">
-                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
-                          {ad.name}
-                        </p>
-                        {ad.notes ? (
-                          <p className="text-xs text-gray-400 dark:text-gray-500 truncate mt-0.5">
-                            {ad.notes}
-                          </p>
-                        ) : ad.destination_url ? (
-                          <a
-                            href={ad.destination_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-0.5 text-xs text-amber-600 dark:text-amber-400 hover:underline mt-0.5"
-                          >
-                            <ExternalLink size={10} /> Link Destination
-                          </a>
-                        ) : (
-                          <span className="text-xs text-gray-350 dark:text-gray-600">No destination URL</span>
-                        )}
+                    <td className="px-5 py-3 max-w-[200px]">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{ad.name}</p>
+                      {ad.notes && <p className="text-xs text-gray-400 truncate">{ad.notes}</p>}
+                    </td>
+                    <td className="px-5 py-3 whitespace-nowrap">
+                      <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border capitalize ${getPlacementBadge(ad.placement)}`}>{ad.placement}</span>
+                    </td>
+                    <td className="px-5 py-3 whitespace-nowrap">
+                      <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full border capitalize ${getTypeBadge(ad.type)}`}>{getTypeIcon(ad.type)}{ad.type}</span>
+                    </td>
+                    <td className="px-5 py-3 whitespace-nowrap">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 space-y-0.5">
+                        <div className="flex items-center gap-1"><Eye size={11} /><strong>{ad.impressions || 0}</strong> views</div>
+                        <div className="flex items-center gap-1"><MousePointerClick size={11} /><strong>{ad.clicks || 0}</strong> clicks</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border capitalize ${getPlacementBadge(
-                          ad.placement
-                        )}`}
-                      >
-                        {ad.placement}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full border capitalize ${getTypeBadge(
-                          ad.type
-                        )}`}
-                      >
-                        {getTypeIcon(ad.type)}
-                        {ad.type}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex flex-col space-y-1">
-                        <span className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                          <Eye size={12} className="text-gray-400" />
-                          <span className="font-bold">{ad.impressions || 0}</span> views
-                        </span>
-                        <span className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                          <MousePointerClick size={12} className="text-gray-400" />
-                          <span className="font-bold">{ad.clicks || 0}</span> clicks
-                        </span>
-                        <span className="text-[10px] text-gray-400 dark:text-gray-500">
-                          CTR:{" "}
-                          <span className="font-semibold">
-                            {ad.impressions > 0
-                              ? ((ad.clicks / ad.impressions) * 100).toFixed(2)
-                              : "0.00"}
-                            %
-                          </span>
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-450 dark:text-gray-500 font-medium">
-                      {format(new Date(ad.created_at), "MMM d, yyyy")}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-xs font-medium">
+                    <td className="px-5 py-3 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <button
-                          onClick={() => handleOpenEdit(ad)}
-                          className="p-1.5 text-gray-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                          title="Edit Ad"
-                        >
-                          <Edit2 size={15} />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(ad.id)}
-                          className="p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors"
-                          title="Delete Ad"
-                        >
-                          <Trash2 size={15} />
-                        </button>
+                        <button onClick={() => handleOpenEdit(ad)} className="p-1.5 text-gray-400 hover:text-amber-600 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"><Edit2 size={15} /></button>
+                        <button onClick={() => handleDelete(ad.id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors"><Trash2 size={15} /></button>
                       </div>
                     </td>
                   </tr>
