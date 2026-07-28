@@ -4,16 +4,39 @@ import ArticleCard from "@/components/ArticleCard";
 import ProjectCard from "@/components/ProjectCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Heart, BookOpen, Cpu, Building2, Stethoscope } from "lucide-react";
 import AdRenderer from "@/components/AdRenderer";
+
+export const revalidate = 30;
+
+const pillars = [
+  {
+    icon: <Stethoscope size={22} className="text-amber-600" />,
+    title: "Medicine",
+    desc: "Medical student committed to understanding the science of life — because health is the foundation of everything.",
+  },
+  {
+    icon: <Building2 size={22} className="text-amber-600" />,
+    title: "Entrepreneurship",
+    desc: "Founder of Chibondo Academy, Brandfletch Media, and a growing portfolio of SaaS products built for Africa.",
+  },
+  {
+    icon: <Cpu size={22} className="text-amber-600" />,
+    title: "Digital Creation",
+    desc: "Writer, content creator, and builder sharing ideas on technology, business, and life in Malawi.",
+  },
+  {
+    icon: <Heart size={22} className="text-amber-600" />,
+    title: "Mental Health",
+    desc: "Founder of Betting Addiction Support Malawi — providing critical support to those who need it most.",
+  },
+];
 
 const topics = [
   "Entrepreneurship", "Technology & AI", "Education",
   "Business", "Malawi Development", "Personal Growth",
-  "Politics & Society", "Media"
+  "Mental Health", "Medicine & Health",
 ];
-
-export const revalidate = 30;
 
 export default async function HomePage() {
   const { data: articles } = await supabase
@@ -33,6 +56,30 @@ export default async function HomePage() {
   return (
     <main>
       <HeroSection />
+
+      {/* What I Do — 4 pillars */}
+      <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+          <div className="text-center mb-10">
+            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">What I Do</span>
+            <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white">Four worlds, one mission</h2>
+            <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">
+              My work cuts across medicine, business, technology, and advocacy — all driven by the same belief: that one person can meaningfully change lives.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {pillars.map((p) => (
+              <div key={p.title} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center mb-4">
+                  {p.icon}
+                </div>
+                <h3 className="font-bold text-gray-900 dark:text-white mb-2">{p.title}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Latest Articles */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
@@ -68,13 +115,13 @@ export default async function HomePage() {
           <div>
             <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">About Arthur</span>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-5 leading-tight">
-              Building for Malawi. Thinking for Africa.
+              Making an impact — one life at a time.
             </h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-              Arthur Chibondo is a Malawian entrepreneur and digital creator building technology solutions in education, marketing, and media. Founder of Chibondo Academy, Brandfletch Media, and NyasaDesk.
+              Arthur is a medical student, entrepreneur, and digital creator from Malawi. He builds companies that educate, empower, and connect — and advocates fiercely for mental health in communities that need it most.
             </p>
             <Link href="/about" className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors">
-              Learn More <ArrowRight size={16} />
+              My Full Story <ArrowRight size={16} />
             </Link>
           </div>
           <div className="flex justify-center">
@@ -88,23 +135,25 @@ export default async function HomePage() {
       </section>
 
       {/* Projects */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">Portfolio</span>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white">Featured Projects</h2>
+      {projects && projects.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">Portfolio</span>
+              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white">Featured Projects</h2>
+            </div>
+            <Link href="/projects" className="hidden sm:flex items-center gap-2 text-amber-600 font-medium hover:gap-3 transition-all">
+              All Projects <ArrowRight size={16} />
+            </Link>
           </div>
-          <Link href="/projects" className="hidden sm:flex items-center gap-2 text-amber-600 font-medium hover:gap-3 transition-all">
-            All Projects <ArrowRight size={16} />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects?.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-        <AdRenderer placement="footer" className="max-w-6xl mx-auto px-4 sm:px-6 pt-4" />
-      </section>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+          <AdRenderer placement="footer" className="max-w-6xl mx-auto px-4 sm:px-6 pt-4" />
+        </section>
+      )}
 
       {/* Topics */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
@@ -132,7 +181,7 @@ export default async function HomePage() {
           Ideas to Your Inbox
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-8">
-          Join my newsletter for insights on entrepreneurship, technology, and building in Africa.
+          Join the newsletter for thoughts on entrepreneurship, medicine, mental health, and building in Africa.
         </p>
         <NewsletterForm />
       </section>

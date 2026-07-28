@@ -5,11 +5,13 @@ import { Twitter, Linkedin, Instagram, Youtube, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion";
 
 const socials = [
-  { icon: <Twitter size={18} />, label: "Twitter", href: "#" },
-  { icon: <Linkedin size={18} />, label: "LinkedIn", href: "#" },
-  { icon: <Instagram size={18} />, label: "Instagram", href: "#" },
-  { icon: <Youtube size={18} />, label: "YouTube", href: "#" },
+  { icon: <Twitter size={18} />, label: "Twitter", href: "https://twitter.com/arthurchibondo" },
+  { icon: <Linkedin size={18} />, label: "LinkedIn", href: "https://linkedin.com/in/arthurchibondo" },
+  { icon: <Instagram size={18} />, label: "Instagram", href: "https://instagram.com/arthurchibondo" },
+  { icon: <Youtube size={18} />, label: "YouTube", href: "https://youtube.com/@arthurchibondo" },
 ];
+
+const tags = ["Medical Student", "Entrepreneur", "Digital Creator", "Mental Health Advocate"];
 
 export default function HeroSection() {
   return (
@@ -19,12 +21,23 @@ export default function HeroSection() {
         <span className="inline-block bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3 py-1 rounded-full mb-6">
           🇲🇼 Building from Malawi
         </span>
-        <h1 className="text-3xl sm:text-5xl font-bold font-serif text-gray-900 dark:text-white leading-tight mb-6">
+        <h1 className="text-4xl sm:text-5xl font-bold font-serif text-gray-900 dark:text-white leading-tight mb-4">
           Arthur<br />Chibondo
         </h1>
+
+        {/* Identity tags */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {tags.map(tag => (
+            <span key={tag} className="text-xs font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700">
+              {tag}
+            </span>
+          ))}
+        </div>
+
         <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8 max-w-lg">
-          Entrepreneur, Digital Creator, and Builder exploring technology, education, business, and the future of Malawi.
+          Medical student by training. Entrepreneur and digital creator by calling. I build companies, share ideas, and advocate for mental health — all in pursuit of making a real impact in people's lives.
         </p>
+
         <div className="flex flex-wrap gap-3 mb-8">
           <Link
             href="/articles"
@@ -39,11 +52,14 @@ export default function HeroSection() {
             Explore Projects
           </Link>
         </div>
+
         <div className="flex gap-3">
           {socials.map((s) => (
             <a
               key={s.label}
               href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={s.label}
               className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:text-amber-600 transition-colors"
             >
