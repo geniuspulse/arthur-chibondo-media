@@ -232,7 +232,7 @@ export default function AdsManager() {
       case "in-article":
         return "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/30";
       case "footer":
-        return "bg-gray-55 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700";
+        return "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700";
       case "popup":
         return "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-900/30";
       default:
@@ -256,15 +256,15 @@ export default function AdsManager() {
   const getTypeBadge = (t: Ad["type"]) => {
     switch (t) {
       case "image":
-        return "bg-sky-50 text-sky-700 border-sky-150 dark:bg-sky-950/20 dark:text-sky-400 dark:border-sky-900/30";
+        return "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/20 dark:text-sky-400 dark:border-sky-900/30";
       case "script":
-        return "bg-rose-50 text-rose-700 border-rose-150 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/30";
+        return "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/30";
       case "html":
-        return "bg-indigo-50 text-indigo-700 border-indigo-150 dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-900/30";
+        return "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-900/30";
       case "link":
-        return "bg-amber-50 text-amber-700 border-amber-150 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30";
+        return "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30";
       default:
-        return "bg-gray-50 text-gray-700 border-gray-150";
+        return "bg-gray-50 text-gray-700 border-gray-200";
     }
   };
 
@@ -311,11 +311,11 @@ export default function AdsManager() {
         </div>
       ) : ads.length === 0 ? (
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-16 text-center flex flex-col items-center justify-center">
-          <div className="w-14 h-14 bg-gray-50 dark:bg-gray-850 border border-gray-150 dark:border-gray-800 text-gray-400 dark:text-gray-500 rounded-full flex items-center justify-center mb-4 shadow-inner">
+          <div className="w-14 h-14 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 text-gray-400 dark:text-gray-500 rounded-full flex items-center justify-center mb-4 shadow-inner">
             <Megaphone size={28} />
           </div>
           <h3 className="text-lg font-bold text-gray-900 dark:text-white">No Ads Available</h3>
-          <p className="text-sm text-gray-400 dark:text-gray-450 mt-1 max-w-md">
+          <p className="text-sm text-gray-400 dark:text-gray-400 mt-1 max-w-md">
             Promote sponsors, affiliate programs, or highlight your own newsletters and speaking events. Create your first ad unit.
           </p>
           <button
@@ -330,26 +330,26 @@ export default function AdsManager() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-50 dark:bg-gray-850/50 border-b border-gray-200 dark:border-gray-800">
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-550 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-550 dark:text-gray-400 uppercase tracking-wider">Ad Detail</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-550 dark:text-gray-400 uppercase tracking-wider">Placement</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-550 dark:text-gray-400 uppercase tracking-wider">Type</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-550 dark:text-gray-400 uppercase tracking-wider">Performance</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-550 dark:text-gray-400 uppercase tracking-wider">Created</th>
-                  <th className="px-6 py-4 text-xs font-semibold text-gray-550 dark:text-gray-400 uppercase tracking-wider text-right">Actions</th>
+                <tr className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800">
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ad Detail</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Placement</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Performance</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Created</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                 {ads.map((ad) => (
-                  <tr key={ad.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-850/30 transition-colors">
-                    <td className="px-6 py-4.5 whitespace-nowrap">
+                  <tr key={ad.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <button
                         onClick={() => toggleActive(ad)}
                         title={ad.is_active ? "Deactivate banner" : "Activate banner"}
                         className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
                           ad.is_active
-                            ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-450 dark:border-emerald-900/50"
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900/50"
                             : "bg-gray-50 text-gray-400 border-gray-200 dark:bg-gray-800/50 dark:text-gray-500 dark:border-gray-700"
                         }`}
                       >
@@ -357,7 +357,7 @@ export default function AdsManager() {
                         {ad.is_active ? "Active" : "Paused"}
                       </button>
                     </td>
-                    <td className="px-6 py-4.5">
+                    <td className="px-6 py-4">
                       <div className="max-w-[240px]">
                         <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
                           {ad.name}
@@ -380,7 +380,7 @@ export default function AdsManager() {
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4.5 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border capitalize ${getPlacementBadge(
                           ad.placement
@@ -389,7 +389,7 @@ export default function AdsManager() {
                         {ad.placement}
                       </span>
                     </td>
-                    <td className="px-6 py-4.5 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full border capitalize ${getTypeBadge(
                           ad.type
@@ -399,13 +399,13 @@ export default function AdsManager() {
                         {ad.type}
                       </span>
                     </td>
-                    <td className="px-6 py-4.5 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col space-y-1">
-                        <span className="text-xs text-gray-600 dark:text-gray-450 flex items-center gap-1">
+                        <span className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1">
                           <Eye size={12} className="text-gray-400" />
                           <span className="font-bold">{ad.impressions || 0}</span> views
                         </span>
-                        <span className="text-xs text-gray-600 dark:text-gray-450 flex items-center gap-1">
+                        <span className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-1">
                           <MousePointerClick size={12} className="text-gray-400" />
                           <span className="font-bold">{ad.clicks || 0}</span> clicks
                         </span>
@@ -420,10 +420,10 @@ export default function AdsManager() {
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4.5 whitespace-nowrap text-xs text-gray-450 dark:text-gray-500 font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-450 dark:text-gray-500 font-medium">
                       {format(new Date(ad.created_at), "MMM d, yyyy")}
                     </td>
-                    <td className="px-6 py-4.5 whitespace-nowrap text-right text-xs font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-xs font-medium">
                       <div className="flex items-center justify-end gap-1">
                         <button
                           onClick={() => handleOpenEdit(ad)}
@@ -461,7 +461,7 @@ export default function AdsManager() {
           {/* Panel Container */}
           <div className="fixed inset-y-0 right-0 z-50 w-full md:max-w-md bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 flex flex-col shadow-2xl transition-transform duration-300 transform translate-x-0">
             {/* Header */}
-            <div className="h-16 border-b border-gray-150 dark:border-gray-800 px-6 flex items-center justify-between">
+            <div className="h-16 border-b border-gray-200 dark:border-gray-800 px-6 flex items-center justify-between">
               <h3 className="text-base font-bold text-gray-950 dark:text-white flex items-center gap-2">
                 <Megaphone size={18} className="text-amber-600" />
                 {editingAd ? "Modify Ad Unit" : "Deploy New Ad Unit"}
@@ -487,7 +487,7 @@ export default function AdsManager() {
                   placeholder="e.g. Hostinger Sidebar Banner Jul 2026"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                 />
               </div>
 
@@ -500,7 +500,7 @@ export default function AdsManager() {
                   <select
                     value={placement}
                     onChange={(e) => setPlacement(e.target.value as Ad["placement"])}
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
+                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                   >
                     <option value="header">Header</option>
                     <option value="sidebar">Sidebar</option>
@@ -517,7 +517,7 @@ export default function AdsManager() {
                   <select
                     value={type}
                     onChange={(e) => setType(e.target.value as Ad["type"])}
-                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
+                    className="w-full px-3 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                   >
                     <option value="image">Image Banner</option>
                     <option value="script">JS Script Tag</option>
@@ -552,7 +552,7 @@ export default function AdsManager() {
                   }
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm font-mono transition-all"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm font-mono transition-all"
                 />
               </div>
 
@@ -567,7 +567,7 @@ export default function AdsManager() {
                   placeholder="https://affiliate-target.com/landing"
                   value={destinationUrl}
                   onChange={(e) => setDestinationUrl(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                 />
               </div>
 
@@ -581,7 +581,7 @@ export default function AdsManager() {
                     type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
+                    className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                   />
                 </div>
 
@@ -593,7 +593,7 @@ export default function AdsManager() {
                     type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
+                    className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-950 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                   />
                 </div>
               </div>
@@ -608,12 +608,12 @@ export default function AdsManager() {
                   placeholder="Sponsorship point of contact: contact@sponsor.com, $150 CPC cap."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-850 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
+                  className="w-full px-3.5 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm transition-all"
                 />
               </div>
 
               {/* Toggle switch for is_active */}
-              <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 p-4 rounded-2xl">
+              <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 p-4 rounded-2xl">
                 <div className="flex flex-col space-y-0.5">
                   <span className="text-sm font-semibold text-gray-900 dark:text-white">Active on deploy</span>
                   <span className="text-xs text-gray-400">Instantly start showing this ad if in date range.</span>
@@ -634,11 +634,11 @@ export default function AdsManager() {
               </div>
 
               {/* Actions Footer */}
-              <div className="flex items-center gap-3 pt-4 border-t border-gray-150 dark:border-gray-800">
+              <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-800">
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="flex-1 py-2.5 rounded-xl border border-gray-300 dark:border-gray-750 text-gray-700 dark:text-gray-350 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"
+                  className="flex-1 py-2.5 rounded-xl border border-gray-300 dark:border-gray-750 text-gray-700 dark:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm transition-colors"
                 >
                   Cancel
                 </button>

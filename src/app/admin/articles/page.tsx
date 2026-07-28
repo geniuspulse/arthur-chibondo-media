@@ -38,6 +38,8 @@ export default function AdminArticles() {
   const handleDelete = async (id: string, title: string) => {
     if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
     await supabase.from("articles").delete().eq("id", id);
+    // Revalidate public pages so deleted posts disappear immediately
+    try { await fetch('/api/revalidate', { method: 'POST' }); } catch {}
     load();
   };
 
@@ -48,19 +50,19 @@ export default function AdminArticles() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">Articles</h1>
-          <p className="text-sm text-gray-500 mt-1">{articles.length} total</p>
+          <h1 className="text-xl sm:text-2xl font-bold font-serif text-gray-900 dark:text-white">Articles</h1>
+          <p className="text-sm text-gray-500 mt-0.5">{articles.length} total</p>
         </div>
-        <Link href="/admin/articles/new" className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
-          <Plus size={16} /> New Article
+        <Link href="/admin/articles/new" className="flex-shrink-0 inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl transition-colors">
+          <Plus size={15} /> <span className="hidden sm:inline">New Article</span><span className="sm:hidden">New</span>
         </Link>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3">
-        <div className="relative flex-1 min-w-48">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             value={search}
@@ -69,15 +71,17 @@ export default function AdminArticles() {
             className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-600"
           />
         </div>
-        {["all", "published", "draft", "archived"].map(s => (
-          <button key={s} onClick={() => setStatusFilter(s)}
-            className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all capitalize ${statusFilter === s ? "bg-amber-600 text-white" : "bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-amber-500"}`}>
-            {s}
-          </button>
-        ))}
+        <div className="flex gap-2 overflow-x-auto pb-0.5">
+          {["all", "published", "draft", "archived"].map(s => (
+            <button key={s} onClick={() => setStatusFilter(s)}
+              className={`flex-shrink-0 px-3 py-2 rounded-xl text-sm font-medium transition-all capitalize ${statusFilter === s ? "bg-amber-600 text-white" : "bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-amber-500"}`}>
+              {s}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Table */}
+      {/* Content */}
       <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         {loading ? (
           <div className="flex justify-center py-16"><div className="w-7 h-7 border-4 border-amber-600 border-t-transparent rounded-full animate-spin" /></div>
@@ -87,52 +91,75 @@ export default function AdminArticles() {
             <p className="mt-3">No articles found</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                <tr>
-                  {["Title", "Category", "Status", "Views", "Date", "Actions"].map(h => (
-                    <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                {filtered.map(a => (
-                  <tr key={a.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                    <td className="px-5 py-4 max-w-xs">
-                      <div className="flex items-center gap-2">
-                        {a.is_featured && <Star size={13} className="text-amber-500 fill-amber-500 flex-shrink-0" />}
-                        <span className="font-medium text-gray-900 dark:text-white truncate">{a.title}</span>
-                      </div>
-                    </td>
-                    <td className="px-5 py-4 text-gray-500 dark:text-gray-400 whitespace-nowrap">{a.category}</td>
-                    <td className="px-5 py-4">
-                      <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_STYLES[a.status]}`}>{a.status}</span>
-                    </td>
-                    <td className="px-5 py-4 text-gray-500 dark:text-gray-400">
-                      <span className="flex items-center gap-1"><Eye size={13} />{a.views || 0}</span>
-                    </td>
-                    <td className="px-5 py-4 text-gray-400 whitespace-nowrap text-xs">
-                      {a.published_at ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true }) : formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
-                    </td>
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-2">
-                        <button onClick={() => handleToggleFeatured(a.id, a.is_featured)} title="Toggle featured" className={`p-1.5 rounded-lg transition-colors ${a.is_featured ? "text-amber-500 hover:bg-amber-50" : "text-gray-300 hover:text-amber-400 hover:bg-amber-50"}`}>
-                          <Star size={15} />
-                        </button>
-                        <Link href={`/admin/articles/${a.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-amber-600 hover:bg-amber-50 transition-colors">
-                          <Edit size={15} />
-                        </Link>
-                        <button onClick={() => handleDelete(a.id, a.title)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors">
-                          <Trash2 size={15} />
-                        </button>
-                      </div>
-                    </td>
+          <>
+            {/* Mobile card layout */}
+            <div className="sm:hidden divide-y divide-gray-100 dark:divide-gray-800">
+              {filtered.map(a => (
+                <div key={a.id} className="p-4 space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      {a.is_featured && <Star size={12} className="text-amber-500 fill-amber-500 flex-shrink-0" />}
+                      <span className="font-medium text-gray-900 dark:text-white text-sm leading-snug line-clamp-2">{a.title}</span>
+                    </div>
+                    <span className={`flex-shrink-0 text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLES[a.status]}`}>{a.status}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3 text-xs text-gray-400">
+                      <span>{a.category}</span>
+                      <span className="flex items-center gap-0.5"><Eye size={11} />{a.views || 0}</span>
+                      <span>{a.published_at ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true }) : formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <button onClick={() => handleToggleFeatured(a.id, a.is_featured)} className={`p-1.5 rounded-lg ${a.is_featured ? "text-amber-500" : "text-gray-300 hover:text-amber-400"}`}><Star size={14} /></button>
+                      <Link href={`/admin/articles/${a.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-amber-600"><Edit size={14} /></Link>
+                      <button onClick={() => handleDelete(a.id, a.title)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-500"><Trash2 size={14} /></button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Desktop table */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                  <tr>
+                    {["Title", "Category", "Status", "Views", "Date", "Actions"].map(h => (
+                      <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{h}</th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                  {filtered.map(a => (
+                    <tr key={a.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                      <td className="px-5 py-4 max-w-xs">
+                        <div className="flex items-center gap-2">
+                          {a.is_featured && <Star size={13} className="text-amber-500 fill-amber-500 flex-shrink-0" />}
+                          <span className="font-medium text-gray-900 dark:text-white truncate">{a.title}</span>
+                        </div>
+                      </td>
+                      <td className="px-5 py-4 text-gray-500 dark:text-gray-400 whitespace-nowrap">{a.category}</td>
+                      <td className="px-5 py-4">
+                        <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_STYLES[a.status]}`}>{a.status}</span>
+                      </td>
+                      <td className="px-5 py-4 text-gray-500 dark:text-gray-400">
+                        <span className="flex items-center gap-1"><Eye size={13} />{a.views || 0}</span>
+                      </td>
+                      <td className="px-5 py-4 text-gray-400 whitespace-nowrap text-xs">
+                        {a.published_at ? formatDistanceToNow(new Date(a.published_at), { addSuffix: true }) : formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => handleToggleFeatured(a.id, a.is_featured)} title="Toggle featured" className={`p-1.5 rounded-lg transition-colors ${a.is_featured ? "text-amber-500 hover:bg-amber-50" : "text-gray-300 hover:text-amber-400 hover:bg-amber-50"}`}><Star size={15} /></button>
+                          <Link href={`/admin/articles/${a.id}`} className="p-1.5 rounded-lg text-gray-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"><Edit size={15} /></Link>
+                          <button onClick={() => handleDelete(a.id, a.title)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"><Trash2 size={15} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </div>

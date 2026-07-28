@@ -13,16 +13,16 @@ const socials = [
 
 export default function HeroSection() {
   return (
-    <section className="max-w-6xl mx-auto px-6 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 items-center">
+    <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 items-center">
       {/* Text */}
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
         <span className="inline-block bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3 py-1 rounded-full mb-6">
           🇲🇼 Building from Malawi
         </span>
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-serif text-gray-900 dark:text-white leading-tight mb-6">
+        <h1 className="text-3xl sm:text-5xl font-bold font-serif text-gray-900 dark:text-white leading-tight mb-6">
           Arthur<br />Chibondo
         </h1>
-        <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed mb-8 max-w-lg">
+        <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8 max-w-lg">
           Entrepreneur, Digital Creator, and Builder exploring technology, education, business, and the future of Malawi.
         </p>
         <div className="flex flex-wrap gap-3 mb-8">

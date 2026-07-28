@@ -29,7 +29,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         <Link href="/articles" className="inline-flex items-center gap-2 text-sm text-amber-600 hover:text-amber-500 mb-8"><ArrowLeft size={16} /> Back to Blog</Link>
         <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400 mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
           <span className="flex items-center gap-1"><Calendar size={14} />{new Date(article.published_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
-          <span className="flex items-center gap-1"><Clock size={14} />{article.reading_time} min read</span>
+          <span className="flex items-center gap-1 whitespace-nowrap"><Clock size={14} />{article.reading_time} min read</span>
           <span className="font-medium text-gray-700 dark:text-gray-300">By {article.author}</span>
         </div>
 
@@ -39,10 +39,12 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           </div>
         )}
         
-        <div 
-          className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-a:text-amber-600 prose-img:rounded-xl"
-          dangerouslySetInnerHTML={{ __html: article.content || '' }}
-        />
+        <div className="overflow-x-auto">
+          <div 
+            className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-a:text-amber-600 prose-img:rounded-xl prose-img:max-w-full prose-table:w-full"
+            dangerouslySetInnerHTML={{ __html: article.content || '' }}
+          />
+        </div>
 
         <AdRenderer placement="in-article" className="my-8" />
         <div className="mt-12 p-6 rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex gap-5 items-start">

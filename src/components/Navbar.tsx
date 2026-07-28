@@ -21,8 +21,8 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="font-bold font-serif text-xl text-gray-900 dark:text-white">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <Link href="/" className="font-bold font-serif text-xl text-gray-900 dark:text-white flex-shrink-0">
           <span className="text-amber-600">APM</span> Chibondo
         </Link>
         <div className="hidden md:flex items-center gap-6">
@@ -55,7 +55,7 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={`flex items-center h-11 px-3 text-sm font-medium rounded-lg transition-colors ${
+              className={`flex items-center min-h-[44px] py-3 px-4 text-sm font-medium rounded-lg transition-colors ${
                 pathname === l.href
                   ? "bg-amber-50 dark:bg-amber-950/20 text-amber-600"
                   : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/50"

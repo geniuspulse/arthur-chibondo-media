@@ -14,14 +14,14 @@ export default async function ArticlesPage({ searchParams }: { searchParams: { c
 
   return (
     <main className="min-h-screen">
-      <section className="py-20 px-6 text-center bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+      <section className="py-20 px-4 sm:px-6 text-center bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
         <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4 block">Writing</span>
-        <h1 className="text-4xl sm:text-6xl font-bold font-serif text-gray-900 dark:text-white mb-4">The Blog</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-4">The Blog</h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           Ideas, insights, and observations on entrepreneurship, technology, and building in Africa.
         </p>
       </section>
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <div className="flex flex-wrap gap-2 mb-12">
           {categories.map((c) => (
             <a key={c} href={c === "All" ? "/articles" : `/articles?category=${encodeURIComponent(c)}`}
@@ -34,7 +34,7 @@ export default async function ArticlesPage({ searchParams }: { searchParams: { c
           ))}
         </div>
         {articles && articles.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.map((article) => <ArticleCard key={article.id} article={article} />)}
           </div>
         ) : (

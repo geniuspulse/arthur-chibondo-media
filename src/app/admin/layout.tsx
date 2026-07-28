@@ -132,7 +132,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {sidebarOpen && <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
       {/* Main */}
-      <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
+      <div className="flex-1 lg:ml-64 flex flex-col min-h-screen overflow-x-hidden">
         <header className="sticky top-0 z-30 h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-6">
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-gray-500 hover:text-gray-900">
             <Menu size={22} />
@@ -143,7 +143,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">Arthur Chibondo</span>
           </div>
         </header>
-        <main className="flex-1 p-6 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-4 sm:p-6 max-w-7xl w-full mx-auto overflow-x-hidden">
           {children}
         </main>
       </div>

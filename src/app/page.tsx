@@ -13,7 +13,7 @@ const topics = [
   "Politics & Society", "Media"
 ];
 
-export const revalidate = 60;
+export const revalidate = 30;
 
 export default async function HomePage() {
   const { data: articles } = await supabase
@@ -35,7 +35,7 @@ export default async function HomePage() {
       <HeroSection />
 
       {/* Latest Articles */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
             <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">From the Blog</span>
@@ -45,7 +45,7 @@ export default async function HomePage() {
             View All <ArrowRight size={16} />
           </Link>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles?.map((article) => (
             <ArticleCard key={article.id} article={article} />
           ))}
@@ -60,11 +60,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <AdRenderer placement="in-article" className="max-w-6xl mx-auto px-6 py-4" />
+      <AdRenderer placement="in-article" className="max-w-6xl mx-auto px-4 sm:px-6 py-4" />
 
       {/* About Snippet */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
-        <div className="max-w-5xl mx-auto px-6 py-20 grid sm:grid-cols-2 gap-12 items-center">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-20 grid grid-cols-1 sm:grid-cols-2 gap-12 items-center">
           <div>
             <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">About Arthur</span>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-5 leading-tight">
@@ -88,7 +88,7 @@ export default async function HomePage() {
       </section>
 
       {/* Projects */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
             <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">Portfolio</span>
@@ -98,17 +98,17 @@ export default async function HomePage() {
             All Projects <ArrowRight size={16} />
           </Link>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects?.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-        <AdRenderer placement="footer" className="max-w-6xl mx-auto px-6 pt-4" />
+        <AdRenderer placement="footer" className="max-w-6xl mx-auto px-4 sm:px-6 pt-4" />
       </section>
 
       {/* Topics */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto px-6 py-16 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 text-center">
           <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">Interests</span>
           <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white mb-8">Topics I Write About</h2>
           <div className="flex flex-wrap justify-center gap-3">
@@ -126,7 +126,7 @@ export default async function HomePage() {
       </section>
 
       {/* Newsletter */}
-      <section className="max-w-2xl mx-auto px-6 py-24 text-center">
+      <section className="max-w-2xl mx-auto px-4 sm:px-6 py-24 text-center">
         <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">Newsletter</span>
         <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-4">
           Ideas to Your Inbox
