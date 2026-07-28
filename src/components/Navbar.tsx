@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { Menu, X, User, LogOut, ChevronDown } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 import AuthModal from "./AuthModal";
 import { useAuth } from "@/lib/auth-context";
 
@@ -44,25 +43,24 @@ export default function Navbar() {
       <nav className="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="font-bold font-serif text-xl text-gray-900 dark:text-white flex-shrink-0">
-            <span className="text-amber-600">APM</span> Chibondo
+            APM Chibondo
           </Link>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
             {links.map((l) => (
               <Link key={l.href} href={l.href}
-                className={`text-sm font-medium transition-colors ${pathname === l.href ? "text-amber-600" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"}`}>
+                className={`text-sm font-medium transition-colors ${pathname === l.href ? "text-white font-semibold" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"}`}>
                 {l.label}
               </Link>
             ))}
-            <ThemeToggle />
 
             {/* Auth area */}
             {user ? (
               <div className="relative" ref={userMenuRef}>
                 <button onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full border border-gray-200 dark:border-gray-700 hover:border-amber-400 transition-colors">
-                  <div className="w-7 h-7 rounded-full bg-amber-600 flex items-center justify-center text-white text-xs font-bold">
+                  className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-full border border-gray-200 dark:border-gray-700 hover:border-gray-500 transition-colors">
+                  <div className="w-7 h-7 rounded-full bg-gray-800 text-white text-xs font-bold border border-gray-700 flex items-center justify-center">
                     {initial}
                   </div>
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300 max-w-[100px] truncate">
@@ -86,7 +84,7 @@ export default function Navbar() {
               </div>
             ) : (
               <button onClick={() => setShowAuth(true)}
-                className="flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+                className="flex items-center gap-1.5 bg-white hover:bg-gray-100 text-gray-900 text-sm font-semibold px-4 py-2 rounded-full transition-colors">
                 <User size={14} /> Sign in
               </button>
             )}
@@ -96,16 +94,15 @@ export default function Navbar() {
           <div className="md:hidden flex items-center gap-2">
             {user ? (
               <button onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-white text-sm font-bold">
+                className="w-8 h-8 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-white text-sm font-bold">
                 {initial}
               </button>
             ) : (
               <button onClick={() => setShowAuth(true)}
-                className="text-xs font-semibold text-amber-600 border border-amber-600 px-3 py-1.5 rounded-full">
+                className="text-xs font-semibold text-white border border-gray-700 px-3 py-1.5 rounded-full hover:bg-gray-800 transition-colors">
                 Sign in
               </button>
             )}
-            <ThemeToggle />
             <button onClick={() => setOpen(!open)} className="text-gray-600 dark:text-gray-400 p-1">
               {open ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -117,7 +114,7 @@ export default function Navbar() {
           <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-2 flex flex-col gap-1">
             {links.map((l) => (
               <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
-                className={`flex items-center min-h-[44px] py-3 px-4 text-sm font-medium rounded-lg transition-colors ${pathname === l.href ? "bg-amber-50 dark:bg-amber-950/20 text-amber-600" : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/50"}`}>
+                className={`flex items-center min-h-[44px] py-3 px-4 text-sm font-medium rounded-lg transition-colors ${pathname === l.href ? "bg-gray-800 text-white font-semibold" : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/50"}`}>
                 {l.label}
               </Link>
             ))}

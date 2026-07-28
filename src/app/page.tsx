@@ -11,22 +11,22 @@ export const revalidate = 30;
 
 const pillars = [
   {
-    icon: <Stethoscope size={22} className="text-amber-600" />,
+    icon: <Stethoscope size={22} className="text-gray-300" />,
     title: "Medicine",
     desc: "Medical student committed to understanding the science of life — because health is the foundation of everything.",
   },
   {
-    icon: <Building2 size={22} className="text-amber-600" />,
+    icon: <Building2 size={22} className="text-gray-300" />,
     title: "Entrepreneurship",
     desc: "Founder of Chibondo Academy, Brandfletch Media, and a growing portfolio of SaaS products built for Africa.",
   },
   {
-    icon: <Cpu size={22} className="text-amber-600" />,
+    icon: <Cpu size={22} className="text-gray-300" />,
     title: "Digital Creation",
     desc: "Writer, content creator, and builder sharing ideas on technology, business, and life in Malawi.",
   },
   {
-    icon: <Heart size={22} className="text-amber-600" />,
+    icon: <Heart size={22} className="text-gray-300" />,
     title: "Mental Health",
     desc: "Founder of Betting Addiction Support Malawi — providing critical support to those who need it most.",
   },
@@ -43,8 +43,9 @@ export default async function HomePage() {
     .from("articles")
     .select("*")
     .eq("status", "published")
+    .neq("status", "deleted")
     .order("published_at", { ascending: false })
-    .limit(3);
+    .limit(6);
 
   const { data: projects } = await supabase
     .from("projects")
@@ -61,7 +62,7 @@ export default async function HomePage() {
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
           <div className="text-center mb-10">
-            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">What I Do</span>
+            <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-2">What I Do</span>
             <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white">Four worlds, one mission</h2>
             <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">
               My work cuts across medicine, business, technology, and advocacy — all driven by the same belief: that one person can meaningfully change lives.
@@ -70,7 +71,7 @@ export default async function HomePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {pillars.map((p) => (
               <div key={p.title} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center mb-4">
                   {p.icon}
                 </div>
                 <h3 className="font-bold text-gray-900 dark:text-white mb-2">{p.title}</h3>
@@ -85,10 +86,10 @@ export default async function HomePage() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">From the Blog</span>
+            <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-2">From the Blog</span>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white">Latest Articles</h2>
           </div>
-          <Link href="/articles" className="hidden sm:flex items-center gap-2 text-amber-600 font-medium hover:gap-3 transition-all">
+          <Link href="/articles" className="hidden sm:flex items-center gap-2 text-gray-400 hover:text-white font-medium hover:gap-3 transition-all">
             View All <ArrowRight size={16} />
           </Link>
         </div>
@@ -97,11 +98,14 @@ export default async function HomePage() {
             <ArticleCard key={article.id} article={article} />
           ))}
           {(!articles || articles.length === 0) && (
-            <p className="text-gray-500 dark:text-gray-400 col-span-3 text-center py-12">Articles coming soon.</p>
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-16 bg-gray-900 rounded-2xl border border-gray-800">
+              <BookOpen className="mx-auto text-gray-500 mb-3" size={32} />
+              <p className="text-gray-400">Articles coming soon.</p>
+            </div>
           )}
         </div>
         <div className="mt-8 text-center sm:hidden">
-          <Link href="/articles" className="inline-flex items-center gap-2 text-amber-600 font-medium">
+          <Link href="/articles" className="inline-flex items-center gap-2 text-gray-400 hover:text-white font-medium transition-colors">
             View All Articles <ArrowRight size={16} />
           </Link>
         </div>
@@ -113,14 +117,14 @@ export default async function HomePage() {
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-20 grid grid-cols-1 sm:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">About Arthur</span>
+            <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-3">About Arthur</span>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-5 leading-tight">
               Making an impact — one life at a time.
             </h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
               Arthur is a medical student, entrepreneur, and digital creator from Malawi. He builds companies that educate, empower, and connect — and advocates fiercely for mental health in communities that need it most.
             </p>
-            <Link href="/about" className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors">
+            <Link href="/about" className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-900 font-semibold px-5 py-2.5 rounded-xl transition-colors">
               My Full Story <ArrowRight size={16} />
             </Link>
           </div>
@@ -139,10 +143,10 @@ export default async function HomePage() {
         <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
           <div className="flex items-center justify-between mb-10">
             <div>
-              <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-2">Portfolio</span>
+              <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-2">Portfolio</span>
               <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white">Featured Projects</h2>
             </div>
-            <Link href="/projects" className="hidden sm:flex items-center gap-2 text-amber-600 font-medium hover:gap-3 transition-all">
+            <Link href="/projects" className="hidden sm:flex items-center gap-2 text-gray-400 hover:text-white font-medium hover:gap-3 transition-all">
               All Projects <ArrowRight size={16} />
             </Link>
           </div>
@@ -158,14 +162,14 @@ export default async function HomePage() {
       {/* Topics */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 text-center">
-          <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">Interests</span>
+          <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-3">Interests</span>
           <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white mb-8">Topics I Write About</h2>
           <div className="flex flex-wrap justify-center gap-3">
             {topics.map((topic) => (
               <Link
                 key={topic}
                 href={`/articles?category=${encodeURIComponent(topic)}`}
-                className="px-5 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-amber-600 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
+                className="px-5 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-white hover:text-white transition-colors"
               >
                 {topic}
               </Link>
@@ -176,7 +180,7 @@ export default async function HomePage() {
 
       {/* Newsletter */}
       <section className="max-w-2xl mx-auto px-4 sm:px-6 py-24 text-center">
-        <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-3">Newsletter</span>
+        <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-3">Newsletter</span>
         <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-4">
           Ideas to Your Inbox
         </h2>

@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --accent: #16a34a;
+    --accent: #ffffff;
   }
   html {
     scroll-behavior: smooth;
@@ -84,7 +84,7 @@ iframe[src*="youtu.be"] {
 }
 
 .prose blockquote {
-  border-left: 4px solid #d97706;
+  border-left: 4px solid #ffffff;
   padding-left: 1em;
   font-style: italic;
   color: inherit;
@@ -101,7 +101,7 @@ iframe[src*="youtu.be"] {
 }
 
 .prose a {
-  color: #d97706;
+  color: #ffffff;
   text-decoration: underline;
   text-underline-offset: 3px;
 }

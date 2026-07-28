@@ -4,9 +4,17 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth-context";
 import AuthModal from "./AuthModal";
-import { Heart } from "lucide-react";
+import { ThumbsUp, Heart } from "lucide-react";
 
-export default function ArticleLikes({ slug }: { slug: string }) {
+interface Props {
+  slug: string;
+  /** Show only the count text (e.g. "24 likes") */
+  showCount?: boolean;
+  /** Show only the like button */
+  showButton?: boolean;
+}
+
+export default function ArticleLikes({ slug, showCount, showButton }: Props) {
   const { user } = useAuth();
   const [count, setCount] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -16,7 +24,7 @@ export default function ArticleLikes({ slug }: { slug: string }) {
   const load = async () => {
     const { data } = await supabase.from("article_likes").select("user_id").eq("article_slug", slug);
     setCount(data?.length || 0);
-    setLiked(user ? (data || []).some(l => l.user_id === user.id) : false);
+    setLiked(user ? (data || []).some((l: any) => l.user_id === user.id) : false);
   };
 
   useEffect(() => { load(); }, [slug, user]);
@@ -33,12 +41,51 @@ export default function ArticleLikes({ slug }: { slug: string }) {
     load();
   };
 
+  // Counts only (e.g. "👍 24 people liked this")
+  if (showCount) {
+    if (count === 0) return null;
+    return (
+      <span className="flex items-center gap-1.5 text-sm text-gray-400">
+        <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white">
+          <ThumbsUp size={10} fill="white" />
+        </span>
+        {count} {count === 1 ? "person" : "people"} liked this
+      </span>
+    );
+  }
+
+  // Button only — shown in the action row
+  if (showButton) {
+    return (
+      <>
+        {showAuth && <AuthModal onClose={() => setShowAuth(false)} onSuccess={load} />}
+        <button
+          onClick={toggle}
+          disabled={loading}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
+            liked
+              ? "text-blue-500 bg-blue-50 dark:bg-blue-900/20"
+              : "text-gray-400 hover:bg-gray-800 hover:text-white"
+          }`}
+        >
+          <ThumbsUp size={18} fill={liked ? "currentColor" : "none"} className={loading ? "opacity-50" : ""} />
+          Like
+        </button>
+      </>
+    );
+  }
+
+  // Default — compact pill (backward compat)
   return (
     <>
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} onSuccess={load} />}
       <button onClick={toggle} disabled={loading}
-        className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-all ${liked ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-600 dark:text-red-400" : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-red-300 hover:text-red-500"}`}>
-        <Heart size={15} fill={liked ? "currentColor" : "none"} className={loading ? "opacity-50" : ""} />
+        className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-all ${
+          liked
+            ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-600"
+            : "bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500 hover:text-white"
+        }`}>
+        <ThumbsUp size={15} fill={liked ? "currentColor" : "none"} />
         <span>{count > 0 ? count : ""} {liked ? "Liked" : "Like"}</span>
       </button>
     </>

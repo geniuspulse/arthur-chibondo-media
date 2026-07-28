@@ -51,11 +51,11 @@ export default function AboutPage() {
       <section className="py-20 px-6 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest block mb-4">About</span>
+            <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-4">About</span>
             <h1 className="text-4xl sm:text-6xl font-bold font-serif text-gray-900 dark:text-white mb-4">Arthur<br />Chibondo</h1>
             <div className="flex flex-wrap gap-2 mb-6">
               {["Medical Student", "Entrepreneur", "Digital Creator", "Mental Health Advocate"].map(tag => (
-                <span key={tag} className="text-xs font-medium text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30 px-3 py-1 rounded-full">
+                <span key={tag} className="text-xs font-medium text-gray-300 bg-gray-800 border border-gray-700 px-3 py-1 rounded-full">
                   {tag}
                 </span>
               ))}
@@ -98,7 +98,7 @@ export default function AboutPage() {
         {/* Vision */}
         <div>
           <h2 className="text-2xl font-bold font-serif text-gray-900 dark:text-white mb-5">What Drives Me</h2>
-          <blockquote className="border-l-4 border-amber-600 pl-6 py-2">
+          <blockquote className="border-l-4 border-white pl-6 py-2">
             <p className="text-xl text-gray-700 dark:text-gray-300 font-serif italic leading-relaxed">
               "My passion is to make an impact in people's lives — in any way I can."
             </p>
@@ -113,15 +113,15 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold font-serif text-gray-900 dark:text-white mb-6">What I'm Building</h2>
           <div className="space-y-4">
             {ventures.map((v) => (
-              <div key={v.name} className="p-5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-amber-400 dark:hover:border-amber-600 transition-colors">
+              <div key={v.name} className="p-5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 hover:border-gray-500 transition-colors">
                 <div className="flex items-start justify-between gap-4 mb-2">
                   <div>
-                    <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider">{v.tag}</span>
+                    <span className="text-xs font-semibold text-gray-400 uppercase tracking-widest block mb-1">{v.tag}</span>
                     <h3 className="font-bold text-gray-900 dark:text-white text-lg leading-tight">{v.name}</h3>
                     <span className="text-xs text-gray-400">{v.role}</span>
                   </div>
                   {v.href !== "#" && (
-                    <Link href={v.href} className="text-amber-600 hover:text-amber-700 flex-shrink-0 mt-1">
+                    <Link href={v.href} className="text-gray-400 hover:text-white flex-shrink-0 mt-1">
                       <ExternalLink size={16} />
                     </Link>
                   )}
@@ -147,12 +147,12 @@ export default function AboutPage() {
         </div>
 
         {/* CTA */}
-        <div className="rounded-2xl bg-amber-600 p-8 text-white text-center">
+        <div className="rounded-2xl bg-gray-900 border border-gray-800 p-8 text-white text-center">
           <h3 className="text-2xl font-bold font-serif mb-2">Let's connect</h3>
-          <p className="text-amber-100 mb-6 text-sm leading-relaxed">
+          <p className="text-gray-400 mb-6 text-sm leading-relaxed">
             Whether you want to collaborate, have a conversation about mental health, or just say hello — I'm always open.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-amber-700 font-semibold px-6 py-3 rounded-xl hover:bg-amber-50 transition-colors">
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-white text-gray-900 font-semibold px-6 py-3 rounded-xl hover:bg-gray-100 transition-colors">
             Get in Touch <ArrowRight size={16} />
           </Link>
         </div>

@@ -15,7 +15,7 @@ export default async function ArticlesPage({ searchParams }: { searchParams: { c
   return (
     <main className="min-h-screen">
       <section className="py-20 px-4 sm:px-6 text-center bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
-        <span className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-4 block">Writing</span>
+        <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold mb-4 block">Writing</span>
         <h1 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-4">The Blog</h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           Ideas, insights, and observations on entrepreneurship, technology, and building in Africa.
@@ -27,7 +27,7 @@ export default async function ArticlesPage({ searchParams }: { searchParams: { c
             <a key={c} href={c === "All" ? "/articles" : `/articles?category=${encodeURIComponent(c)}`}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 (c === "All" && !category) || c === category
-                  ? "bg-amber-600 text-white"
+                  ? "bg-white text-gray-900 font-semibold"
                   : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
               }`}
             >{c}</a>
