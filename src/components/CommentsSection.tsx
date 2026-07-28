@@ -27,7 +27,6 @@ export default function CommentsSection({ slug }: { slug: string }) {
       .from("article_comments")
       .select("id, author_name, content, created_at")
       .eq("article_slug", slug)
-      .eq("is_approved", true)
       .order("created_at", { ascending: true });
     setComments(data || []);
     setLoading(false);
@@ -46,7 +45,7 @@ export default function CommentsSection({ slug }: { slug: string }) {
       author_name: name.trim(),
       author_email: email.trim() || null,
       content: content.trim(),
-      is_approved: false,
+      is_approved: true,
     }]);
 
     setSubmitting(false);
@@ -98,8 +97,8 @@ export default function CommentsSection({ slug }: { slug: string }) {
         <div className="flex items-start gap-3 p-4 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
           <Check size={18} className="text-green-600 mt-0.5 flex-shrink-0" />
           <div>
-            <p className="text-sm font-semibold text-green-800 dark:text-green-300">Comment submitted!</p>
-            <p className="text-xs text-green-700 dark:text-green-400 mt-0.5">It will appear after moderation. Thank you for sharing your thoughts.</p>
+            <p className="text-sm font-semibold text-green-800 dark:text-green-300">Comment posted!</p>
+            <p className="text-xs text-green-700 dark:text-green-400 mt-0.5">Your comment is now live. Thank you for sharing your thoughts!</p>
           </div>
         </div>
       ) : (
@@ -141,7 +140,7 @@ export default function CommentsSection({ slug }: { slug: string }) {
             {submitting ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Send size={14} />}
             {submitting ? "Submitting..." : "Post Comment"}
           </button>
-          <p className="text-xs text-gray-400">Comments are reviewed before publishing.</p>
+
         </form>
       )}
     </div>
