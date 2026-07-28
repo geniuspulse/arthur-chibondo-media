@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!article) return { title: "Article Not Found" };
 
   const url = `https://arthur-chibondo-media.vercel.app/articles/${article.slug}`;
-  const image = article.cover_image || "https://media.base44.com/images/public/6a5b92f95ccce4d8e8c5bbe5/811a4bdd1_1768857984230.jpg";
+  const image = article.cover_image || "https://uktgbtzlkgxrhrzcvnal.supabase.co/storage/v1/object/public/article-images/1785281252973-afhiadspkda.png";
 
   return {
     title: article.title,
@@ -141,7 +141,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         {/* Author bio */}
         <div className="mt-10 p-5 sm:p-6 rounded-2xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 flex gap-4 items-start">
           <img
-            src="https://media.base44.com/images/public/6a5b92f95ccce4d8e8c5bbe5/811a4bdd1_1768857984230.jpg"
+            src="https://uktgbtzlkgxrhrzcvnal.supabase.co/storage/v1/object/public/article-images/1785281252973-afhiadspkda.png"
             alt="Arthur Chibondo"
             className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover flex-shrink-0"
           />

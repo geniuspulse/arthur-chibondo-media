@@ -126,7 +126,7 @@ export default async function HomePage() {
           </div>
           <div className="flex justify-center">
             <img
-              src="https://media.base44.com/images/public/6a5b92f95ccce4d8e8c5bbe5/811a4bdd1_1768857984230.jpg"
+              src="https://uktgbtzlkgxrhrzcvnal.supabase.co/storage/v1/object/public/article-images/1785281252973-afhiadspkda.png"
               alt="Arthur Chibondo"
               className="w-64 h-64 rounded-2xl object-cover shadow-xl"
             />

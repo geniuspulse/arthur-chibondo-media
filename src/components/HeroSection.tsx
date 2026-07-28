@@ -79,7 +79,7 @@ export default function HeroSection() {
         <div className="relative">
           <div className="absolute inset-0 bg-amber-600 rounded-2xl translate-x-3 translate-y-3 opacity-20" />
           <img
-            src="https://media.base44.com/images/public/6a5b92f95ccce4d8e8c5bbe5/811a4bdd1_1768857984230.jpg"
+            src="https://uktgbtzlkgxrhrzcvnal.supabase.co/storage/v1/object/public/article-images/1785281252973-afhiadspkda.png"
             alt="Arthur Chibondo"
             className="relative w-72 h-80 sm:w-80 sm:h-96 object-cover rounded-2xl shadow-2xl"
           />
