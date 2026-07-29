@@ -54,7 +54,7 @@ export default function ArticleLikes({ slug, showCount, showButton }: Props) {
     );
   }
 
-  // Button only — shown in the action row
+  // Button only — shown in the action row (icon + count, no label)
   if (showButton) {
     return (
       <>
@@ -62,14 +62,14 @@ export default function ArticleLikes({ slug, showCount, showButton }: Props) {
         <button
           onClick={toggle}
           disabled={loading}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
+          className={`flex-1 flex items-center justify-center gap-2 py-3 transition-colors group ${
             liked
-              ? "text-blue-500 bg-blue-50 dark:bg-blue-900/20"
-              : "text-gray-400 hover:bg-gray-800 hover:text-white"
+              ? "text-blue-500"
+              : "text-gray-500 hover:bg-gray-800 hover:text-white"
           }`}
         >
-          <ThumbsUp size={18} fill={liked ? "currentColor" : "none"} className={loading ? "opacity-50" : ""} />
-          Like
+          <ThumbsUp size={20} fill={liked ? "currentColor" : "none"} className={`${loading ? "opacity-50" : ""} group-hover:scale-110 transition-transform`} />
+          {count > 0 && <span className="text-sm font-medium">{count}</span>}
         </button>
       </>
     );
