@@ -7,75 +7,103 @@ export async function POST(req: NextRequest) {
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
-  
-  // Decode the v2 service role key to get the actual JWT
-  // v2 format: base64url-encoded JSON with the actual key inside
-  let actualKey = serviceKey
-  try {
-    if (serviceKey.startsWith('eyJ2Ijoid')) {
-      const decoded = JSON.parse(Buffer.from(serviceKey.split('.')[1], 'base64url').toString())
-      // If it's wrapped, we need the c field
-      const wrapped = JSON.parse(Buffer.from(serviceKey, 'base64').toString().split('\n').slice(1,-1).join(''))
-      actualKey = wrapped.key || serviceKey
-    }
-  } catch {}
 
-  // Execute DDL via the Supabase pg SQL endpoint using our token
   const supabaseAdmin = createClient(url, serviceKey, { auth: { persistSession: false } })
+  const results: string[] = []
+
+  // ── Check each table independently ──
   
-  // Check if table exists
-  const { count, error: checkErr } = await supabaseAdmin
+  // 1. article_comments
+  const { error: commentsErr } = await supabaseAdmin
     .from('article_comments')
-    .select('*', { count: 'exact', head: true })
+    .select('id')
+    .limit(1)
   
-  if (!checkErr) {
-    return NextResponse.json({ message: '✅ article_comments table already exists', count })
-  }
-  
-  if (checkErr.code !== '42P01') {
-    return NextResponse.json({ error: checkErr.message, code: checkErr.code })
+  if (commentsErr && commentsErr.code === '42P01') {
+    results.push('article_comments: ❌ MISSING — needs creation')
+  } else if (commentsErr) {
+    results.push(`article_comments: ⚠️ ${commentsErr.message}`)
+  } else {
+    results.push('article_comments: ✅ EXISTS')
   }
 
-  // Table doesn't exist - need to create via raw HTTP to pg
-  // Use the Supabase management API via our token
-  const pgRes = await fetch(`${url.replace('.supabase.co', '')}.supabase.com/v1/projects/${url.match(/\/\/(.+?)\.supabase/)?.[1]}/database/query`, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${serviceKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query: `
-      CREATE TABLE IF NOT EXISTS article_comments (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        article_slug TEXT NOT NULL,
-        author_name TEXT NOT NULL,
-        author_email TEXT,
-        content TEXT NOT NULL,
-        is_approved BOOLEAN DEFAULT false,
-        created_at TIMESTAMPTZ DEFAULT now()
-      );
-      ALTER TABLE article_comments ENABLE ROW LEVEL SECURITY;
-      DROP POLICY IF EXISTS "public_insert" ON article_comments;
-      DROP POLICY IF EXISTS "public_read_approved" ON article_comments;
-      DROP POLICY IF EXISTS "admin_all" ON article_comments;
-      CREATE POLICY "public_insert" ON article_comments FOR INSERT TO anon WITH CHECK (true);
-      CREATE POLICY "public_read_approved" ON article_comments FOR SELECT TO anon USING (is_approved = true);
-      CREATE POLICY "admin_all" ON article_comments FOR ALL TO authenticated USING (true) WITH CHECK (true);
+  // 2. article_analytics
+  const { error: analyticsErr } = await supabaseAdmin
+    .from('article_analytics')
+    .select('id')
+    .limit(1)
 
-      -- Analytics table
-      CREATE TABLE IF NOT EXISTS article_analytics (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        article_id UUID,
-        visitor_hash VARCHAR(32),
-        referrer TEXT,
-        user_agent TEXT,
-        created_at TIMESTAMPTZ DEFAULT now()
-      );
-      ALTER TABLE article_analytics ENABLE ROW LEVEL SECURITY;
-      DROP POLICY IF EXISTS "analytics_service_role" ON article_analytics;
-      CREATE POLICY "analytics_service_role" ON article_analytics FOR ALL USING (true);
-      CREATE INDEX IF NOT EXISTS idx_analytics_article_id ON article_analytics(article_id);
-      CREATE INDEX IF NOT EXISTS idx_analytics_created_at ON article_analytics(created_at);
-    ` })
-  })
-  
-  const pgResult = await pgRes.json()
-  return NextResponse.json({ status: pgRes.status, result: pgResult })
+  if (analyticsErr && analyticsErr.code === '42P01') {
+    results.push('article_analytics: ❌ MISSING — needs creation')
+  } else if (analyticsErr) {
+    results.push(`article_analytics: ⚠️ ${analyticsErr.message}`)
+  } else {
+    results.push('article_analytics: ✅ EXISTS')
+  }
+
+  // ── Create missing tables via the Supabase Management API ──
+  const projectRef = url.match(/\/\/(.+?)\.supabase/)?.[1]
+  const needsCreation = (analyticsErr?.code === '42P01') || (commentsErr?.code === '42P01')
+
+  if (needsCreation) {
+    const ddlStatements: string[] = []
+
+    if (commentsErr?.code === '42P01') {
+      ddlStatements.push(`
+        CREATE TABLE IF NOT EXISTS article_comments (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          article_slug TEXT NOT NULL,
+          author_name TEXT NOT NULL,
+          author_email TEXT,
+          content TEXT NOT NULL,
+          is_approved BOOLEAN DEFAULT false,
+          created_at TIMESTAMPTZ DEFAULT now()
+        );
+        ALTER TABLE article_comments ENABLE ROW LEVEL SECURITY;
+        DROP POLICY IF EXISTS "public_insert" ON article_comments;
+        DROP POLICY IF EXISTS "public_read_approved" ON article_comments;
+        DROP POLICY IF EXISTS "admin_all" ON article_comments;
+        CREATE POLICY "public_insert" ON article_comments FOR INSERT TO anon WITH CHECK (true);
+        CREATE POLICY "public_read_approved" ON article_comments FOR SELECT TO anon USING (is_approved = true);
+        CREATE POLICY "admin_all" ON article_comments FOR ALL TO authenticated USING (true) WITH CHECK (true);
+      `)
+    }
+
+    if (analyticsErr?.code === '42P01') {
+      ddlStatements.push(`
+        CREATE TABLE IF NOT EXISTS article_analytics (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          article_id UUID,
+          visitor_hash VARCHAR(32),
+          referrer TEXT,
+          user_agent TEXT,
+          created_at TIMESTAMPTZ DEFAULT now()
+        );
+        ALTER TABLE article_analytics ENABLE ROW LEVEL SECURITY;
+        DROP POLICY IF EXISTS "analytics_service_role" ON article_analytics;
+        CREATE POLICY "analytics_service_role" ON article_analytics FOR ALL USING (true);
+        CREATE INDEX IF NOT EXISTS idx_analytics_article_id ON article_analytics(article_id);
+        CREATE INDEX IF NOT EXISTS idx_analytics_created_at ON article_analytics(created_at);
+      `)
+    }
+
+    try {
+      const pgRes = await fetch(`https://api.supabase.com/v1/projects/${projectRef}/database/query`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${serviceKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: ddlStatements.join('\n') })
+      })
+      
+      if (pgRes.ok) {
+        results.push('DDL: ✅ Tables created successfully')
+      } else {
+        const pgResult = await pgRes.text()
+        results.push(`DDL: ⚠️ Management API returned ${pgRes.status}: ${pgResult.substring(0, 200)}`)
+      }
+    } catch (e: any) {
+      results.push(`DDL: ❌ ${e.message}`)
+    }
+  }
+
+  return NextResponse.json({ results })
 }
