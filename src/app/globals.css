@@ -32,14 +32,28 @@
   }
 }
 
-/* Responsive YouTube embeds in content */
-iframe[src*="youtube"],
-iframe[src*="youtu.be"] {
+/* Responsive YouTube embeds inside article prose content only
+   (the dedicated YouTubeEmbed component handles its own 16:9 sizing
+   via a padding-bottom wrapper, and must NOT be touched by this rule) */
+.prose iframe[src*="youtube"],
+.prose iframe[src*="youtu.be"] {
   width: 100%;
   aspect-ratio: 16/9;
   height: auto;
   border-radius: 12px;
   margin: 1.5rem 0;
+}
+
+/* Dedicated YouTubeEmbed component — its wrapper already establishes a
+   16:9 box via padding-bottom, so the iframe must strictly fill it.
+   Locked with !important so no other iframe rule (current or future)
+   can reintroduce the cropping bug this once caused. */
+iframe.yt-embed-frame {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
 }
 
 /* Copy link button click handler */
