@@ -9,7 +9,6 @@ export async function POST(req: NextRequest) {
   const results: string[] = []
   const password = 'Arthur@472003'
   
-  // Use the pooler connection (us-east-1 region confirmed working)
   const hosts = [
     { type: 'pooler-us-east-1', host: 'aws-0-us-east-1.pooler.supabase.com', port: 6543, user: `postgres.${projectRef}` },
     { type: 'pooler-eu-west-1', host: 'aws-0-eu-west-1.pooler.supabase.com', port: 6543, user: `postgres.${projectRef}` },
@@ -30,7 +29,7 @@ export async function POST(req: NextRequest) {
       connected = true
       
       const ddl = `
-        -- Analytics table for per-article visitor tracking
+        -- Analytics table
         CREATE TABLE IF NOT EXISTS article_analytics (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           article_id UUID,
@@ -45,36 +44,35 @@ export async function POST(req: NextRequest) {
         CREATE INDEX IF NOT EXISTS idx_analytics_article_id ON article_analytics(article_id);
         CREATE INDEX IF NOT EXISTS idx_analytics_created_at ON article_analytics(created_at);
 
-        -- ACM Followers table — followers of Arthur Chibondo
+        -- ACM Followers table
         CREATE TABLE IF NOT EXISTS acm_followers (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           user_id UUID NOT NULL UNIQUE,
           email TEXT,
           display_name TEXT,
+          notifications_enabled BOOLEAN DEFAULT false,
           created_at TIMESTAMPTZ DEFAULT now()
         );
         ALTER TABLE acm_followers ENABLE ROW LEVEL SECURITY;
         
-        -- Allow users to insert their own follow record
         DROP POLICY IF EXISTS "followers_self_insert" ON acm_followers;
         CREATE POLICY "followers_self_insert" ON acm_followers FOR INSERT WITH CHECK (auth.uid() = user_id);
         
-        -- Allow users to delete their own follow record (unsubscribe)
         DROP POLICY IF EXISTS "followers_self_delete" ON acm_followers;
         CREATE POLICY "followers_self_delete" ON acm_followers FOR DELETE USING (auth.uid() = user_id);
         
-        -- Public read — so we can show follower count
+        DROP POLICY IF EXISTS "followers_self_update" ON acm_followers;
+        CREATE POLICY "followers_self_update" ON acm_followers FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+        
         DROP POLICY IF EXISTS "followers_public_read" ON acm_followers;
         CREATE POLICY "followers_public_read" ON acm_followers FOR SELECT USING (true);
         
-        -- Service role can do everything
         DROP POLICY IF EXISTS "followers_service_role" ON acm_followers;
         CREATE POLICY "followers_service_role" ON acm_followers FOR ALL USING (true);
         
         CREATE INDEX IF NOT EXISTS idx_followers_user_id ON acm_followers(user_id);
         CREATE INDEX IF NOT EXISTS idx_followers_created_at ON acm_followers(created_at);
 
-        -- Add views column to articles if not exists
         ALTER TABLE articles ADD COLUMN IF NOT EXISTS views INTEGER DEFAULT 0;
         ALTER TABLE articles ADD COLUMN IF NOT EXISTS published_at TIMESTAMPTZ;
       `
@@ -89,7 +87,6 @@ export async function POST(req: NextRequest) {
         results.push(`${t}: ${check.rows[0].count > 0 ? 'EXISTS' : 'MISSING'}`)
       }
       
-      // Count followers
       const fc = await client.query('SELECT count(*) FROM acm_followers')
       results.push(`Followers count: ${fc.rows[0].count}`)
       

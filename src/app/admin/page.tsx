@@ -86,9 +86,9 @@ export default function AdminDashboard() {
 
       if (projectsError) throw projectsError;
 
-      // Fetch newsletter subscribers count (active only)
+      // Fetch subscribers count (active only)
       const { count: subscribersCount, error: subscribersError } = await supabase
-        .from("newsletter_subscribers")
+        .from("acm_followers")
         .select("*", { count: "exact", head: true })
         .eq("status", "active");
 
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
         <div>
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">APM ChibondoMedia</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Welcome back, Arthur. Manage your articles, projects, ads, and newsletter subscribers.
+            Welcome back, Arthur. Manage your articles, projects, ads, and subscribers.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
