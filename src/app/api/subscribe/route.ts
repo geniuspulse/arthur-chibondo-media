@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       // Check if already subscribed
       const { data: existing } = await supabase
         .from('newsletter_subscribers')
-        .select('id, status')
+        .select('id, status, name')
         .eq('email', email)
         .single()
 
