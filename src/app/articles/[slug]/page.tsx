@@ -7,6 +7,7 @@ import AdRenderer from "@/components/AdRenderer";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import CommentsSection from "@/components/CommentsSection";
 import ArticleLikes from "@/components/ArticleLikes";
+import ArticleViewTracker from "@/components/ArticleViewTracker";
 
 export const revalidate = 30;
 
@@ -64,6 +65,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
   return (
     <main>
+      <ArticleViewTracker slug={article.slug} />
       {/* Hero cover */}
       <div className="relative w-full h-56 sm:h-80 overflow-hidden bg-gray-900">
         {article.cover_image && (
