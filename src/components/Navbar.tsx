@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { Menu, X, User, LogOut, ChevronDown } from "lucide-react";
 import AuthModal from "./AuthModal";
+import SubscribeButton from "./SubscribeButton";
 import { useAuth } from "@/lib/auth-context";
 
 const links = [
@@ -47,13 +48,16 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-5">
             {links.map((l) => (
               <Link key={l.href} href={l.href}
                 className={`text-sm font-medium transition-colors ${pathname === l.href ? "text-white font-semibold" : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"}`}>
                 {l.label}
               </Link>
             ))}
+
+            {/* Subscribe button */}
+            <SubscribeButton variant="compact" />
 
             {/* Auth area */}
             {user ? (
@@ -84,7 +88,7 @@ export default function Navbar() {
               </div>
             ) : (
               <button onClick={() => setShowAuth(true)}
-                className="flex items-center gap-1.5 bg-white hover:bg-gray-100 text-gray-900 text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+                className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm font-medium transition-colors">
                 <User size={14} /> Sign in
               </button>
             )}
@@ -92,17 +96,7 @@ export default function Navbar() {
 
           {/* Mobile controls */}
           <div className="md:hidden flex items-center gap-2">
-            {user ? (
-              <button onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="w-8 h-8 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-white text-sm font-bold">
-                {initial}
-              </button>
-            ) : (
-              <button onClick={() => setShowAuth(true)}
-                className="text-xs font-semibold text-white border border-gray-700 px-3 py-1.5 rounded-full hover:bg-gray-800 transition-colors">
-                Sign in
-              </button>
-            )}
+            <SubscribeButton variant="compact" />
             <button onClick={() => setOpen(!open)} className="text-gray-600 dark:text-gray-400 p-1">
               {open ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -118,7 +112,12 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
-            {user && (
+            {!user ? (
+              <button onClick={() => { setShowAuth(true); setOpen(false); }}
+                className="flex items-center gap-2 min-h-[44px] py-3 px-4 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900/50">
+                <User size={14} /> Sign in / Create ACM Account
+              </button>
+            ) : (
               <button onClick={() => { signOut(); setOpen(false); }}
                 className="flex items-center gap-2 min-h-[44px] py-3 px-4 text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
                 <LogOut size={14} /> Sign out

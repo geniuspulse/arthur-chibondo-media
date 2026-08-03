@@ -7,75 +7,101 @@ export async function POST(req: NextRequest) {
 
   const projectRef = 'uktgbtzlkgxrhrzcvnal'
   const results: string[] = []
-  const passwords = ['Arthur@472003Chibondo']
+  const password = 'Arthur@472003Chibondo'
   
-  // Try both direct and pooler connections
+  // Use the pooler connection (us-east-1 region confirmed working)
   const hosts = [
-    { type: 'direct', host: `db.${projectRef}.supabase.co`, port: 5432, user: 'postgres' },
     { type: 'pooler-us-east-1', host: 'aws-0-us-east-1.pooler.supabase.com', port: 6543, user: `postgres.${projectRef}` },
-    { type: 'pooler-us-west-1', host: 'aws-0-us-west-1.pooler.supabase.com', port: 6543, user: `postgres.${projectRef}` },
     { type: 'pooler-eu-west-1', host: 'aws-0-eu-west-1.pooler.supabase.com', port: 6543, user: `postgres.${projectRef}` },
-    { type: 'pooler-eu-central-1', host: 'aws-0-eu-central-1.pooler.supabase.com', port: 6543, user: `postgres.${projectRef}` },
-    { type: 'pooler-ap-southeast-1', host: 'aws-0-ap-southeast-1.pooler.supabase.com', port: 6543, user: `postgres.${projectRef}` },
-    { type: 'pooler-ap-northeast-1', host: 'aws-0-ap-northeast-1.pooler.supabase.com', port: 6543, user: `postgres.${projectRef}` },
   ]
 
   let connected = false
   
   for (const h of hosts) {
-    for (const pwd of passwords) {
-      if (connected) break
-      try {
-        const pool = new Pool({
-          host: h.host,
-          database: 'postgres',
-          user: h.user,
-          password: pwd,
-          port: h.port,
-          connectionTimeoutMillis: 10000,
-          ssl: { rejectUnauthorized: false },
-        })
+    if (connected) break
+    try {
+      const pool = new Pool({
+        host: h.host, database: 'postgres', user: h.user, password,
+        port: h.port, connectionTimeoutMillis: 10000, ssl: { rejectUnauthorized: false },
+      })
+      
+      const client = await pool.connect()
+      results.push(`Connected via ${h.type}`)
+      connected = true
+      
+      const ddl = `
+        -- Analytics table for per-article visitor tracking
+        CREATE TABLE IF NOT EXISTS article_analytics (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          article_id UUID,
+          visitor_hash VARCHAR(32),
+          referrer TEXT,
+          user_agent TEXT,
+          created_at TIMESTAMPTZ DEFAULT now()
+        );
+        ALTER TABLE article_analytics ENABLE ROW LEVEL SECURITY;
+        DROP POLICY IF EXISTS "analytics_service_role" ON article_analytics;
+        CREATE POLICY "analytics_service_role" ON article_analytics FOR ALL USING (true);
+        CREATE INDEX IF NOT EXISTS idx_analytics_article_id ON article_analytics(article_id);
+        CREATE INDEX IF NOT EXISTS idx_analytics_created_at ON article_analytics(created_at);
+
+        -- ACM Followers table — followers of Arthur Chibondo
+        CREATE TABLE IF NOT EXISTS acm_followers (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id UUID NOT NULL UNIQUE,
+          email TEXT,
+          display_name TEXT,
+          created_at TIMESTAMPTZ DEFAULT now()
+        );
+        ALTER TABLE acm_followers ENABLE ROW LEVEL SECURITY;
         
-        const client = await pool.connect()
-        results.push(`✅ Connected via ${h.type} with password`)
-        connected = true
+        -- Allow users to insert their own follow record
+        DROP POLICY IF EXISTS "followers_self_insert" ON acm_followers;
+        CREATE POLICY "followers_self_insert" ON acm_followers FOR INSERT WITH CHECK (auth.uid() = user_id);
         
-        const ddl = `
-          CREATE TABLE IF NOT EXISTS article_analytics (
-            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-            article_id UUID,
-            visitor_hash VARCHAR(32),
-            referrer TEXT,
-            user_agent TEXT,
-            created_at TIMESTAMPTZ DEFAULT now()
-          );
-          ALTER TABLE article_analytics ENABLE ROW LEVEL SECURITY;
-          DROP POLICY IF EXISTS "analytics_service_role" ON article_analytics;
-          CREATE POLICY "analytics_service_role" ON article_analytics FOR ALL USING (true);
-          CREATE INDEX IF NOT EXISTS idx_analytics_article_id ON article_analytics(article_id);
-          CREATE INDEX IF NOT EXISTS idx_analytics_created_at ON article_analytics(created_at);
-        `
+        -- Allow users to delete their own follow record (unsubscribe)
+        DROP POLICY IF EXISTS "followers_self_delete" ON acm_followers;
+        CREATE POLICY "followers_self_delete" ON acm_followers FOR DELETE USING (auth.uid() = user_id);
         
-        await client.query(ddl)
-        results.push('✅ article_analytics table created')
+        -- Public read — so we can show follower count
+        DROP POLICY IF EXISTS "followers_public_read" ON acm_followers;
+        CREATE POLICY "followers_public_read" ON acm_followers FOR SELECT USING (true);
         
-        const check = await client.query("SELECT count(*) FROM information_schema.tables WHERE table_name = 'article_analytics'")
-        results.push(`Verification: ${check.rows[0].count} table(s) found`)
+        -- Service role can do everything
+        DROP POLICY IF EXISTS "followers_service_role" ON acm_followers;
+        CREATE POLICY "followers_service_role" ON acm_followers FOR ALL USING (true);
         
-        client.release()
-        await pool.end()
-      } catch (e: any) {
-        // Only log unique failures
-        const msg = e.message.substring(0, 100)
-        if (!results.some(r => r.includes(msg))) {
-          results.push(`❌ ${h.type}/${pwd.substring(0,8)}: ${msg}`)
-        }
+        CREATE INDEX IF NOT EXISTS idx_followers_user_id ON acm_followers(user_id);
+        CREATE INDEX IF NOT EXISTS idx_followers_created_at ON acm_followers(created_at);
+
+        -- Add views column to articles if not exists
+        ALTER TABLE articles ADD COLUMN IF NOT EXISTS views INTEGER DEFAULT 0;
+        ALTER TABLE articles ADD COLUMN IF NOT EXISTS published_at TIMESTAMPTZ;
+      `
+      
+      await client.query(ddl)
+      results.push('DDL executed successfully')
+      
+      // Verify tables
+      const tables = ['article_analytics', 'acm_followers']
+      for (const t of tables) {
+        const check = await client.query(`SELECT count(*) FROM information_schema.tables WHERE table_name = '${t}'`)
+        results.push(`${t}: ${check.rows[0].count > 0 ? 'EXISTS' : 'MISSING'}`)
       }
+      
+      // Count followers
+      const fc = await client.query('SELECT count(*) FROM acm_followers')
+      results.push(`Followers count: ${fc.rows[0].count}`)
+      
+      client.release()
+      await pool.end()
+    } catch (e: any) {
+      results.push(`${h.type} failed: ${e.message.substring(0, 120)}`)
     }
   }
   
   if (!connected) {
-    results.push('Could not connect to database with any host/password combination')
+    results.push('Could not connect to database')
   }
   
   return NextResponse.json({ results })

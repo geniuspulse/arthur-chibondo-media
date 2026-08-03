@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Twitter, Linkedin, Instagram, Youtube, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import SubscribeButton from "./SubscribeButton";
 
 const socials = [
   { icon: <Twitter size={18} />, label: "Twitter", href: "https://twitter.com/arthurchibondo" },
@@ -18,7 +19,7 @@ export default function HeroSection() {
     <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 items-center">
       {/* Text */}
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-        <span className="inline-block bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-sm font-semibold px-3 py-1 rounded-full mb-6">
+        <span className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm font-semibold px-3 py-1 rounded-full mb-6 border border-gray-200 dark:border-gray-700">
           🇲🇼 Building from Malawi
         </span>
         <h1 className="text-4xl sm:text-5xl font-bold font-serif text-gray-900 dark:text-white leading-tight mb-4">
@@ -41,13 +42,14 @@ export default function HeroSection() {
         <div className="flex flex-wrap gap-3 mb-8">
           <Link
             href="/articles"
-            className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 bg-gray-900 dark:bg-white hover:bg-gray-700 dark:hover:bg-gray-200 text-white dark:text-gray-900 font-semibold px-6 py-3 rounded-xl transition-colors"
           >
             Read My Blog <ArrowRight size={16} />
           </Link>
+          <SubscribeButton variant="hero" />
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-amber-600 hover:text-amber-600 font-semibold px-6 py-3 rounded-xl transition-colors"
+            className="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-900 dark:hover:border-white font-semibold px-6 py-3 rounded-xl transition-colors"
           >
             Explore Projects
           </Link>
@@ -61,7 +63,7 @@ export default function HeroSection() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:text-amber-600 transition-colors"
+              className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               {s.icon}
             </a>
@@ -77,7 +79,7 @@ export default function HeroSection() {
         className="flex justify-center lg:justify-end"
       >
         <div className="relative">
-          <div className="absolute inset-0 bg-amber-600 rounded-2xl translate-x-3 translate-y-3 opacity-20" />
+          <div className="absolute inset-0 bg-gray-400 dark:bg-gray-600 rounded-2xl translate-x-3 translate-y-3 opacity-20" />
           <img
             src="https://uktgbtzlkgxrhrzcvnal.supabase.co/storage/v1/object/public/article-images/1785281252973-afhiadspkda.png"
             alt="Arthur Chibondo"
