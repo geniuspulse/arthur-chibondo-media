@@ -9,6 +9,13 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
+const explore = [
+  { href: "/articles", label: "Latest Posts" },
+  { href: "/projects", label: "Projects" },
+  { href: "/media", label: "Media" },
+  { href: "/about", label: "About Arthur" },
+];
+
 const socials = [
   {
     label: "X / Twitter",
@@ -52,16 +59,16 @@ export default function Footer() {
   return (
     <footer className="border-t border-gray-800 bg-gray-950">
       <div className="max-w-5xl mx-auto px-6 py-12">
-        <div className="grid sm:grid-cols-3 gap-10 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <p className="font-bold font-serif text-xl text-white mb-2">APM Chibondo</p>
             <p className="text-sm text-gray-500 leading-relaxed">
               Building, learning, and sharing ideas from Malawi. Entrepreneur · Medical Student · Digital Creator.
             </p>
           </div>
 
-          {/* Nav */}
+          {/* Navigation */}
           <div>
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">Navigation</p>
             <div className="flex flex-col gap-2.5">
@@ -74,7 +81,20 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Socials */}
+          {/* Explore */}
+          <div>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">Explore</p>
+            <div className="flex flex-col gap-2.5">
+              {explore.map((l) => (
+                <Link key={l.href} href={l.href}
+                  className="text-sm text-gray-400 hover:text-white transition-colors">
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Follow */}
           <div>
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">Follow</p>
             <div className="flex gap-3 flex-wrap">
@@ -88,9 +108,21 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-gray-600">© {new Date().getFullYear()} Arthur Chibondo. All rights reserved.</p>
-          <p className="text-xs text-gray-700">Built with care · Malawi 🇲🇼</p>
+        <div className="border-t border-gray-800 pt-6 flex flex-col items-center gap-2 text-center">
+          <p className="text-xs text-gray-600">
+            © {new Date().getFullYear()} APM Chibondo. All rights reserved.
+          </p>
+          <p className="text-xs text-gray-700">
+            An Arthur Chibondo Media product · Developed by{" "}
+            <a
+              href="https://dev.brandfletch.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-white transition-colors underline underline-offset-2"
+            >
+              Brandfletch Dev Studio
+            </a>
+          </p>
         </div>
       </div>
     </footer>
