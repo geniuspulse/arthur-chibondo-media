@@ -58,6 +58,21 @@ export async function POST(req: NextRequest) {
       CREATE POLICY "public_insert" ON article_comments FOR INSERT TO anon WITH CHECK (true);
       CREATE POLICY "public_read_approved" ON article_comments FOR SELECT TO anon USING (is_approved = true);
       CREATE POLICY "admin_all" ON article_comments FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+      -- Analytics table
+      CREATE TABLE IF NOT EXISTS article_analytics (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        article_id UUID,
+        visitor_hash VARCHAR(32),
+        referrer TEXT,
+        user_agent TEXT,
+        created_at TIMESTAMPTZ DEFAULT now()
+      );
+      ALTER TABLE article_analytics ENABLE ROW LEVEL SECURITY;
+      DROP POLICY IF EXISTS "analytics_service_role" ON article_analytics;
+      CREATE POLICY "analytics_service_role" ON article_analytics FOR ALL USING (true);
+      CREATE INDEX IF NOT EXISTS idx_analytics_article_id ON article_analytics(article_id);
+      CREATE INDEX IF NOT EXISTS idx_analytics_created_at ON article_analytics(created_at);
     ` })
   })
   

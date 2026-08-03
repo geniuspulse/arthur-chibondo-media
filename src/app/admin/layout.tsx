@@ -13,6 +13,7 @@ import {
   MessageCircle,
   Tv,
   Megaphone,
+  BarChart3,
   LogOut,
   Menu,
   X,
@@ -32,6 +33,7 @@ const navItems = [
   { href: "/admin/subscribers", label: "Subscribers", icon: <Mail size={18} /> },
   { href: "/admin/messages", label: "Messages", icon: <MessageSquare size={18} /> },
   { href: "/admin/media", label: "Media", icon: <Tv size={18} /> },
+  { href: "/admin/analytics", label: "Analytics", icon: <BarChart3 size={18} /> },
   { href: "/admin/ads", label: "Ads", icon: <Megaphone size={18} /> },
   { href: "/admin/comments", label: "Comments", icon: <MessageCircle size={18} /> },
 ];
