@@ -32,16 +32,17 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
       .then(r => r.json())
       .then(data => {
         setSubscribed(data.subscribed);
-        setNotificationsEnabled(data.notificationsEnabled);
+        // Load notification preference from localStorage
+        setNotificationsEnabled(localStorage.getItem(`notif_${user.email}`) === "granted");
       });
   }, [user]);
 
-  // Fetch subscriber count (public read - works with anon key)
+  // Fetch subscriber count (public read)
   useEffect(() => {
     supabase
       .from("newsletter_subscribers")
       .select("id", { count: "exact", head: true })
-      .in("status", ["active", "active_notified"])
+      .eq("status", "active")
       .then(({ count }) => setFollowerCount(count ?? 0));
   }, [subscribed]);
 
@@ -82,22 +83,15 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
 
     if (data.success) {
       setSubscribed(true);
-
-      // If notifications granted, update status in DB
-      if (notifGranted) {
-        await fetch("/api/subscribe", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "toggle_notifications", email: user.email }),
+      setNotificationsEnabled(notifGranted);
+      if (user.email) {
+        localStorage.setItem(`notif_${user.email}`, notifGranted ? "granted" : "denied");
+      }
+      if (notifGranted && typeof Notification !== "undefined") {
+        new Notification("Subscribed to APM Chibondo", {
+          body: "You'll receive notifications for new articles and updates.",
+          icon: "/favicon.ico",
         });
-        setNotificationsEnabled(true);
-
-        if (typeof Notification !== "undefined") {
-          new Notification("Subscribed to APM Chibondo", {
-            body: "You'll receive notifications for new articles and updates.",
-            icon: "/favicon.ico",
-          });
-        }
       }
     }
     setLoading(false);
@@ -110,19 +104,11 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
     if (!notificationsEnabled) {
       const granted = await requestNotificationPermission();
       if (granted) {
-        await fetch("/api/subscribe", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "toggle_notifications", email: user.email }),
-        });
+        localStorage.setItem(`notif_${user.email}`, "granted");
         setNotificationsEnabled(true);
       }
     } else {
-      await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "toggle_notifications", email: user.email }),
-      });
+      localStorage.setItem(`notif_${user.email}`, "denied");
       setNotificationsEnabled(false);
     }
     setLoading(false);

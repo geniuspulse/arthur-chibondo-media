@@ -90,7 +90,7 @@ export default function AdminDashboard() {
       const { count: subscribersCount, error: subscribersError } = await supabase
         .from("newsletter_subscribers")
         .select("*", { count: "exact", head: true })
-        .in("status", ["active", "active_notified"]);
+        .eq("status", "active");
 
       if (subscribersError) throw subscribersError;
 

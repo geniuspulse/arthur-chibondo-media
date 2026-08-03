@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Search, Download, UserX, Bell, BellOff, Users } from "lucide-react";
+import { Search, Download, UserX, Users } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 export default function AdminSubscribers() {
@@ -15,6 +15,7 @@ export default function AdminSubscribers() {
     const { data } = await supabase
       .from("newsletter_subscribers")
       .select("*")
+      .eq("status", "active")
       .order("subscribed_at", { ascending: false });
     setFollowers(data || []);
     setFiltered(data || []);
@@ -33,14 +34,14 @@ export default function AdminSubscribers() {
 
   const handleRemove = async (id: string, name: string) => {
     if (!confirm(`Remove ${name || "this subscriber"}?`)) return;
-    await supabase.from("newsletter_subscribers").delete().eq("id", id);
+    await supabase.from("newsletter_subscribers").update({ status: "unsubscribed" }).eq("id", id);
     load();
   };
 
   const exportCSV = () => {
     const rows = [
-      ["Name", "Email", "Status", "Joined"],
-      ...followers.map(s => [s.name || "", s.email || "", s.status || "active", s.subscribed_at]),
+      ["Name", "Email", "Joined"],
+      ...followers.map(s => [s.name || "", s.email || "", s.subscribed_at || ""]),
     ];
     const csv = rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
@@ -51,35 +52,21 @@ export default function AdminSubscribers() {
     a.click();
   };
 
-  const activeCount = followers.filter(s => s.status === "active" || s.status === "active_notified").length;
-  const notifCount = followers.filter(s => s.status === "active_notified").length;
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">Subscribers</h1>
-          <p className="text-sm text-gray-500 mt-1">{activeCount} total · {notifCount} with notifications on</p>
+          <p className="text-sm text-gray-500 mt-1">{followers.length} total subscribers</p>
         </div>
         <button onClick={exportCSV} className="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-900 dark:hover:border-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
           <Download size={15} /> Export CSV
         </button>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 text-center">
-          <p className="text-3xl font-bold text-gray-900 dark:text-white">{activeCount}</p>
-          <p className="text-xs text-gray-500 mt-1">Total Subscribers</p>
-        </div>
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 text-center">
-          <p className="text-3xl font-bold text-gray-900 dark:text-white">{notifCount}</p>
-          <p className="text-xs text-gray-500 mt-1">Notifications Enabled</p>
-        </div>
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 text-center">
-          <p className="text-3xl font-bold text-gray-900 dark:text-white">{activeCount - notifCount}</p>
-          <p className="text-xs text-gray-500 mt-1">Notifications Off</p>
-        </div>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 text-center">
+        <p className="text-3xl font-bold text-gray-900 dark:text-white">{followers.length}</p>
+        <p className="text-xs text-gray-500 mt-1">Active Subscribers</p>
       </div>
 
       <div className="relative">
@@ -102,7 +89,7 @@ export default function AdminSubscribers() {
             <table className="w-full text-sm">
               <thead className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <tr>
-                  {["Name", "Email", "Notifications", "Joined", "Actions"].map(h => (
+                  {["Name", "Email", "Joined", "Actions"].map(h => (
                     <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>
@@ -119,17 +106,6 @@ export default function AdminSubscribers() {
                       </div>
                     </td>
                     <td className="px-5 py-4 text-gray-600 dark:text-gray-400">{s.email || "—"}</td>
-                    <td className="px-5 py-4">
-                      {s.status === "active_notified" ? (
-                        <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900">
-                          <Bell size={11} /> On
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500">
-                          <BellOff size={11} /> Off
-                        </span>
-                      )}
-                    </td>
                     <td className="px-5 py-4 text-gray-400 text-xs">
                       {s.subscribed_at ? formatDistanceToNow(new Date(s.subscribed_at), { addSuffix: true }) : "—"}
                     </td>
@@ -146,7 +122,7 @@ export default function AdminSubscribers() {
                 ))}
                 {filtered.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="text-center py-12 text-gray-400">
+                    <td colSpan={4} className="text-center py-12 text-gray-400">
                       {loading ? "Loading..." : "No subscribers yet"}
                     </td>
                   </tr>

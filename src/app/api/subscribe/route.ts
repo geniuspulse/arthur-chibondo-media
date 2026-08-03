@@ -17,14 +17,14 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === 'subscribe') {
-      // Check if already subscribed
+      // Check if already exists
       const { data: existing } = await supabase
         .from('newsletter_subscribers')
         .select('id, status, name')
         .eq('email', email)
         .single()
 
-      if (existing && (existing.status === 'active' || existing.status === 'active_notified')) {
+      if (existing && existing.status === 'active') {
         return NextResponse.json({ success: true, message: 'Already subscribed' })
       }
 
@@ -55,32 +55,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, message: 'Unsubscribed' })
     }
 
-    if (action === 'toggle_notifications') {
-      const { data: sub } = await supabase
-        .from('newsletter_subscribers')
-        .select('status')
-        .eq('email', email)
-        .single()
-
-      if (!sub) return NextResponse.json({ error: 'Not subscribed' }, { status: 400 })
-
-      const newStatus = sub.status === 'active_notified' ? 'active' : 'active_notified'
-      const { error } = await supabase
-        .from('newsletter_subscribers')
-        .update({ status: newStatus })
-        .eq('email', email)
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-      return NextResponse.json({ success: true, notificationsEnabled: newStatus === 'active_notified' })
-    }
-
     if (action === 'check') {
       const { data } = await supabase
         .from('newsletter_subscribers')
         .select('status')
         .eq('email', email)
-        .in('status', ['active', 'active_notified'])
+        .eq('status', 'active')
         .single()
-      return NextResponse.json({ subscribed: !!data, notificationsEnabled: data?.status === 'active_notified' })
+      return NextResponse.json({ subscribed: !!data })
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
