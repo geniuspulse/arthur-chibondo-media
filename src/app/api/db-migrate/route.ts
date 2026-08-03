@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
   const projectRef = 'uktgbtzlkgxrhrzcvnal'
   const results: string[] = []
-  const password = 'Arthur@472003Chibondo'
+  const password = 'Arthur@472003'
   
   // Use the pooler connection (us-east-1 region confirmed working)
   const hosts = [
