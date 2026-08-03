@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth-context";
 import AuthModal from "./AuthModal";
-import { Bell, Check, Loader2, BellRing } from "lucide-react";
+import { Bell, Loader2, BellRing } from "lucide-react";
 
 interface Props {
   variant?: "nav" | "hero" | "compact";
@@ -18,25 +18,25 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
   const [followerCount, setFollowerCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Check if current user is subscribed (by email)
+  // Check if current user is subscribed
   useEffect(() => {
     if (!user?.email) {
       setSubscribed(false);
       return;
     }
-    supabase
-      .from("newsletter_subscribers")
-      .select("id, status")
-      .eq("email", user.email)
-      .in("status", ["active", "active_notified"])
-      .single()
-      .then(({ data }) => {
-        setSubscribed(!!data);
-        setNotificationsEnabled(data?.status === "active_notified");
+    fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "check", email: user.email }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        setSubscribed(data.subscribed);
+        setNotificationsEnabled(data.notificationsEnabled);
       });
   }, [user]);
 
-  // Fetch subscriber count (public)
+  // Fetch subscriber count (public read - works with anon key)
   useEffect(() => {
     supabase
       .from("newsletter_subscribers")
@@ -69,38 +69,38 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
     // Request push notification permission automatically
     const notifGranted = await requestNotificationPermission();
 
-    const { error } = await supabase.from("newsletter_subscribers").insert({
-      email: user.email,
-      name: profile?.display_name || user.email?.split("@")[0],
-      status: notifGranted ? "active_notified" : "active",
+    const res = await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "subscribe",
+        email: user.email,
+        name: profile?.display_name || user.email?.split("@")[0],
+      }),
     });
+    const data = await res.json();
 
-    setLoading(false);
-
-    if (!error) {
+    if (data.success) {
       setSubscribed(true);
-      setNotificationsEnabled(notifGranted);
-      if (notifGranted && typeof Notification !== "undefined") {
-        new Notification("Subscribed to APM Chibondo", {
-          body: "You'll receive notifications for new articles and updates.",
-          icon: "/favicon.ico",
+
+      // If notifications granted, update status in DB
+      if (notifGranted) {
+        await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "toggle_notifications", email: user.email }),
         });
+        setNotificationsEnabled(true);
+
+        if (typeof Notification !== "undefined") {
+          new Notification("Subscribed to APM Chibondo", {
+            body: "You'll receive notifications for new articles and updates.",
+            icon: "/favicon.ico",
+          });
+        }
       }
     }
-  };
-
-  const handleUnsubscribe = async () => {
-    if (!user?.email || !subscribed) return;
-    setLoading(true);
-    const { error } = await supabase
-      .from("newsletter_subscribers")
-      .update({ status: "unsubscribed" })
-      .eq("email", user.email);
     setLoading(false);
-    if (!error) {
-      setSubscribed(false);
-      setNotificationsEnabled(false);
-    }
   };
 
   const toggleNotifications = async () => {
@@ -110,17 +110,19 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
     if (!notificationsEnabled) {
       const granted = await requestNotificationPermission();
       if (granted) {
-        await supabase
-          .from("newsletter_subscribers")
-          .update({ status: "active_notified" })
-          .eq("email", user.email);
+        await fetch("/api/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "toggle_notifications", email: user.email }),
+        });
         setNotificationsEnabled(true);
       }
     } else {
-      await supabase
-        .from("newsletter_subscribers")
-        .update({ status: "active" })
-        .eq("email", user.email);
+      await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "toggle_notifications", email: user.email }),
+      });
       setNotificationsEnabled(false);
     }
     setLoading(false);
