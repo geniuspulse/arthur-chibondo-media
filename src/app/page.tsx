@@ -1,10 +1,9 @@
 import { supabase } from "@/lib/supabase";
 import HeroSection from "@/components/HeroSection";
 import ArticleCard from "@/components/ArticleCard";
-import ProjectCard from "@/components/ProjectCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import Link from "next/link";
-import { ArrowRight, Heart, BookOpen, Cpu, Building2, Stethoscope } from "lucide-react";
+import { ArrowRight, BookOpen, Cpu, Building2, Stethoscope } from "lucide-react";
 import AdRenderer from "@/components/AdRenderer";
 
 export const revalidate = 30;
@@ -12,23 +11,18 @@ export const revalidate = 30;
 const pillars = [
   {
     icon: <Stethoscope size={22} className="text-gray-300" />,
-    title: "Medicine",
-    desc: "Medical student committed to understanding the science of life — because health is the foundation of everything.",
+    title: "Medical Student",
+    desc: "In the middle of medical school, wrestling with everything that comes with learning to take care of people.",
   },
   {
     icon: <Building2 size={22} className="text-gray-300" />,
-    title: "Entrepreneurship",
-    desc: "Founder of Chibondo Academy, Brandfletch Media, and a growing portfolio of SaaS products built for Africa.",
+    title: "Entrepreneur",
+    desc: "Building things on the side — from Chibondo Academy to a few products still finding their shape.",
   },
   {
     icon: <Cpu size={22} className="text-gray-300" />,
-    title: "Digital Creation",
-    desc: "Writer, content creator, and builder sharing ideas on technology, business, and life in Malawi.",
-  },
-  {
-    icon: <Heart size={22} className="text-gray-300" />,
-    title: "Mental Health",
-    desc: "Founder of Betting Addiction Support Malawi — providing critical support to those who need it most.",
+    title: "Digital Creator",
+    desc: "Writing and sharing ideas as I go — tech, business, mental health, and life in Malawi.",
   },
 ];
 
@@ -47,28 +41,21 @@ export default async function HomePage() {
     .order("published_at", { ascending: false })
     .limit(6);
 
-  const { data: projects } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("is_featured", true)
-    .order("display_order")
-    .limit(3);
-
   return (
     <main>
       <HeroSection />
 
-      {/* What I Do — 4 pillars */}
+      {/* A Bit About Me — 3 pillars */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
           <div className="text-center mb-10">
-            <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-2">What I Do</span>
-            <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white">Four worlds, one mission</h2>
+            <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-2">A Bit About Me</span>
+            <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white">Three things I'm always juggling</h2>
             <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">
-              My work cuts across medicine, business, technology, and advocacy — all driven by the same belief: that one person can meaningfully change lives.
+              I'm not one thing. This blog is where med school, building stuff, and just figuring life out all show up in one place.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-3 gap-5">
             {pillars.map((p) => (
               <div key={p.title} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
                 <div className="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center mb-4">
@@ -119,10 +106,10 @@ export default async function HomePage() {
           <div>
             <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-3">About Arthur</span>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-5 leading-tight">
-              Making an impact — one life at a time.
+              Just a guy documenting the journey.
             </h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-              Arthur is a medical student, entrepreneur, and digital creator from Malawi. He builds companies that educate, empower, and connect — and advocates fiercely for mental health in communities that need it most.
+              Arthur is a medical student from Malawi who also builds things and writes about it. This site is less a portfolio and more a running log of what he's learning, building, and thinking about — in medicine, business, and everything in between.
             </p>
             <Link href="/about" className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-gray-900 font-semibold px-5 py-2.5 rounded-xl transition-colors">
               My Full Story <ArrowRight size={16} />
@@ -137,27 +124,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Projects */}
-      {projects && projects.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-2">Portfolio</span>
-              <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white">Featured Projects</h2>
-            </div>
-            <Link href="/projects" className="hidden sm:flex items-center gap-2 text-gray-400 hover:text-white font-medium hover:gap-3 transition-all">
-              All Projects <ArrowRight size={16} />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-          <AdRenderer placement="footer" className="max-w-6xl mx-auto px-4 sm:px-6 pt-4" />
-        </section>
-      )}
 
       {/* Topics */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">

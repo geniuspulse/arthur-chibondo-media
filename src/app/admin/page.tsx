@@ -22,7 +22,6 @@ interface Stats {
   articlesTotal: number;
   articlesPublished: number;
   articlesDraft: number;
-  projectsCount: number;
   subscribersCount: number;
   messagesUnread: number;
   totalViews: number;
@@ -79,13 +78,6 @@ export default function AdminDashboard() {
         }
       });
 
-      // Fetch projects count
-      const { count: projectsCount, error: projectsError } = await supabase
-        .from("projects")
-        .select("*", { count: "exact", head: true });
-
-      if (projectsError) throw projectsError;
-
       // Fetch subscribers count (active only)
       const { count: subscribersCount, error: subscribersError } = await supabase
         .from("newsletter_subscribers")
@@ -124,7 +116,6 @@ export default function AdminDashboard() {
         articlesTotal,
         articlesPublished,
         articlesDraft,
-        projectsCount: projectsCount || 0,
         subscribersCount: subscribersCount || 0,
         messagesUnread: messagesUnread || 0,
         totalViews,
@@ -181,14 +172,6 @@ export default function AdminDashboard() {
       color: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border-amber-100 dark:border-amber-900/30",
     },
     {
-      label: "Projects",
-      value: stats?.projectsCount || 0,
-      sub: "Active portfolio items",
-      icon: <Briefcase size={20} />,
-      href: "/admin/projects",
-      color: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 border-purple-100 dark:border-purple-900/30",
-    },
-    {
       label: "Subscribers",
       value: stats?.subscribersCount || 0,
       sub: "Active newsletter subs",
@@ -223,7 +206,7 @@ export default function AdminDashboard() {
         <div>
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">APM ChibondoMedia</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Welcome back, Arthur. Manage your articles, projects, ads, and subscribers.
+            Welcome back, Arthur. Manage your articles, ads, and subscribers.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -232,12 +215,6 @@ export default function AdminDashboard() {
             className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm"
           >
             <Plus size={16} /> New Article
-          </Link>
-          <Link 
-            href="/admin/projects/new" 
-            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm"
-          >
-            <Plus size={16} /> New Project
           </Link>
         </div>
       </div>
@@ -378,12 +355,6 @@ export default function AdminDashboard() {
               label: "New Article", 
               icon: <FileText size={18} />, 
               color: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900/40 hover:bg-amber-100 dark:hover:bg-amber-900/30" 
-            },
-            { 
-              href: "/admin/projects/new", 
-              label: "New Project", 
-              icon: <Briefcase size={18} />, 
-              color: "bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100 dark:border-purple-900/40 hover:bg-purple-100 dark:hover:bg-purple-900/30" 
             },
             { 
               href: "/admin/ads", 

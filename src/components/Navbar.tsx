@@ -12,7 +12,6 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/articles", label: "Blog" },
-  { href: "/projects", label: "Projects" },
   { href: "/media", label: "Media" },
   { href: "/contact", label: "Contact" },
 ];

@@ -4,14 +4,12 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/articles", label: "Blog" },
-  { href: "/projects", label: "Projects" },
   { href: "/media", label: "Media" },
   { href: "/contact", label: "Contact" },
 ];
 
 const explore = [
   { href: "/articles", label: "Latest Posts" },
-  { href: "/projects", label: "Projects" },
   { href: "/media", label: "Media" },
   { href: "/about", label: "About Arthur" },
 ];
@@ -64,7 +62,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <p className="font-bold font-serif text-xl text-white mb-2">APM Chibondo</p>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Building, learning, and sharing ideas from Malawi. Entrepreneur · Medical Student · Digital Creator.
+              Medical student. Entrepreneur. Digital content creator.
             </p>
           </div>
 

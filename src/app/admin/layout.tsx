@@ -7,7 +7,6 @@ import { supabase } from "@/lib/supabase";
 import {
   LayoutDashboard,
   FileText,
-  Briefcase,
   Mail,
   MessageSquare,
   MessageCircle,
@@ -29,7 +28,6 @@ const PUBLIC_ADMIN_PATHS = [
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: <LayoutDashboard size={18} />, exact: true },
   { href: "/admin/articles", label: "Articles", icon: <FileText size={18} /> },
-  { href: "/admin/projects", label: "Projects", icon: <Briefcase size={18} /> },
   { href: "/admin/subscribers", label: "Subscribers", icon: <Mail size={18} /> },
   { href: "/admin/messages", label: "Messages", icon: <MessageSquare size={18} /> },
   { href: "/admin/media", label: "Media", icon: <Tv size={18} /> },

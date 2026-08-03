@@ -12,7 +12,7 @@ const socials = [
   { icon: <Youtube size={18} />, label: "YouTube", href: "https://youtube.com/@arthurchibondo" },
 ];
 
-const tags = ["Medical Student", "Entrepreneur", "Digital Creator", "Mental Health Advocate"];
+const tags = ["Medical Student", "Entrepreneur", "Digital Creator"];
 
 export default function HeroSection() {
   return (
@@ -36,7 +36,7 @@ export default function HeroSection() {
         </div>
 
         <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8 max-w-lg">
-          Medical student by training. Entrepreneur and digital creator by calling. I build companies, share ideas, and advocate for mental health — all in pursuit of making a real impact in people's lives.
+          Medical student. Entrepreneur. Digital content creator.
         </p>
 
         <div className="flex flex-wrap gap-3 mb-8">
@@ -47,12 +47,6 @@ export default function HeroSection() {
             Read My Blog <ArrowRight size={16} />
           </Link>
           <SubscribeButton variant="hero" />
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-900 dark:hover:border-white font-semibold px-6 py-3 rounded-xl transition-colors"
-          >
-            Explore Projects
-          </Link>
         </div>
 
         <div className="flex gap-3">
