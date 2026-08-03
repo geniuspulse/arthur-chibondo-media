@@ -10,6 +10,21 @@ interface Props {
   variant?: "nav" | "hero" | "compact";
 }
 
+// Wraps a promise with a hard timeout so a stuck/unsupported permission
+// prompt (common on some mobile browsers/webviews) can never hang the UI.
+function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T> {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(fallback), ms);
+    promise.then((val) => {
+      clearTimeout(timer);
+      resolve(val);
+    }).catch(() => {
+      clearTimeout(timer);
+      resolve(fallback);
+    });
+  });
+}
+
 export default function SubscribeButton({ variant = "nav" }: Props) {
   const { user, profile } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
@@ -34,7 +49,8 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
         setSubscribed(data.subscribed);
         // Load notification preference from localStorage
         setNotificationsEnabled(localStorage.getItem(`notif_${user.email}`) === "granted");
-      });
+      })
+      .catch(() => setSubscribed(false));
   }, [user]);
 
   // Fetch subscriber count (public read)
@@ -47,11 +63,14 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
   }, [subscribed]);
 
   const requestNotificationPermission = async (): Promise<boolean> => {
-    if (typeof Notification === "undefined") return false;
+    if (typeof window === "undefined" || typeof Notification === "undefined") return false;
     if (Notification.permission === "granted") return true;
     if (Notification.permission === "denied") return false;
     try {
-      const permission = await Notification.requestPermission();
+      // Some mobile browsers/webviews never resolve this promise if the
+      // permission prompt can't actually be shown — race it against a
+      // timeout so we never get stuck in a loading state.
+      const permission = await withTimeout(Notification.requestPermission(), 4000, "default" as NotificationPermission);
       return permission === "granted";
     } catch {
       return false;
@@ -66,52 +85,64 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
     if (subscribed) return;
 
     setLoading(true);
+    try {
+      // Request push notification permission automatically (never hangs)
+      const notifGranted = await requestNotificationPermission();
 
-    // Request push notification permission automatically
-    const notifGranted = await requestNotificationPermission();
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "subscribe",
+          email: user.email,
+          name: profile?.display_name || user.email?.split("@")[0],
+        }),
+      });
+      const data = await res.json();
 
-    const res = await fetch("/api/subscribe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        action: "subscribe",
-        email: user.email,
-        name: profile?.display_name || user.email?.split("@")[0],
-      }),
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      setSubscribed(true);
-      setNotificationsEnabled(notifGranted);
-      if (user.email) {
-        localStorage.setItem(`notif_${user.email}`, notifGranted ? "granted" : "denied");
+      if (data.success) {
+        setSubscribed(true);
+        setNotificationsEnabled(notifGranted);
+        if (user.email) {
+          localStorage.setItem(`notif_${user.email}`, notifGranted ? "granted" : "denied");
+        }
+        if (notifGranted && typeof Notification !== "undefined") {
+          try {
+            new Notification("Subscribed to APM Chibondo", {
+              body: "You'll receive notifications for new articles and updates.",
+              icon: "/favicon.ico",
+            });
+          } catch {
+            // Some browsers throw if not in a valid context — ignore, subscription still succeeded
+          }
+        }
       }
-      if (notifGranted && typeof Notification !== "undefined") {
-        new Notification("Subscribed to APM Chibondo", {
-          body: "You'll receive notifications for new articles and updates.",
-          icon: "/favicon.ico",
-        });
-      }
+    } catch {
+      // Network or unexpected error — button just resets so the user can retry
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const toggleNotifications = async () => {
     if (!user?.email || !subscribed) return;
     setLoading(true);
-
-    if (!notificationsEnabled) {
-      const granted = await requestNotificationPermission();
-      if (granted) {
-        localStorage.setItem(`notif_${user.email}`, "granted");
-        setNotificationsEnabled(true);
+    try {
+      if (!notificationsEnabled) {
+        const granted = await requestNotificationPermission();
+        if (granted) {
+          localStorage.setItem(`notif_${user.email}`, "granted");
+          setNotificationsEnabled(true);
+        }
+      } else {
+        localStorage.setItem(`notif_${user.email}`, "denied");
+        setNotificationsEnabled(false);
       }
-    } else {
-      localStorage.setItem(`notif_${user.email}`, "denied");
-      setNotificationsEnabled(false);
+    } catch {
+      // ignore — button resets below regardless
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const baseClasses = {

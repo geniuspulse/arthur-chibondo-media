@@ -123,7 +123,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         {/* Author bio */}
         <div className="mt-10 p-5 sm:p-6 rounded-2xl bg-gray-900 border border-gray-800 flex gap-4 items-start">
           <img
-            src="https://uktgbtzlkgxrhrzcvnal.supabase.co/storage/v1/object/public/article-images/1785281252973-afhiadspkda.png"
+            src="https://base44.app/api/apps/6a6714790901338a9a9ed78a/files/mp/public/6a6714790901338a9a9ed78a/9b000978e_arthur_new_photo.jpg"
             alt="Arthur Chibondo"
             className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover flex-shrink-0"
           />
