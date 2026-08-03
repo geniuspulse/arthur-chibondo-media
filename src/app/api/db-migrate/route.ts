@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
   const projectRef = 'uktgbtzlkgxrhrzcvnal'
   const results: string[] = []
-  const passwords = ['Arthur@472003', 'postgres']
+  const passwords = ['Arthur@472003Chibondo']
   
   // Try both direct and pooler connections
   const hosts = [
