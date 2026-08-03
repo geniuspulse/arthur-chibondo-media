@@ -47,7 +47,7 @@ export default function AuthModal({ onClose, onSuccess, defaultView = "signin" }
       await refreshProfile();
     }
     setLoading(false);
-    setSuccess("ACM Account created! You're now signed in.");
+    setSuccess("APM Chibondo account created! You're now signed in.");
     setTimeout(() => { onSuccess?.(); onClose(); }, 1200);
   };
 
@@ -75,10 +75,10 @@ export default function AuthModal({ onClose, onSuccess, defaultView = "signin" }
             </div>
             <div>
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-                {view === "signin" ? "Sign in" : view === "signup" ? "Create ACM Account" : "Your profile"}
+                {view === "signin" ? "Sign in" : view === "signup" ? "Create APM Account" : "Your profile"}
               </h2>
               {(view === "signup" || view === "signin") && (
-                <p className="text-xs text-gray-400">Works across APM Chibondo, Malawiana & Afropartisan</p>
+                <p className="text-xs text-gray-400">Your APM Chibondo account</p>
               )}
             </div>
           </div>
@@ -168,7 +168,7 @@ export default function AuthModal({ onClose, onSuccess, defaultView = "signin" }
               </div>
               <button type="submit" disabled={loading}
                 className="w-full flex items-center justify-center gap-2 bg-gray-900 dark:bg-white hover:bg-gray-700 dark:hover:bg-gray-200 disabled:opacity-60 text-white dark:text-gray-900 font-semibold py-2.5 rounded-xl transition-colors text-sm">
-                {loading ? <Loader2 size={15} className="animate-spin" /> : null} Create ACM Account
+                {loading ? <Loader2 size={15} className="animate-spin" /> : null} Create APM Account
               </button>
               <p className="text-center text-sm text-gray-500 dark:text-gray-400">
                 Already have one? <button type="button" onClick={() => { setError(""); setView("signin"); }} className="font-medium text-gray-900 dark:text-white underline">Sign in</button>

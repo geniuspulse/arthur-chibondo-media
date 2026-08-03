@@ -13,9 +13,9 @@ export default function AdminSubscribers() {
 
   const load = async () => {
     const { data } = await supabase
-      .from("acm_followers")
+      .from("newsletter_subscribers")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("subscribed_at", { ascending: false });
     setFollowers(data || []);
     setFiltered(data || []);
     setLoading(false);
@@ -27,38 +27,39 @@ export default function AdminSubscribers() {
     if (!search) { setFiltered(followers); return; }
     setFiltered(followers.filter(s =>
       s.email?.toLowerCase().includes(search.toLowerCase()) ||
-      s.display_name?.toLowerCase().includes(search.toLowerCase())
+      s.name?.toLowerCase().includes(search.toLowerCase())
     ));
   }, [search, followers]);
 
   const handleRemove = async (id: string, name: string) => {
     if (!confirm(`Remove ${name || "this subscriber"}?`)) return;
-    await supabase.from("acm_followers").delete().eq("id", id);
+    await supabase.from("newsletter_subscribers").delete().eq("id", id);
     load();
   };
 
   const exportCSV = () => {
     const rows = [
-      ["Display Name", "Email", "Notifications", "Joined"],
-      ...followers.map(s => [s.display_name || "", s.email || "", s.notifications_enabled ? "Yes" : "No", s.created_at]),
+      ["Name", "Email", "Status", "Joined"],
+      ...followers.map(s => [s.name || "", s.email || "", s.status || "active", s.subscribed_at]),
     ];
     const csv = rows.map(r => r.map(v => `"${v}"`).join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "acm-followers.csv";
+    a.download = "apm-subscribers.csv";
     a.click();
   };
 
-  const notifCount = followers.filter(s => s.notifications_enabled).length;
+  const activeCount = followers.filter(s => s.status === "active" || s.status === "active_notified").length;
+  const notifCount = followers.filter(s => s.status === "active_notified").length;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold font-serif text-gray-900 dark:text-white">Subscribers</h1>
-          <p className="text-sm text-gray-500 mt-1">{followers.length} total · {notifCount} with notifications on</p>
+          <p className="text-sm text-gray-500 mt-1">{activeCount} total · {notifCount} with notifications on</p>
         </div>
         <button onClick={exportCSV} className="inline-flex items-center gap-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-900 dark:hover:border-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-colors">
           <Download size={15} /> Export CSV
@@ -68,7 +69,7 @@ export default function AdminSubscribers() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 text-center">
-          <p className="text-3xl font-bold text-gray-900 dark:text-white">{followers.length}</p>
+          <p className="text-3xl font-bold text-gray-900 dark:text-white">{activeCount}</p>
           <p className="text-xs text-gray-500 mt-1">Total Subscribers</p>
         </div>
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 text-center">
@@ -76,7 +77,7 @@ export default function AdminSubscribers() {
           <p className="text-xs text-gray-500 mt-1">Notifications Enabled</p>
         </div>
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 text-center">
-          <p className="text-3xl font-bold text-gray-900 dark:text-white">{followers.length - notifCount}</p>
+          <p className="text-3xl font-bold text-gray-900 dark:text-white">{activeCount - notifCount}</p>
           <p className="text-xs text-gray-500 mt-1">Notifications Off</p>
         </div>
       </div>
@@ -112,14 +113,14 @@ export default function AdminSubscribers() {
                     <td className="px-5 py-4 font-medium text-gray-900 dark:text-white">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs font-bold text-gray-500">
-                          {(s.display_name || s.email || "?").charAt(0).toUpperCase()}
+                          {(s.name || s.email || "?").charAt(0).toUpperCase()}
                         </div>
-                        {s.display_name || <span className="text-gray-400">—</span>}
+                        {s.name || <span className="text-gray-400">—</span>}
                       </div>
                     </td>
                     <td className="px-5 py-4 text-gray-600 dark:text-gray-400">{s.email || "—"}</td>
                     <td className="px-5 py-4">
-                      {s.notifications_enabled ? (
+                      {s.status === "active_notified" ? (
                         <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900">
                           <Bell size={11} /> On
                         </span>
@@ -130,11 +131,11 @@ export default function AdminSubscribers() {
                       )}
                     </td>
                     <td className="px-5 py-4 text-gray-400 text-xs">
-                      {s.created_at ? formatDistanceToNow(new Date(s.created_at), { addSuffix: true }) : "—"}
+                      {s.subscribed_at ? formatDistanceToNow(new Date(s.subscribed_at), { addSuffix: true }) : "—"}
                     </td>
                     <td className="px-5 py-4">
                       <button
-                        onClick={() => handleRemove(s.id, s.display_name || s.email)}
+                        onClick={() => handleRemove(s.id, s.name || s.email)}
                         className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                         title="Remove subscriber"
                       >

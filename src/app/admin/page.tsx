@@ -88,9 +88,9 @@ export default function AdminDashboard() {
 
       // Fetch subscribers count (active only)
       const { count: subscribersCount, error: subscribersError } = await supabase
-        .from("acm_followers")
+        .from("newsletter_subscribers")
         .select("*", { count: "exact", head: true })
-        .eq("status", "active");
+        .in("status", ["active", "active_notified"]);
 
       if (subscribersError) throw subscribersError;
 

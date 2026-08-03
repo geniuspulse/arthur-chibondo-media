@@ -18,29 +18,30 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
   const [followerCount, setFollowerCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Check if current user is subscribed
+  // Check if current user is subscribed (by email)
   useEffect(() => {
-    if (!user) {
+    if (!user?.email) {
       setSubscribed(false);
-      setNotificationsEnabled(false);
       return;
     }
     supabase
-      .from("acm_followers")
-      .select("id, notifications_enabled")
-      .eq("user_id", user.id)
+      .from("newsletter_subscribers")
+      .select("id, status")
+      .eq("email", user.email)
+      .in("status", ["active", "active_notified"])
       .single()
       .then(({ data }) => {
         setSubscribed(!!data);
-        setNotificationsEnabled(data?.notifications_enabled ?? false);
+        setNotificationsEnabled(data?.status === "active_notified");
       });
   }, [user]);
 
-  // Fetch follower count (public)
+  // Fetch subscriber count (public)
   useEffect(() => {
     supabase
-      .from("acm_followers")
+      .from("newsletter_subscribers")
       .select("id", { count: "exact", head: true })
+      .in("status", ["active", "active_notified"])
       .then(({ count }) => setFollowerCount(count ?? 0));
   }, [subscribed]);
 
@@ -48,7 +49,6 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
     if (typeof Notification === "undefined") return false;
     if (Notification.permission === "granted") return true;
     if (Notification.permission === "denied") return false;
-
     try {
       const permission = await Notification.requestPermission();
       return permission === "granted";
@@ -69,11 +69,10 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
     // Request push notification permission automatically
     const notifGranted = await requestNotificationPermission();
 
-    const { error } = await supabase.from("acm_followers").insert({
-      user_id: user.id,
+    const { error } = await supabase.from("newsletter_subscribers").insert({
       email: user.email,
-      display_name: profile?.display_name || user.email?.split("@")[0],
-      notifications_enabled: notifGranted,
+      name: profile?.display_name || user.email?.split("@")[0],
+      status: notifGranted ? "active_notified" : "active",
     });
 
     setLoading(false);
@@ -81,7 +80,6 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
     if (!error) {
       setSubscribed(true);
       setNotificationsEnabled(notifGranted);
-      // Show a welcome notification if granted
       if (notifGranted && typeof Notification !== "undefined") {
         new Notification("Subscribed to APM Chibondo", {
           body: "You'll receive notifications for new articles and updates.",
@@ -92,12 +90,12 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
   };
 
   const handleUnsubscribe = async () => {
-    if (!user || !subscribed) return;
+    if (!user?.email || !subscribed) return;
     setLoading(true);
     const { error } = await supabase
-      .from("acm_followers")
-      .delete()
-      .eq("user_id", user.id);
+      .from("newsletter_subscribers")
+      .update({ status: "unsubscribed" })
+      .eq("email", user.email);
     setLoading(false);
     if (!error) {
       setSubscribed(false);
@@ -106,23 +104,23 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
   };
 
   const toggleNotifications = async () => {
-    if (!user || !subscribed) return;
+    if (!user?.email || !subscribed) return;
     setLoading(true);
 
     if (!notificationsEnabled) {
       const granted = await requestNotificationPermission();
       if (granted) {
         await supabase
-          .from("acm_followers")
-          .update({ notifications_enabled: true })
-          .eq("user_id", user.id);
+          .from("newsletter_subscribers")
+          .update({ status: "active_notified" })
+          .eq("email", user.email);
         setNotificationsEnabled(true);
       }
     } else {
       await supabase
-        .from("acm_followers")
-        .update({ notifications_enabled: false })
-        .eq("user_id", user.id);
+        .from("newsletter_subscribers")
+        .update({ status: "active" })
+        .eq("email", user.email);
       setNotificationsEnabled(false);
     }
     setLoading(false);
@@ -162,7 +160,7 @@ export default function SubscribeButton({ variant = "nav" }: Props) {
       <button
         onClick={handleSubscribe}
         disabled={loading}
-        className={`${baseClasses[variant]} bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 border border-900 dark:border-white disabled:opacity-60`}
+        className={`${baseClasses[variant]} bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 border border-gray-900 dark:border-white disabled:opacity-60`}
       >
         {loading ? <Loader2 size={14} className="animate-spin" /> : <Bell size={14} />}
         <span>Subscribe</span>
