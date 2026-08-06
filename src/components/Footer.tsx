@@ -58,8 +58,8 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="border-t border-gray-800 bg-gray-950">
-      <div className="max-w-5xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-10">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <p className="font-bold font-serif text-xl text-white mb-2">APM Chibondo</p>

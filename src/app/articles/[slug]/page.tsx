@@ -113,7 +113,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         {/* Article body */}
         <div className="overflow-x-auto">
           <div
-            className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-a:text-white hover:prose-a:underline prose-img:rounded-xl prose-img:max-w-full prose-table:w-full"
+            className="prose prose-sm sm:prose-base md:prose-lg dark:prose-invert max-w-none prose-headings:font-serif prose-a:text-white hover:prose-a:underline prose-img:rounded-xl prose-img:max-w-full prose-table:w-full prose-table:overflow-x-auto"
             dangerouslySetInnerHTML={{ __html: article.content || "" }}
           />
         </div>

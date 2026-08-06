@@ -16,13 +16,13 @@ const tags = ["Medical Student", "Entrepreneur", "Digital Creator"];
 
 export default function HeroSection() {
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 items-center">
+    <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 lg:py-28 grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
       {/* Text */}
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
         <span className="inline-block bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-sm font-semibold px-3 py-1 rounded-full mb-6 border border-gray-200 dark:border-gray-700">
           🇲🇼 Building from Malawi
         </span>
-        <h1 className="text-4xl sm:text-5xl font-bold font-serif text-gray-900 dark:text-white leading-tight mb-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-gray-900 dark:text-white leading-tight mb-3 sm:mb-4">
           Arthur<br />Chibondo
         </h1>
 
@@ -35,7 +35,7 @@ export default function HeroSection() {
           ))}
         </div>
 
-        <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8 max-w-lg">
+        <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-6 sm:mb-8 max-w-lg">
           Medical student. Entrepreneur. Digital content creator.
         </p>
 
@@ -77,9 +77,9 @@ export default function HeroSection() {
           <img
             src="https://base44.app/api/apps/6a6714790901338a9a9ed78a/files/mp/public/6a6714790901338a9a9ed78a/9b000978e_arthur_new_photo.jpg"
             alt="Arthur Chibondo"
-            className="relative w-72 h-80 sm:w-80 sm:h-96 object-cover rounded-2xl shadow-2xl"
+            className="relative w-56 h-64 sm:w-72 sm:h-80 md:w-80 md:h-96 object-cover rounded-2xl shadow-2xl"
           />
-          <div className="absolute -bottom-4 -left-4 bg-white dark:bg-gray-800 rounded-xl px-4 py-2 shadow-lg border border-gray-100 dark:border-gray-700">
+          <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 bg-white dark:bg-gray-800 rounded-xl px-3 sm:px-4 py-2 shadow-lg border border-gray-100 dark:border-gray-700">
             <p className="text-xs font-semibold text-gray-500 dark:text-gray-400">Based in</p>
             <p className="text-sm font-bold text-gray-900 dark:text-white">🇲🇼 Malawi, Africa</p>
           </div>

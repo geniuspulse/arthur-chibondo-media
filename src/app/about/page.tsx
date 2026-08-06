@@ -48,11 +48,11 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen">
       {/* Hero */}
-      <section className="py-20 px-6 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-12 items-center">
           <div>
             <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-4">About</span>
-            <h1 className="text-4xl sm:text-6xl font-bold font-serif text-gray-900 dark:text-white mb-4">Arthur<br />Chibondo</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold font-serif text-gray-900 dark:text-white mb-4">Arthur<br />Chibondo</h1>
             <div className="flex flex-wrap gap-2 mb-6">
               {["Medical Student", "Entrepreneur", "Digital Creator", "Mental Health Advocate"].map(tag => (
                 <span key={tag} className="text-xs font-medium text-gray-300 bg-gray-800 border border-gray-700 px-3 py-1 rounded-full">
@@ -74,7 +74,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <div className="max-w-3xl mx-auto px-6 py-16 space-y-16">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-10 sm:space-y-16">
 
         {/* Story */}
         <div>
@@ -147,7 +147,7 @@ export default function AboutPage() {
         </div>
 
         {/* CTA */}
-        <div className="rounded-2xl bg-gray-900 border border-gray-800 p-8 text-white text-center">
+        <div className="rounded-2xl bg-gray-900 border border-gray-800 p-6 sm:p-8 text-white text-center">
           <h3 className="text-2xl font-bold font-serif mb-2">Let's connect</h3>
           <p className="text-gray-400 mb-6 text-sm leading-relaxed">
             Whether you want to collaborate, have a conversation about mental health, or just say hello — I'm always open.

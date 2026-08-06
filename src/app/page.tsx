@@ -47,17 +47,17 @@ export default async function HomePage() {
 
       {/* A Bit About Me — 3 pillars */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
           <div className="text-center mb-10">
             <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-2">A Bit About Me</span>
-            <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white">Three things I'm always juggling</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold font-serif text-gray-900 dark:text-white">Three things I'm always juggling</h2>
             <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">
               I'm not one thing. This blog is where med school, building stuff, and just figuring life out all show up in one place.
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-5">
             {pillars.map((p) => (
-              <div key={p.title} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
+              <div key={p.title} className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sm:p-5">
                 <div className="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center mb-4">
                   {p.icon}
                 </div>
@@ -70,22 +70,22 @@ export default async function HomePage() {
       </section>
 
       {/* Latest Articles */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
             <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-2">From the Blog</span>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white">Latest Articles</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif text-gray-900 dark:text-white">Latest Articles</h2>
           </div>
           <Link href="/articles" className="hidden sm:flex items-center gap-2 text-gray-400 hover:text-white font-medium hover:gap-3 transition-all">
             View All <ArrowRight size={16} />
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {articles?.map((article) => (
             <ArticleCard key={article.id} article={article} />
           ))}
           {(!articles || articles.length === 0) && (
-            <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-16 bg-gray-900 rounded-2xl border border-gray-800">
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-12 sm:py-16 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800">
               <BookOpen className="mx-auto text-gray-500 mb-3" size={32} />
               <p className="text-gray-400">Articles coming soon.</p>
             </div>
@@ -102,10 +102,10 @@ export default async function HomePage() {
 
       {/* About Snippet */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-20 grid grid-cols-1 sm:grid-cols-2 gap-12 items-center">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-20 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 items-center">
           <div>
             <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-3">About Arthur</span>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-5 leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-4 sm:mb-5 leading-tight">
               Just a guy documenting the journey.
             </h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
@@ -119,7 +119,7 @@ export default async function HomePage() {
             <img
               src="https://base44.app/api/apps/6a6714790901338a9a9ed78a/files/mp/public/6a6714790901338a9a9ed78a/9b000978e_arthur_new_photo.jpg"
               alt="Arthur Chibondo"
-              className="w-64 h-64 rounded-2xl object-cover shadow-xl"
+              className="w-48 h-48 sm:w-64 sm:h-64 rounded-2xl object-cover shadow-xl"
             />
           </div>
         </div>
@@ -127,9 +127,9 @@ export default async function HomePage() {
 
       {/* Topics */}
       <section className="bg-gray-50 dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16 text-center">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 text-center">
           <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-3">Interests</span>
-          <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white mb-8">Topics I Write About</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold font-serif text-gray-900 dark:text-white mb-6 sm:mb-8">Topics I Write About</h2>
           <div className="flex flex-wrap justify-center gap-3">
             {topics.map((topic) => (
               <Link
@@ -145,9 +145,9 @@ export default async function HomePage() {
       </section>
 
       {/* Newsletter */}
-      <section className="max-w-2xl mx-auto px-4 sm:px-6 py-24 text-center">
+      <section className="max-w-2xl mx-auto px-4 sm:px-6 py-14 sm:py-24 text-center">
         <span className="text-gray-400 uppercase tracking-widest text-sm font-semibold block mb-3">Newsletter</span>
-        <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-4">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif text-gray-900 dark:text-white mb-3 sm:mb-4">
           Ideas to Your Inbox
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-8">
