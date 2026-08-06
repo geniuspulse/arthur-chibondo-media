@@ -9,9 +9,11 @@ const links = [
 ];
 
 const explore = [
-  { href: "/articles", label: "Latest Posts" },
-  { href: "/media", label: "Media" },
-  { href: "/about", label: "About Arthur" },
+  { href: "https://brandfledger.com", label: "Brandfledger" },
+  { href: "https://edu.brandfletch.com", label: "Brandfletch Academy" },
+  { href: "https://ads.brandfletch.com", label: "Brandfletch Ads" },
+  { href: "https://chibondoacademy.com", label: "Chibondo Academy" },
+  { href: "https://nyasadesk.com", label: "Nyasadesk" },
 ];
 
 const socials = [
@@ -84,10 +86,10 @@ export default function Footer() {
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">Explore</p>
             <div className="flex flex-col gap-2.5">
               {explore.map((l) => (
-                <Link key={l.href} href={l.href}
+                <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer"
                   className="text-sm text-gray-400 hover:text-white transition-colors">
                   {l.label}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
