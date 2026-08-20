@@ -21,7 +21,7 @@ Personal brand website for Arthur Chibondo — Malawian entrepreneur, digital cr
 
 ## Supabase Project
 - **Project:** arthur-chibondo-media
-- **URL:** https://uktgbtzlkgxrhrzcvnal.supabase.co
+- **URL:** https://gbxescpzeogckclpsewb.supabase.co
 
 ## Pages
 - `/` — Homepage
