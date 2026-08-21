@@ -64,10 +64,18 @@ export default function AdminArticles() {
 
   const handleDelete = async (id: string, title: string) => {
     if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
-    await supabase.from("articles").delete().eq("id", id);
-    await revalidate();
-    load();
-    showToast(`Deleted "${title}"`);
+    const res = await fetch("/api/delete-article", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    if (res.ok) {
+      await revalidate();
+      load();
+      showToast(`Deleted "${title}"`);
+    } else {
+      showToast("Failed to delete article");
+    }
   };
 
   const handleToggleFeatured = async (id: string, current: boolean) => {
@@ -134,10 +142,16 @@ export default function AdminArticles() {
 
     if (action === "delete") {
       if (!confirm(`Delete ${count} article${count > 1 ? "s" : ""}? This cannot be undone.`)) return;
-      for (const id of ids) {
-        await supabase.from("articles").delete().eq("id", id);
+      const res = await fetch("/api/bulk-delete-articles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids }),
+      });
+      if (res.ok) {
+        showToast(`Deleted ${count} article${count > 1 ? "s" : ""}`);
+      } else {
+        showToast("Failed to delete articles");
       }
-      showToast(`Deleted ${count} article${count > 1 ? "s" : ""}`);
     } else if (action === "publish") {
       const now = new Date().toISOString();
       for (const id of ids) {
