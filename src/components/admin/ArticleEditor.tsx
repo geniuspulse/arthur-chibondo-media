@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { extractYouTubeId } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
-import { Save, Eye, ArrowLeft, Loader } from "lucide-react";
+import { Save, Eye, ArrowLeft, Loader, Trash2 } from "lucide-react";
 import RichEditor from "./RichEditor";
 
 const CATEGORIES = ["Entrepreneurship", "Technology & AI", "Education", "Business", "Malawi Development", "Personal Growth", "Politics & Society", "Media"];
@@ -69,6 +69,14 @@ export default function ArticleEditor({ article }: Props) {
     setTimeout(() => { router.push("/admin/articles"); }, 800);
   };
 
+  const handleDelete = async () => {
+    if (!article) return;
+    if (!confirm(`Delete "${article.title}"? This cannot be undone.`)) return;
+    await supabase.from("articles").delete().eq("id", article.id);
+    try { await fetch("/api/revalidate", { method: "POST" }); } catch {}
+    router.push("/admin/articles");
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -105,6 +113,15 @@ export default function ArticleEditor({ article }: Props) {
             {saving ? <Loader size={14} className="animate-spin" /> : <Save size={14} />}
             {saved ? "Saved!" : "Save"}
           </button>
+          {isEdit && (
+            <button
+              onClick={handleDelete}
+              disabled={saving}
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-colors disabled:opacity-60"
+            >
+              <Trash2 size={14} /> Delete
+            </button>
+          )}
         </div>
       </div>
 
