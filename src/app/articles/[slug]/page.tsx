@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   if (!article) return { title: "Article Not Found" };
 
-  const url = `https://arthur-chibondo-media.vercel.app/articles/${article.slug}`;
+  const url = `https://apmchibondo.blog/articles/${article.slug}`;
   const image = article.cover_image || "https://gbxescpzeogckclpsewb.supabase.co/storage/v1/object/public/article-images/1787293400-author-og.jpg";
   const desc = article.excerpt || (article.content ? article.content.replace(/<[^>]*>/g, '').substring(0, 160) : "") || "APM Chibondo article";
 
@@ -61,7 +61,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     .from("articles").select("*").eq("status", "published")
     .eq("category", article.category).neq("slug", params.slug).limit(2);
 
-  const articleUrl = `https://arthur-chibondo-media.vercel.app/articles/${article.slug}`;
+  const articleUrl = `https://apmchibondo.blog/articles/${article.slug}`;
 
   return (
     <main>

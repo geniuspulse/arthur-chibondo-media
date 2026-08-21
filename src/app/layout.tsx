@@ -1,30 +1,44 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/lib/auth-context";
 import ConditionalNavbar from "@/components/ConditionalNavbar";
 import AdRenderer from "@/components/AdRenderer";
+import PWAInstaller from "@/components/PWAInstaller";
 import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://arthur-chibondo-media.vercel.app'),
+  metadataBase: new URL('https://apmchibondo.blog'),
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "APM Chibondo",
+    statusBarStyle: "black-translucent",
+  },
+  icons: {
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   title: {
     default: 'APM Chibondo | Entrepreneur, Medical Student & Digital Creator from Malawi',
     template: '%s | APM Chibondo',
   },
   description: 'APM Chibondo — Arthur Chibondo is a Malawian entrepreneur, medical student, and digital creator building Chibondo Academy, Brandfletch Media, and NyasaDesk. Exploring technology, business, education, and Malawi\'s future.',
   keywords: ['APM Chibondo', 'Arthur Chibondo', 'Malawian entrepreneur', 'Malawi technology', 'Chibondo Academy', 'Brandfletch Media', 'NyasaDesk', 'Malawi digital creator', 'medical student Malawi', 'Malawi business'],
-  authors: [{ name: 'Arthur Chibondo', url: 'https://arthur-chibondo-media.vercel.app' }],
+  authors: [{ name: 'Arthur Chibondo', url: 'https://apmchibondo.blog' }],
   creator: 'Arthur Chibondo',
   publisher: 'APM Chibondo',
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
     type: 'website',
-    url: 'https://arthur-chibondo-media.vercel.app',
+    url: 'https://apmchibondo.blog',
     locale: 'en_US',
     siteName: 'APM Chibondo',
     title: 'APM Chibondo | Entrepreneur, Medical Student & Digital Creator from Malawi',
@@ -37,8 +51,15 @@ export const metadata: Metadata = {
     description: 'Entrepreneur, Medical Student & Digital Creator from Malawi.',
     images: ['https://gbxescpzeogckclpsewb.supabase.co/storage/v1/object/public/article-images/1787293400-author-og.jpg'],
   },
-  alternates: { canonical: 'https://arthur-chibondo-media.vercel.app' },
+  alternates: { canonical: 'https://apmchibondo.blog' },
   verification: {},
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1a1a1a",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -47,7 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@type": "Person",
     "name": "Arthur Chibondo",
     "alternateName": "APM Chibondo",
-    "url": "https://arthur-chibondo-media.vercel.app",
+    "url": "https://apmchibondo.blog",
     "image": "https://gbxescpzeogckclpsewb.supabase.co/storage/v1/object/public/article-images/1787293400-author-og.jpg",
     "jobTitle": "Entrepreneur, Medical Student & Digital Creator",
     "nationality": "Malawian",
@@ -65,6 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <AdRenderer placement="header" /><ConditionalNavbar>{children}</ConditionalNavbar>
+          <PWAInstaller />
         </ThemeProvider>
         </AuthProvider>
         <script dangerouslySetInnerHTML={{ __html: `
