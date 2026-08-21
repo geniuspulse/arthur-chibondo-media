@@ -7,6 +7,25 @@ import AuthModal from "./AuthModal";
 import { MessageCircle, Send, Heart, Reply, Trash2, ChevronDown, ChevronUp, User, Loader2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
+// Convert plain-text URLs in comment content to clickable links
+function linkify(text: string) {
+  const urlRegex = /(https?:\/\/[^\s<]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, i) => {
+    if (urlRegex.test(part) || /^https?:\/\//.test(part)) {
+      return (
+        <a key={i} href={part} target="_blank" rel="noopener noreferrer"
+          className="text-amber-600 dark:text-amber-400 underline hover:text-amber-700 dark:hover:text-amber-300 break-all">
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
+
+
 interface Comment {
   id: string;
   article_slug: string;
@@ -200,7 +219,7 @@ function CommentItem({ comment, user, profile, onLike, onReply, onDelete, likeLo
               <span className="text-sm font-semibold text-gray-900 dark:text-white">{comment.author_name}</span>
               <span className="text-xs text-gray-400">{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</span>
             </div>
-            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">{comment.content}</p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">{linkify(comment.content)}</p>
           </div>
 
           {/* Actions */}
@@ -264,7 +283,7 @@ function CommentItem({ comment, user, profile, onLike, onReply, onDelete, likeLo
                         <span className="text-xs font-semibold text-gray-900 dark:text-white">{reply.author_name}</span>
                         <span className="text-[10px] text-gray-400">{formatDistanceToNow(new Date(reply.created_at), { addSuffix: true })}</span>
                       </div>
-                      <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">{reply.content}</p>
+                      <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">{linkify(reply.content)}</p>
                     </div>
                     <div className="flex items-center gap-3 mt-1 ml-1">
                       <button onClick={() => onLike(reply.id, reply._userLiked)}
