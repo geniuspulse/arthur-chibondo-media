@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   const { token } = await req.json().catch(() => ({}))
   if (token !== 'apm-migrate-2026') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const projectRef = 'uktgbtzlkgxrhrzcvnal'
+  const projectRef = 'gbxescpzeogckclpsewb'
   const results: string[] = []
   const passwords = ['Arthur@472003Chibondo', 'Arthur@472003']
   

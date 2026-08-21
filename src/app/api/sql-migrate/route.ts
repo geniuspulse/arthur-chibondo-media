@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   if (token !== 'apm-migrate-2026') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (!password) return NextResponse.json({ error: 'password required' }, { status: 400 })
 
-  const projectRef = 'uktgbtzlkgxrhrzcvnal'
+  const projectRef = 'gbxescpzeogckclpsewb'
   const results: string[] = []
   
   const ddl = `
