@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!article) return { title: "Article Not Found" };
 
   const url = `https://apmchibondo.blog/articles/${article.slug}`;
-  const image = article.cover_image || "https://gbxescpzeogckclpsewb.supabase.co/storage/v1/object/public/article-images/1787293400-author-og.jpg";
+  const image = article.cover_image || "https://gbxescpzeogckclpsewb.supabase.co/storage/v1/object/public/article-images/1787419240-arthur-photo-og.jpg";
   const desc = article.excerpt || (article.content ? article.content.replace(/<[^>]*>/g, '').substring(0, 160) : "") || "APM Chibondo article";
 
   return {

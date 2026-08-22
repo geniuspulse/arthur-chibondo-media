@@ -66,7 +66,7 @@ export default function AboutPage() {
           </div>
           <div className="flex justify-center sm:justify-end">
             <img
-              src="https://gbxescpzeogckclpsewb.supabase.co/storage/v1/object/public/article-images/1787293400-author-og.jpg"
+              src="https://gbxescpzeogckclpsewb.supabase.co/storage/v1/object/public/article-images/1787419240-arthur-photo-about.jpg"
               alt="Arthur Chibondo"
               className="w-72 h-80 object-cover rounded-2xl shadow-xl"
             />
