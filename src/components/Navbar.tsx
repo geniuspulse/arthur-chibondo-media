@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, User, LogOut, ChevronDown } from "lucide-react";
+import { Menu, X, User, LogOut, ChevronDown, Shield } from "lucide-react";
 import AuthModal from "./AuthModal";
 import SubscribeButton from "./SubscribeButton";
 import { useAuth } from "@/lib/auth-context";
@@ -35,6 +35,7 @@ export default function Navbar() {
   }, []);
 
   const initial = (profile?.display_name || user?.email || "U")[0].toUpperCase();
+  const isAdmin = user?.email === "arthur@chibondo.com";
 
   return (
     <>
@@ -78,6 +79,12 @@ export default function Navbar() {
                       <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">{profile?.display_name}</p>
                       <p className="text-[11px] text-gray-400 truncate">{user.email}</p>
                     </div>
+                    {isAdmin && (
+                      <Link href="/admin" onClick={() => setUserMenuOpen(false)}
+                        className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors">
+                        <Shield size={14} /> Admin Dashboard
+                      </Link>
+                    )}
                     <button onClick={() => { signOut(); setUserMenuOpen(false); }}
                       className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                       <LogOut size={14} /> Sign out
@@ -117,10 +124,18 @@ export default function Navbar() {
                 <User size={14} /> Sign in / Create ACM Account
               </button>
             ) : (
-              <button onClick={() => { signOut(); setOpen(false); }}
-                className="flex items-center gap-2 min-h-[44px] py-3 px-4 text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
-                <LogOut size={14} /> Sign out
-              </button>
+              <>
+                {isAdmin && (
+                  <Link href="/admin" onClick={() => setOpen(false)}
+                    className="flex items-center gap-2 min-h-[44px] py-3 px-4 text-sm font-medium rounded-lg text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20">
+                    <Shield size={14} /> Admin Dashboard
+                  </Link>
+                )}
+                <button onClick={() => { signOut(); setOpen(false); }}
+                  className="flex items-center gap-2 min-h-[44px] py-3 px-4 text-sm font-medium rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20">
+                  <LogOut size={14} /> Sign out
+                </button>
+              </>
             )}
           </div>
         )}
@@ -130,6 +145,12 @@ export default function Navbar() {
           <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 px-4 py-3">
             <p className="text-xs font-semibold text-gray-900 dark:text-white">{profile?.display_name}</p>
             <p className="text-xs text-gray-400 mb-3">{user.email}</p>
+            {isAdmin && (
+              <Link href="/admin" onClick={() => setUserMenuOpen(false)}
+                className="flex items-center gap-2 text-sm text-amber-600 hover:text-amber-700 mb-2">
+                <Shield size={14} /> Admin Dashboard
+              </Link>
+            )}
             <button onClick={() => { signOut(); setUserMenuOpen(false); }}
               className="flex items-center gap-2 text-sm text-red-600 hover:text-red-700">
               <LogOut size={14} /> Sign out
